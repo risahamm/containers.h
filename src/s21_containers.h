@@ -4,14 +4,14 @@
 #include <iostream>
 #include "containers/s21_vector.h"
 
-//list
-//map
-//queue
-//set
-//stack
-//vector
+//list 3
+//map 5
+//set 5
+//queue 4
+//stack 4
+//vector 1
 
-//array
+//array 2
 //multiset
 
 
