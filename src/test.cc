@@ -1,28 +1,12 @@
-#include "iostream"
-#include <vector>
+#include <iostream>
+#include "s21_containers.h"
 
 using namespace std;
 
-void rec()
-{
-    char a=0;
-    cin >> a;
-    if ( a == 'f' ) return;
-    rec();
-    cout << a << " ";
+int main() {
 
-}
-
-template <class T>
-void summ (T a, T b) {
-    cout <<  a + b << '\n';
-}
-
-
-
-int main()
-{
-//    rec();
+    s21::Vector<int> a;
+    cout << a.empty() << endl;
 
     return 0;
 }

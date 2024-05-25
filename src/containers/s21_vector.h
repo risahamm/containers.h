@@ -23,7 +23,7 @@ class Vector {
   Vector(std::initializer_list<value_type> const &items);
   Vector(const Vector &v);
   Vector(Vector &&v);
-  ~Vector();
+//  ~Vector();
   Vector operator=(Vector &&v);
 
   // Vector Element access
@@ -58,11 +58,23 @@ class Vector {
   size_type size_; // 
   size_type capacity_;
 };
+
+template <typename value_type>
+Vector<value_type>::Vector() : data_(nullptr), size_(0U), capacity_(0U) {}
+
+template <typename value_type>
+bool Vector<value_type>::empty() { return !size_; }
+
+template <typename value_type>
+typename Vector<value_type>::size_type Vector<value_type>::size() {
+  return size_;
+}
+
+template <typename value_type>
+typename Vector<value_type>::size_type Vector<value_type>::capacity() {
+  return capacity_;
+}
+
 }  // namespace s21
-
-
-
-
-
 
 #endif  // S21_CONTAINERS_CONTAINERS_S21_Vector_H_
