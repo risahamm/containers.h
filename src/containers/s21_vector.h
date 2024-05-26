@@ -16,22 +16,22 @@ class Vector {
   using const_iterator = const T *;
   using size_type = std::size_t;
 
-
   // Vector Member functions
-  Vector(); // default constructor
-  Vector(size_type n);
-  Vector(std::initializer_list<value_type> const &items);
-  Vector(const Vector &v);
-  Vector(Vector &&v);
-//  ~Vector();
-  Vector operator=(Vector &&v);
+  Vector();             // default constructor
+  Vector(size_type n);  // parametrized constructor
+  Vector(std::initializer_list<value_type> const
+             &items);       // initializer list constructor
+  Vector(const Vector &v);  // copy constructor
+  Vector(Vector &&v);       // move constructor
+  //  ~Vector(); // destructor
+  Vector operator=(Vector &&v);  // assignment operator overload
 
   // Vector Element access
   reference at(size_type pos);
   reference operator[](size_type pos);
   const_reference front();
   const_reference back();
-  T* data();
+  T *data();
 
   // Vector Iterators
   iterator begin();
@@ -54,22 +54,38 @@ class Vector {
   void swap(Vector &other);
 
  private:
-  T *data_; // pointer to the first element
-  size_type size_; // 
+  T *data_;         // pointer to the first element
+  size_type size_;  //
   size_type capacity_;
 };
 
+/* CONSTRUCTORS */
+
+// default constructor, creates an empty vector
 template <typename value_type>
 Vector<value_type>::Vector() : data_(nullptr), size_(0U), capacity_(0U) {}
 
 template <typename value_type>
-bool Vector<value_type>::empty() { return !size_; }
+Vector<value_type>::Vector(size_type n) {
+  *data_ = new T
+}
 
+/* VECTOR CAPACITY */
+
+// checks whether the container is empty
+template <typename value_type>
+bool Vector<value_type>::empty() {
+  return !size_;
+}
+
+// returns the number of elements
 template <typename value_type>
 typename Vector<value_type>::size_type Vector<value_type>::size() {
   return size_;
 }
 
+// returns the number of elements that can be held in currently allocated
+// storage
 template <typename value_type>
 typename Vector<value_type>::size_type Vector<value_type>::capacity() {
   return capacity_;

@@ -1,13 +1,15 @@
 CC = g++
 CFLAGS = -Wall -Werror -Wextra -std=c++17
 
+clean:
+
 check_style:
-	clang-format -style=Google -n *.cc *.h
-	clang-format -style=Google -n tests/*.cc
+	clang-format -style=Google -n *.cc *.h containers/*.h
+	#clang-format -style=Google -n tests/*.cc
 
 beautify:
-	clang-format -style=Google -i *.cc *.h
-	clang-format -style=Google -i tests/*.cc
+	clang-format -style=Google -i *.cc *.h containers/*.h
+	#clang-format -style=Google -i tests/*.cc
 
 valgrind:
 	CK_FORK=no valgrind --leak-check=full --tool=memcheck --leak-check=yes make test
