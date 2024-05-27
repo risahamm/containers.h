@@ -19,22 +19,22 @@ class Vector {
   Vector();             // default constructor
   Vector(size_type n);  // parametrized constructor
   Vector(std::initializer_list<value_type> const
-             &items);            // initializer list constructor
-  Vector(const Vector &v);       // copy constructor
-  Vector(Vector &&v);            // move constructor
-  ~Vector();                     // destructor
-  Vector operator=(Vector &&v);  // assignment operator overload
+             &items);                     // initializer list constructor
+  Vector(const Vector &v);                // copy constructor
+  Vector(Vector &&v);                     // move constructor
+  ~Vector();                              // destructor
+  Vector operator=(Vector &&v) noexcept;  // assignment operator overload
 
   // Vector Element access
-  reference at(size_type pos);
-  reference operator[](size_type pos);
-  const_reference front();
-  const_reference back();
-  T *data();
+  reference at(size_type pos);          // access a specified element
+  reference operator[](size_type pos);  // [] overload
+  const_reference front();              // access the first element
+  const_reference back();               // access the last element
+  T *data();                            // direct access the underlying array
 
   // Vector Iterators
-  iterator begin();
-  iterator end();
+  iterator begin() noexcept; // returns an iterator to the beginning
+  iterator end() noexcept; // returns an iterator to the end
 
   // Vector Capacity
   bool empty() noexcept;
@@ -53,10 +53,11 @@ class Vector {
   void swap(Vector &other);
 
  private:
-  T *data_;         // pointer to the first element
-  size_type size_;  //
-  size_type capacity_;
-};
+  T *data_;             // pointer to the first element
+  size_type size_;      // size of a nonempty container
+  size_type capacity_;  // size of memory allocated for a container
+
+};  // class Vector
 
 /* CONSTRUCTORS */
 
@@ -83,13 +84,36 @@ Vector<value_type>::Vector(const Vector &v) {
   }
 }
 
+/* move constructor */
+template <typename value_type>
+Vector<value_type>::Vector(Vector &&v) {
+  size_ = v.size_;
+  capacity_ = v.capacity_;
+  data_ = v.data_;
+  v.size_ = 0;
+  v.capacity_ = 0;
+  v.data_ = nullptr;
+}
+
+/* assignment operator overload for moving an object */
+template <typename value_type>
+Vector<value_type> Vector<value_type>::operator=(
+    Vector<value_type> &&v) noexcept {
+  size_ = v.size_;
+  capacity_ = v.capacity_;
+  data_ = v.data_;
+  v.size_ = 0;
+  v.capacity_ = 0;
+  v.data_ = nullptr;
+}
+
 /* destructor */
 template <typename value_type>
 Vector<value_type>::~Vector() {
   delete[] data_;
   size_ = 0;
   capacity_ = 0;
-  std::cout << "destroy " << this << std::endl;
+  std::cout << "destroy " << this << std::endl;  // TODO remove
 }
 
 /* VECTOR ELEMENT ACCESS */
@@ -112,6 +136,54 @@ typename Vector<value_type>::reference Vector<value_type>::operator[](
   if (size_ != 0 && (pos < size_ && pos >= 0)) {
     return data_[pos];
   }
+}
+
+/* returns a reference to the first element in the container. calling front on
+ * an empty container causes undefined behavior */
+template <typename value_type>
+typename Vector<value_type>::const_reference Vector<value_type>::front() {
+  if (size_ != 0) {
+    const_reference first_element = *data_;
+    return first_element;
+  }
+}
+
+/* returns a reference to the last element in the container. calling back on an
+ * empty container causes undefined behavior */
+template <typename value_type>
+typename Vector<value_type>::const_reference Vector<value_type>::back() {
+  if (size_ != 0) {
+    const_reference last_element = data_[size_ - 1];
+    return last_element;
+  }
+}
+
+/* direct access the underlying array */
+template <typename value_type>
+value_type *Vector<value_type>::data() {
+  return data_;
+}
+
+/* VECTOR ITERATORS */
+
+/* returns an iterator to the first element of the vector. if the vector is
+ * empty, the returned iterator will be equal to end() */
+template <typename value_type>
+typename Vector<value_type>::iterator Vector<value_type>::begin() noexcept {
+  if (size_ != 0) {
+    return data_;
+  }
+  else {
+    return end();
+  }
+}
+
+/* returns an iterator to the element following the last element of the vector.
+ * this element acts as a placeholder; attempting to access it results in
+ * undefined behavior */
+template <typename value_type> // TODO проверить где освоб-ся указатель
+typename Vector<value_type>::iterator Vector<value_type>::end() noexcept {
+  return data_+=size_;
 }
 
 /* VECTOR CAPACITY */
@@ -141,6 +213,12 @@ typename Vector<value_type>::size_type Vector<value_type>::capacity() noexcept {
 template <typename value_type>
 void Vector<value_type>::clear() noexcept {
   size_ = 0;
+}
+
+/* erases an element at pos */
+template <typename value_type>
+void Vector<value_type>::erase(iterator pos) () {
+
 }
 
 }  // namespace s21
