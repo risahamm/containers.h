@@ -217,8 +217,18 @@ void Vector<value_type>::clear() noexcept {
 
 /* erases an element at pos */
 template <typename value_type>
-void Vector<value_type>::erase(iterator pos) () {
-
+void Vector<value_type>::erase(iterator pos) {
+  Vector<value_type> result(size_ - 1);
+  int j = 0;
+  for (int *p = data_; p != end(); p++) {
+    if (p == pos) continue;
+    result.data_[j] = *p;
+    j++;
+  }
+  this->data_ = result.data_;
+  this->size_ = result.size_;
+  this->capacity_ = result.capacity_;
+  result.data_ = nullptr;
 }
 
 }  // namespace s21
