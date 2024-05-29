@@ -183,7 +183,8 @@ typename Vector<value_type>::iterator Vector<value_type>::begin() noexcept {
  * undefined behavior */
 template <typename value_type> // TODO проверить где освоб-ся указатель
 typename Vector<value_type>::iterator Vector<value_type>::end() noexcept {
-  return data_+=size_;
+  iterator result = data_ + size_;
+  return result;
 }
 
 /* VECTOR CAPACITY */
@@ -220,14 +221,14 @@ template <typename value_type>
 void Vector<value_type>::erase(iterator pos) {
   Vector<value_type> result(size_ - 1);
   int j = 0;
-  for (int *p = data_; p != end(); p++) {
+  for (iterator p = data_; p != end(); p++) {
     if (p == pos) continue;
     result.data_[j] = *p;
     j++;
   }
-  this->data_ = result.data_;
-  this->size_ = result.size_;
-  this->capacity_ = result.capacity_;
+  data_ = result.data_;
+  size_ = result.size_;
+  capacity_ = result.capacity_;
   result.data_ = nullptr;
 }
 
