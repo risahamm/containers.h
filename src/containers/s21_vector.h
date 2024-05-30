@@ -21,7 +21,7 @@ class Vector {
   Vector(std::initializer_list<value_type> const
              &items);                     // initializer list constructor
   Vector(const Vector &v);                // copy constructor
-  Vector(Vector &&v);                     // move constructor
+  Vector(Vector &&v) noexcept;            // move constructor
   ~Vector();                              // destructor
   Vector operator=(Vector &&v) noexcept;  // assignment operator overload
 
@@ -33,8 +33,8 @@ class Vector {
   T *data();                            // direct access the underlying array
 
   // Vector Iterators
-  iterator begin() noexcept; // returns an iterator to the beginning
-  iterator end() noexcept; // returns an iterator to the end
+  iterator begin() noexcept;  // returns an iterator to the beginning
+  iterator end() noexcept;    // returns an iterator to the end
 
   // Vector Capacity
   bool empty() noexcept;
@@ -73,20 +73,31 @@ Vector<value_type>::Vector(size_type n) {
   data_ = new value_type[n]();
 }
 
+template <typename value_type>
+Vector<value_type>::Vector(std::initializer_list<value_type> const &items) {
+  size_ = items.size();
+  capacity_ = items.size();
+  data_ = new value_type[size_];
+  int i = 0; // iterator
+  for (const auto &one_item : items) {
+    data_[i++] = one_item;
+  }
+}
+
 /* copy constructor */
 template <typename value_type>
 Vector<value_type>::Vector(const Vector &v) {
   size_ = v.size_;
   capacity_ = v.capacity_;
   data_ = new value_type[size_]();
-  for (int i = 0; i < size_; i++) {
+  for (int i = 0; i < size_; ++i) {
     data_[i] = v.data_[i];
   }
 }
 
 /* move constructor */
 template <typename value_type>
-Vector<value_type>::Vector(Vector &&v) {
+Vector<value_type>::Vector(Vector &&v) noexcept {
   size_ = v.size_;
   capacity_ = v.capacity_;
   data_ = v.data_;
@@ -172,8 +183,7 @@ template <typename value_type>
 typename Vector<value_type>::iterator Vector<value_type>::begin() noexcept {
   if (size_ != 0) {
     return data_;
-  }
-  else {
+  } else {
     return end();
   }
 }
@@ -181,7 +191,7 @@ typename Vector<value_type>::iterator Vector<value_type>::begin() noexcept {
 /* returns an iterator to the element following the last element of the vector.
  * this element acts as a placeholder; attempting to access it results in
  * undefined behavior */
-template <typename value_type> // TODO проверить где освоб-ся указатель
+template <typename value_type>  // TODO проверить где освоб-ся указатель
 typename Vector<value_type>::iterator Vector<value_type>::end() noexcept {
   iterator result = data_ + size_;
   return result;
@@ -220,11 +230,33 @@ void Vector<value_type>::clear() noexcept {
 template <typename value_type>
 void Vector<value_type>::erase(iterator pos) {
   Vector<value_type> result(size_ - 1);
-  int j = 0;
-  for (iterator p = data_; p != end(); p++) {
-    if (p == pos) continue;
-    result.data_[j] = *p;
-    j++;
+  int j = 0; // iterator
+  for (iterator ptr = data_; ptr != end(); ++ptr) {
+    if (ptr == pos) continue;
+    result.data_[j] = *ptr;
+    ++j;
+  }
+
+  data_ = result.data_;
+  size_ = result.size_;
+  capacity_ = result.capacity_;
+  result.data_ = nullptr;
+}
+
+template <typename value_type>
+typename Vector<value_type>::iterator Vector<value_type>::insert(
+    iterator pos, const_reference value) {
+  Vector<value_type> result(size_ + 1);
+  int j = 0; // iterator
+  for (iterator ptr = data_; ptr != end(); ++ptr) {
+    if(ptr == pos) {
+      result.data_[j] = *ptr;
+      result.data_[++j] = value;
+//      ++ptr;
+    } else {
+      result.data_[j] = *ptr;
+    }
+    ++j;
   }
   data_ = result.data_;
   size_ = result.size_;
