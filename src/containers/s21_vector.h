@@ -73,6 +73,7 @@ Vector<value_type>::Vector(size_type n) {
   data_ = new value_type[n]();
 }
 
+/* initializer list constructor, creates a vector initizialized using std::initializer_list */
 template <typename value_type>
 Vector<value_type>::Vector(std::initializer_list<value_type> const &items) {
   size_ = items.size();
@@ -248,11 +249,10 @@ typename Vector<value_type>::iterator Vector<value_type>::insert(
     iterator pos, const_reference value) {
   Vector<value_type> result(size_ + 1);
   int j = 0; // iterator
-  for (iterator ptr = data_; ptr != end(); ++ptr) {
+  for (iterator ptr = data_; ptr <= end(); ++ptr) {
     if(ptr == pos) {
-      result.data_[j] = *ptr;
-      result.data_[++j] = value;
-//      ++ptr;
+      result.data_[j] = value;
+      result.data_[++j] = *ptr;
     } else {
       result.data_[j] = *ptr;
     }
@@ -262,6 +262,23 @@ typename Vector<value_type>::iterator Vector<value_type>::insert(
   size_ = result.size_;
   capacity_ = result.capacity_;
   result.data_ = nullptr;
+}
+
+template <typename value_type>
+void Vector<value_type>::push_back(const_reference value) {
+  if (size_ == capacity_) {
+    Vector<value_type> result(size_ * 2);
+    result.size_ = size_ + 1;
+    iterator ptr = &result.data_[size_];
+    result.insert(ptr, value);
+    data_ = result.data_;
+    size_ = result.size_;
+    capacity_ = result.capacity_;
+    result.data_ = nullptr;
+  } else {
+    iterator ptr = &data_[size_];
+    insert(ptr, value);
+  }
 }
 
 }  // namespace s21

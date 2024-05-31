@@ -7,18 +7,79 @@ using namespace std;
 
 int main() {
 
-//  vector<int> b = {1, 2, 3, 4, 5};
-//
-////  int *ptr = &b[2];
-//  b.insert(b.begin(), 8);
-//
-//  for (int i = 0; i < b.size(); ++i) {
-//    cout << b[i] << endl;
-//  }
+//  vector<int> b;
+    s21::Vector<int> b;
 
-//  s21::Vector<int> a = {1, 2, 3, 4, 5};
-////  int *ptr = &a[2];
-//  a.insert(a.begin(), 8);
+  cout << "size = " << b.size() << endl;
+  cout << "capacity = " << b.capacity() << endl << endl;
+
+  b.push_back(1);
+
+  cout << "size = " << b.size() << endl;
+  cout << "capacity = " << b.capacity() << endl << endl;
+
+  cout << "______________________" << endl;
+  for (int i = 0; i < b.capacity(); ++i) {
+    cout << b[i] << endl;
+  }
+
+  b.push_back(2);
+
+  cout << "size = " << b.size() << endl;
+  cout << "capacity = " << b.capacity() << endl << endl;
+
+  cout << "______________________" << endl;
+  for (int i = 0; i < b.capacity(); ++i) {
+    cout << b[i] << endl;
+  }
+
+  b.push_back(3);
+
+  cout << "size = " << b.size() << endl;
+  cout << "capacity = " << b.capacity() << endl << endl;
+
+  cout << "______________________" << endl;
+  for (int i = 0; i < b.capacity(); ++i) {
+    cout << b[i] << endl;
+  }
+
+  b.push_back(4);
+
+  cout << "size = " << b.size() << endl;
+  cout << "capacity = " << b.capacity() << endl << endl;
+
+  cout << "______________________" << endl;
+  for (int i = 0; i < b.capacity(); ++i) {
+    cout << b[i] << endl;
+  }
+
+  b.push_back(5);
+
+  cout << "size = " << b.size() << endl;
+  cout << "capacity = " << b.capacity() << endl << endl;
+
+  cout << "______________________" << endl;
+  for (int i = 0; i < b.capacity(); ++i) {
+    cout << b[i] << endl;
+  }
+
+  b.push_back(6);
+
+  cout << "size = " << b.size() << endl;
+  cout << "capacity = " << b.capacity() << endl << endl;
+
+  cout << "______________________" << endl;
+  for (int i = 0; i < b.capacity(); ++i) {
+    cout << b[i] << endl;
+  }
+
+//  s21::Vector<int> a(3);
+//  a[0] = 1;
+//  a[1] = 2;
+//
+//  cout << a.size() << endl << endl;
+//
+//  a.insert(a.end(), 9);
 //
 //  cout << a.size() << endl << endl;
 //
