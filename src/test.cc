@@ -34,7 +34,7 @@ int main() {
   cout << "______________________" << endl;
   b.pop_back();
   b.pop_back();
-  b.pop_back();
+//  b.pop_back();
   b.push_back(8);
   for(int i = 0; i < b.size(); i++) {
     cout << b[i] << endl;
