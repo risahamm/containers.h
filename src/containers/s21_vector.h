@@ -266,19 +266,24 @@ typename Vector<value_type>::iterator Vector<value_type>::insert(
 
 template <typename value_type>
 void Vector<value_type>::push_back(const_reference value) {
-  if (size_ == capacity_) {
-    Vector<value_type> result(size_ * 2);
-    result.size_ = size_ + 1;
-    iterator ptr = &result.data_[size_];
-    result.insert(ptr, value);
-    data_ = result.data_;
-    size_ = result.size_;
-    capacity_ = result.capacity_;
-    result.data_ = nullptr;
+  size_type result_size = 0;
+  if ((size_ == capacity_) && (size_ != 0 && capacity_ != 0)) {
+    result_size = size_ * 2;
+  } else if (size_ == 0 && capacity_ == 0){
+    result_size = 1;
   } else {
-    iterator ptr = &data_[size_];
-    insert(ptr, value);
+    result_size = capacity_;
   }
+  Vector<value_type> result(result_size);
+  result.size_ = size_ + 1;
+  for (int i = 0; i < size_; ++i) {
+    result.data_[i] = data_[i];
+  }
+  result.data_[size_] = value;
+  data_ = result.data_;
+  size_ = result.size_;
+  capacity_ = result.capacity_;
+  result.data_ = nullptr;
 }
 
 }  // namespace s21

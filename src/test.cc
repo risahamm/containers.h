@@ -10,67 +10,20 @@ int main() {
 //  vector<int> b;
     s21::Vector<int> b;
 
-  cout << "size = " << b.size() << endl;
-  cout << "capacity = " << b.capacity() << endl << endl;
+//  cout << "size = " << b.size() << endl;
+//  cout << "capacity = " << b.capacity() << endl << endl;
 
-  b.push_back(1);
+  int v = 1;
 
-  cout << "size = " << b.size() << endl;
-  cout << "capacity = " << b.capacity() << endl << endl;
-
-  cout << "______________________" << endl;
-  for (int i = 0; i < b.capacity(); ++i) {
-    cout << b[i] << endl;
-  }
-
-  b.push_back(2);
-
-  cout << "size = " << b.size() << endl;
-  cout << "capacity = " << b.capacity() << endl << endl;
-
-  cout << "______________________" << endl;
-  for (int i = 0; i < b.capacity(); ++i) {
-    cout << b[i] << endl;
-  }
-
-  b.push_back(3);
-
-  cout << "size = " << b.size() << endl;
-  cout << "capacity = " << b.capacity() << endl << endl;
-
-  cout << "______________________" << endl;
-  for (int i = 0; i < b.capacity(); ++i) {
-    cout << b[i] << endl;
-  }
-
-  b.push_back(4);
-
-  cout << "size = " << b.size() << endl;
-  cout << "capacity = " << b.capacity() << endl << endl;
-
-  cout << "______________________" << endl;
-  for (int i = 0; i < b.capacity(); ++i) {
-    cout << b[i] << endl;
-  }
-
-  b.push_back(5);
-
-  cout << "size = " << b.size() << endl;
-  cout << "capacity = " << b.capacity() << endl << endl;
-
-  cout << "______________________" << endl;
-  for (int i = 0; i < b.capacity(); ++i) {
-    cout << b[i] << endl;
-  }
-
-  b.push_back(6);
-
-  cout << "size = " << b.size() << endl;
-  cout << "capacity = " << b.capacity() << endl << endl;
-
-  cout << "______________________" << endl;
-  for (int i = 0; i < b.capacity(); ++i) {
-    cout << b[i] << endl;
+  for (int k = 0; k < 10; ++k) {
+    b.push_back(v);
+    cout << "size = " << b.size() << endl;
+    cout << "capacity = " << b.capacity() << endl;
+    cout << "______________________" << endl;
+    for (int i = 0; i < b.size(); ++i) {
+      cout << b[i] << endl;
+    }
+    ++v;
   }
 
 //  s21::Vector<int> a(3);
