@@ -7,39 +7,39 @@ using namespace std;
 
 int main() {
 
-//  vector<int> b;
-    s21::Vector<int> b;
-
-//  cout << "size = " << b.size() << endl;
-//  cout << "capacity = " << b.capacity() << endl << endl;
-
-  int v = 1;
-
-  for (int k = 0; k < 10; ++k) {
-    b.push_back(v);
-    cout << "size = " << b.size() << endl;
-    cout << "capacity = " << b.capacity() << endl;
-    cout << "______________________" << endl;
-    for (int i = 0; i < b.size(); ++i) {
-      cout << b[i] << endl;
-    }
-    ++v;
-  }
-
-//  s21::Vector<int> a(3);
-//  a[0] = 1;
-//  a[1] = 2;
+//  vector<int> b = {1, 2, 3, 4, 5};
+    s21::Vector<int> b = {1, 2, 3, 4, 5};
 //
-//  cout << a.size() << endl << endl;
+////  cout << "size = " << b.size() << endl;
+////  cout << "capacity = " << b.capacity() << endl << endl;
 //
-//  a.insert(a.end(), 9);
+//  int v = 1;
 //
-//  cout << a.size() << endl << endl;
-//
-//  for (int i = 0; i < a.size(); ++i) {
-//    cout << a[i] << endl;
+//  for (int k = 0; k < 6; ++k) {
+//    b.push_back(v);
+//    cout << "size = " << b.size() << endl;
+//    cout << "capacity = " << b.capacity() << endl;
+//    cout << "______________________" << endl;
+//    for (int i = 0; i < b.size(); ++i) {
+//      cout << b[i] << endl;
+//    }
+//    ++v;
 //  }
 
-
+  for(int i = 0; i < b.size(); i++) {
+    cout << b[i] << endl;
+  }
+  cout << "size = " << b.size() << endl;
+  cout << "capacity = " << b.capacity() << endl << endl;
+  cout << "______________________" << endl;
+  b.pop_back();
+  b.pop_back();
+  b.pop_back();
+  b.push_back(8);
+  for(int i = 0; i < b.size(); i++) {
+    cout << b[i] << endl;
+  }
+  cout << "size = " << b.size() << endl;
+  cout << "capacity = " << b.capacity() << endl << endl;
   return 0;
 }

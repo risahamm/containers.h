@@ -268,11 +268,11 @@ template <typename value_type>
 void Vector<value_type>::push_back(const_reference value) {
   size_type result_size = 0;
   if ((size_ == capacity_) && (size_ != 0 && capacity_ != 0)) {
-    result_size = size_ * 2;
+    result_size = size_ * 2; // if size == capacity, double capacity
   } else if (size_ == 0 && capacity_ == 0){
-    result_size = 1;
+    result_size = 1; // if vector is empty, allocate memory for 1 element
   } else {
-    result_size = capacity_;
+    result_size = capacity_; // otherwise no new memory allocated
   }
   Vector<value_type> result(result_size);
   result.size_ = size_ + 1;
@@ -284,6 +284,17 @@ void Vector<value_type>::push_back(const_reference value) {
   size_ = result.size_;
   capacity_ = result.capacity_;
   result.data_ = nullptr;
+}
+
+template <typename value_type>
+void Vector<value_type>::pop_back() {
+  if(size_ != 0) {
+    data_[size_ - 1] = 0;
+    --size_;
+//    std::cout << "pop = " << data_[size_] << std::endl;
+//    std::cout << "Size = " << size_ << std::endl;
+//    std::cout << "Capacity = " << capacity_ << std::endl;
+  }
 }
 
 }  // namespace s21
