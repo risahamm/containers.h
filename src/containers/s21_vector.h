@@ -16,13 +16,13 @@ class Vector {
   using size_type = std::size_t;
 
   // Vector Member functions
-  Vector();             // default constructor
-  Vector(size_type n);  // parametrized constructor
+  Vector() noexcept;             // default constructor
+  Vector(size_type n) noexcept;  // parametrized constructor
   Vector(std::initializer_list<value_type> const
-             &items);                     // initializer list constructor
-  Vector(const Vector &v);                // copy constructor
+             &items) noexcept;            // initializer list constructor
+  Vector(const Vector &v) noexcept;       // copy constructor
   Vector(Vector &&v) noexcept;            // move constructor
-  ~Vector();                              // destructor
+  ~Vector() noexcept;                     // destructor
   Vector operator=(Vector &&v) noexcept;  // assignment operator overload
 
   // Vector Element access
@@ -30,7 +30,7 @@ class Vector {
   reference operator[](size_type pos);  // [] overload
   const_reference front();              // access the first element
   const_reference back();               // access the last element
-  T *data();                            // direct access the underlying array
+  T *data() noexcept;                   // direct access the underlying array
 
   // Vector Iterators
   iterator begin() noexcept;  // returns an iterator to the beginning
@@ -63,11 +63,12 @@ class Vector {
 
 /* default constructor, creates an empty vector */
 template <typename value_type>
-Vector<value_type>::Vector() : data_(nullptr), size_(0U), capacity_(0U) {}
+Vector<value_type>::Vector() noexcept
+    : data_(nullptr), size_(0U), capacity_(0U) {}
 
 /* parametrized constructor, creates the vector of size n */
 template <typename value_type>
-Vector<value_type>::Vector(size_type n) {
+Vector<value_type>::Vector(size_type n) noexcept {
   size_ = n;
   capacity_ = n;
   data_ = new value_type[n]();
@@ -76,7 +77,8 @@ Vector<value_type>::Vector(size_type n) {
 /* initializer list constructor, creates a vector initizialized using
  * std::initializer_list */
 template <typename value_type>
-Vector<value_type>::Vector(std::initializer_list<value_type> const &items) {
+Vector<value_type>::Vector(
+    std::initializer_list<value_type> const &items) noexcept {
   size_ = items.size();
   capacity_ = items.size();
   data_ = new value_type[size_];
@@ -88,7 +90,7 @@ Vector<value_type>::Vector(std::initializer_list<value_type> const &items) {
 
 /* copy constructor */
 template <typename value_type>
-Vector<value_type>::Vector(const Vector &v) {
+Vector<value_type>::Vector(const Vector &v) noexcept {
   size_ = v.size_;
   capacity_ = v.capacity_;
   data_ = new value_type[size_]();
@@ -122,11 +124,10 @@ Vector<value_type> Vector<value_type>::operator=(
 
 /* destructor */
 template <typename value_type>
-Vector<value_type>::~Vector() {
+Vector<value_type>::~Vector() noexcept {
   delete[] data_;
   size_ = 0;
   capacity_ = 0;
-  std::cout << "destroy " << this << std::endl;  // TODO remove
 }
 
 /* VECTOR ELEMENT ACCESS */
@@ -173,7 +174,7 @@ typename Vector<value_type>::const_reference Vector<value_type>::back() {
 
 /* direct access the underlying array */
 template <typename value_type>
-value_type *Vector<value_type>::data() {
+value_type *Vector<value_type>::data() noexcept {
   return data_;
 }
 
