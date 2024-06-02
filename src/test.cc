@@ -7,7 +7,7 @@ using namespace std;
 
 int main() {
   vector<int> b = {1, 2, 3, 4, 5};
-//  s21::Vector<int> b = {1, 2, 3, 4, 5};
+  //  s21::Vector<int> b = {1, 2, 3, 4, 5};
 
   b.reserve(10);
 
@@ -17,7 +17,7 @@ int main() {
 
   cout << "size = " << b.size() << endl;
   cout << "capacity = " << b.capacity() << endl << endl;
-//  cout << "______________________" << endl;
+  //  cout << "______________________" << endl;
 
   return 0;
 }

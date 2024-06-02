@@ -215,11 +215,12 @@ typename Vector<value_type>::size_type Vector<value_type>::size() noexcept {
 
 /* returns the maximum possible number of elements */
 template <typename value_type>
-typename Vector<value_type>::size_type Vector<value_type>::max_size() noexcept{
+typename Vector<value_type>::size_type Vector<value_type>::max_size() noexcept {
   return SIZE_MAX / sizeof(value_type);
 }
 
-/* allocate storage of size elements and copies current array elements to a newely allocated array */
+/* allocate storage of size elements and copies current array elements to a
+ * newely allocated array */
 template <typename value_type>
 void Vector<value_type>::reserve(size_type new_cap) {
   if (new_cap > capacity_) {
