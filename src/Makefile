@@ -1,7 +1,20 @@
 CC = g++
 CFLAGS = -Wall -Werror -Wextra -std=c++17
 
+all: clean check_style test gcov_report
+
+test: clean
+	$(CC) $(CFLAGS) --coverage tests/*.cc -lgtest -pthread -o test
+	./test
+
+gcov_report: test
+	@lcov -t "test_containers" -o s21_containers.info -c -d . --ignore-errors mismatch,inconsistent
+	@lcov -e s21_containers.info -o s21_containers_filtered.info
+	@genhtml -o gcov_report s21_containers_filtered.info
+	@open ./gcov_report/index.html
+
 clean:
+	@rm -rf test *.gcda *.gcno *.o *.info *.a test.dSYM a.out gcov_report
 
 check_style:
 	clang-format -style=Google -n *.cc *.h containers/*.h

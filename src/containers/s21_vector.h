@@ -57,7 +57,7 @@ class Vector {
   size_type size_;      // size of a nonempty container
   size_type capacity_;  // size of memory allocated for a container
 
-};  // class Vector
+};  // class s21::Vector
 
 /* CONSTRUCTORS */
 
