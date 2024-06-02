@@ -334,7 +334,7 @@ void Vector<value_type>::push_back(const_reference value) {
 }
 
 /* removes the last element, capacity remains unchanged. calling pop_back on an
- * empty container results in undefined behavior. */
+ * empty container results in undefined behavior */
 template <typename value_type>
 void Vector<value_type>::pop_back() {
   if (size_ != 0) {
