@@ -226,7 +226,7 @@ void Vector<value_type>::reserve(size_type new_cap) {
   if (new_cap > capacity_) {
     s21::Vector<value_type> new_vector(new_cap);
     new_vector.size_ = size_;
-    for (int i = 0; i < size_; i++) {
+    for (int i = 0; i < size_; ++i) {
       new_vector.data_[i] = data_[i];
     }
     delete[] data_;
@@ -242,6 +242,22 @@ void Vector<value_type>::reserve(size_type new_cap) {
 template <typename value_type>
 typename Vector<value_type>::size_type Vector<value_type>::capacity() noexcept {
   return capacity_;
+}
+
+/* reduces memory usage by freeing unused memory */
+template <typename value_type>
+void Vector<value_type>::shrink_to_fit() {
+  if (capacity_ > size_) {
+    s21::Vector<value_type> new_vector(size_);
+    for (int i = 0; i < size_; ++i) {
+      new_vector.data_[i] = data_[i];
+    }
+    delete[] data_;
+    data_ = new_vector.data_;
+    size_ = new_vector.size_;
+    capacity_ = new_vector.capacity_;
+    new_vector.data_ = nullptr;
+  }
 }
 
 /* VECTOR MODIFIERS */
