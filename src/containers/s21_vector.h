@@ -39,8 +39,8 @@ class Vector {
   // Vector Capacity
   bool empty() noexcept;
   size_type size() noexcept;
-  size_type max_size();
-  void reserve(size_type size);
+  size_type max_size() noexcept;
+  void reserve(size_type new_cap);
   size_type capacity() noexcept;
   void shrink_to_fit();
 
@@ -213,6 +213,29 @@ typename Vector<value_type>::size_type Vector<value_type>::size() noexcept {
   return size_;
 }
 
+/* returns the maximum possible number of elements */
+template <typename value_type>
+typename Vector<value_type>::size_type Vector<value_type>::max_size() noexcept{
+  return SIZE_MAX / sizeof(value_type);
+}
+
+/* allocate storage of size elements and copies current array elements to a newely allocated array */
+template <typename value_type>
+void Vector<value_type>::reserve(size_type new_cap) {
+  if (new_cap > capacity_) {
+    s21::Vector<value_type> new_vector(new_cap);
+    new_vector.size_ = size_;
+    for (int i = 0; i < size_; i++) {
+      new_vector.data_[i] = data_[i];
+    }
+    delete[] data_;
+    data_ = new_vector.data_;
+    size_ = new_vector.size_;
+    capacity_ = new_vector.capacity_;
+    new_vector.data_ = nullptr;
+  }
+}
+
 /* returns the number of elements that can be held in currently allocated
  * storage */
 template <typename value_type>
@@ -302,6 +325,7 @@ void Vector<value_type>::pop_back() {
   }
 }
 
+/* swaps the contents */
 template <typename value_type>
 void Vector<value_type>::swap(Vector<value_type> &other) {
   std::swap(data_, other.data_);
