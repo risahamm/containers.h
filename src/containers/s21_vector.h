@@ -73,13 +73,14 @@ Vector<value_type>::Vector(size_type n) {
   data_ = new value_type[n]();
 }
 
-/* initializer list constructor, creates a vector initizialized using std::initializer_list */
+/* initializer list constructor, creates a vector initizialized using
+ * std::initializer_list */
 template <typename value_type>
 Vector<value_type>::Vector(std::initializer_list<value_type> const &items) {
   size_ = items.size();
   capacity_ = items.size();
   data_ = new value_type[size_];
-  int i = 0; // iterator
+  int i = 0;  // iterator
   for (const auto &one_item : items) {
     data_[i++] = one_item;
   }
@@ -192,7 +193,7 @@ typename Vector<value_type>::iterator Vector<value_type>::begin() noexcept {
 /* returns an iterator to the element following the last element of the vector.
  * this element acts as a placeholder; attempting to access it results in
  * undefined behavior */
-template <typename value_type>  // TODO проверить где освоб-ся указатель
+template <typename value_type>
 typename Vector<value_type>::iterator Vector<value_type>::end() noexcept {
   iterator result = data_ + size_;
   return result;
@@ -231,7 +232,7 @@ void Vector<value_type>::clear() noexcept {
 template <typename value_type>
 void Vector<value_type>::erase(iterator pos) {
   Vector<value_type> result(size_ - 1);
-  int j = 0; // iterator
+  int j = 0;  // iterator
   for (iterator ptr = data_; ptr != end(); ++ptr) {
     if (ptr == pos) continue;
     result.data_[j] = *ptr;
@@ -244,13 +245,15 @@ void Vector<value_type>::erase(iterator pos) {
   result.data_ = nullptr;
 }
 
+/* inserts elements into particular pos and returns the iterator that points to
+ * the new element */
 template <typename value_type>
 typename Vector<value_type>::iterator Vector<value_type>::insert(
     iterator pos, const_reference value) {
   Vector<value_type> result(size_ + 1);
-  int j = 0; // iterator
+  int j = 0;  // iterator
   for (iterator ptr = data_; ptr <= end(); ++ptr) {
-    if(ptr == pos) {
+    if (ptr == pos) {
       result.data_[j] = value;
       result.data_[++j] = *ptr;
     } else {
@@ -265,15 +268,16 @@ typename Vector<value_type>::iterator Vector<value_type>::insert(
   result.data_ = nullptr;
 }
 
+/* adds an element to the end */
 template <typename value_type>
 void Vector<value_type>::push_back(const_reference value) {
   size_type result_size = 0;
   if ((size_ == capacity_) && (size_ != 0 && capacity_ != 0)) {
-    result_size = size_ * 2; // if size == capacity, double capacity
-  } else if (size_ == 0 && capacity_ == 0){
-    result_size = 1; // if vector is empty, allocate memory for 1 element
+    result_size = size_ * 2;  // if size == capacity, double capacity
+  } else if (size_ == 0 && capacity_ == 0) {
+    result_size = 1;  // if vector is empty, allocate memory for 1 element
   } else {
-    result_size = capacity_; // otherwise no new memory allocated
+    result_size = capacity_;  // otherwise, no new memory allocated
   }
   Vector<value_type> result(result_size);
   result.size_ = size_ + 1;
@@ -288,12 +292,21 @@ void Vector<value_type>::push_back(const_reference value) {
   result.data_ = nullptr;
 }
 
+/* removes the last element, capacity remains unchanged. calling pop_back on an
+ * empty container results in undefined behavior. */
 template <typename value_type>
 void Vector<value_type>::pop_back() {
-  if(size_ != 0) {
+  if (size_ != 0) {
     data_[size_ - 1] = 0;
     --size_;
   }
+}
+
+template <typename value_type>
+void Vector<value_type>::swap(Vector<value_type> &other) {
+  std::swap(data_, other.data_);
+  std::swap(size_, other.size_);
+  std::swap(capacity_, other.capacity_);
 }
 
 }  // namespace s21
