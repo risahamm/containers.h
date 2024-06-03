@@ -94,7 +94,7 @@ Vector<value_type>::Vector(const Vector &v) noexcept {
   size_ = v.size_;
   capacity_ = v.capacity_;
   data_ = new value_type[size_]();
-  for (int i = 0; i < size_; ++i) {
+  for (size_type i = 0; i < size_; ++i) {
     data_[i] = v.data_[i];
   }
 }
@@ -120,6 +120,7 @@ Vector<value_type> Vector<value_type>::operator=(
   v.size_ = 0;
   v.capacity_ = 0;
   v.data_ = nullptr;
+  return *this;
 }
 
 /* destructor */
@@ -135,7 +136,7 @@ Vector<value_type>::~Vector() noexcept {
 /* access a specified element with bounds checking */
 template <typename value_type>
 typename Vector<value_type>::reference Vector<value_type>::at(size_type pos) {
-  if (pos >= size_ || pos < 0) {
+  if (pos >= size_) {
     throw std::out_of_range("Error. Invalid index.");
   }
   return data_[pos];
@@ -147,29 +148,29 @@ typename Vector<value_type>::reference Vector<value_type>::at(size_type pos) {
 template <typename value_type>
 typename Vector<value_type>::reference Vector<value_type>::operator[](
     size_type pos) {
-  if (size_ != 0 && (pos < size_ && pos >= 0)) {
+//  if (size_ != 0 && pos < size_) {
     return data_[pos];
-  }
+//  }
 }
 
 /* returns a reference to the first element in the container. calling front on
  * an empty container causes undefined behavior */
 template <typename value_type>
 typename Vector<value_type>::const_reference Vector<value_type>::front() {
-  if (size_ != 0) {
+//  if (size_ != 0) {
     const_reference first_element = *data_;
     return first_element;
-  }
+//  }
 }
 
 /* returns a reference to the last element in the container. calling back on an
  * empty container causes undefined behavior */
 template <typename value_type>
 typename Vector<value_type>::const_reference Vector<value_type>::back() {
-  if (size_ != 0) {
+//  if (size_ != 0) {
     const_reference last_element = data_[size_ - 1];
     return last_element;
-  }
+//  }
 }
 
 /* direct access the underlying array */
@@ -227,7 +228,7 @@ void Vector<value_type>::reserve(size_type new_cap) {
   if (new_cap > capacity_) {
     s21::Vector<value_type> new_vector(new_cap);
     new_vector.size_ = size_;
-    for (int i = 0; i < size_; ++i) {
+    for (size_type i = 0; i < size_; ++i) {
       new_vector.data_[i] = data_[i];
     }
     delete[] data_;
@@ -250,7 +251,7 @@ template <typename value_type>
 void Vector<value_type>::shrink_to_fit() {
   if (capacity_ > size_) {
     s21::Vector<value_type> new_vector(size_);
-    for (int i = 0; i < size_; ++i) {
+    for (size_type i = 0; i < size_; ++i) {
       new_vector.data_[i] = data_[i];
     }
     delete[] data_;
@@ -293,9 +294,11 @@ typename Vector<value_type>::iterator Vector<value_type>::insert(
     iterator pos, const_reference value) {
   Vector<value_type> result(size_ + 1);
   int j = 0;  // iterator
+  iterator return_val;
   for (iterator ptr = data_; ptr <= end(); ++ptr) {
     if (ptr == pos) {
       result.data_[j] = value;
+      return_val = &result.data_[j];
       result.data_[++j] = *ptr;
     } else {
       result.data_[j] = *ptr;
@@ -307,6 +310,7 @@ typename Vector<value_type>::iterator Vector<value_type>::insert(
   size_ = result.size_;
   capacity_ = result.capacity_;
   result.data_ = nullptr;
+  return return_val;
 }
 
 /* adds an element to the end */
@@ -322,7 +326,7 @@ void Vector<value_type>::push_back(const_reference value) {
   }
   Vector<value_type> result(result_size);
   result.size_ = size_ + 1;
-  for (int i = 0; i < size_; ++i) {
+  for (size_type i = 0; i < size_; ++i) {
     result.data_[i] = data_[i];
   }
   result.data_[size_] = value;
