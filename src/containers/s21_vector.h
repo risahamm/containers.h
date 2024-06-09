@@ -1,7 +1,6 @@
-#ifndef S21_CONTAINERS_CONTAINERS_S21_Vector_H_
-#define S21_CONTAINERS_CONTAINERS_S21_Vector_H_
+#ifndef S21_CONTAINERS_CONTAINERS_S21_VECTOR_H_
+#define S21_CONTAINERS_CONTAINERS_S21_VECTOR_H_
 
-#include "../s21_containers.h"
 namespace s21 {
 
 template <typename T>
@@ -357,4 +356,4 @@ void Vector<value_type>::swap(Vector<value_type> &other) {
 
 }  // namespace s21
 
-#endif  // S21_CONTAINERS_CONTAINERS_S21_Vector_H_
+#endif  // S21_CONTAINERS_CONTAINERS_S21_VECTOR_H_
