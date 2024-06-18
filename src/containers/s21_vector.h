@@ -27,6 +27,7 @@ class Vector {
   // Vector Element access
   reference at(size_type pos);          // access a specified element
   reference operator[](size_type pos);  // [] overload
+  // TODO [] для const
   const_reference front();              // access the first element
   const_reference back();               // access the last element
   T *data() noexcept;                   // direct access the underlying array
