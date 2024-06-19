@@ -9,7 +9,7 @@ namespace s21 {
 struct FakeNode {
   FakeNode *parent = nullptr;
 
-  FakeNode() = default;
+//  FakeNode() = default;
 };
 
 template <typename KeyType, typename ValueType>
@@ -22,6 +22,7 @@ struct Node : FakeNode {
   Node *left = nullptr;
   Node *right = nullptr;
 
+  Node() = default;
   Node(KeyType NewKey, ValueType NewValue) :
     key(NewKey),
     data(NewValue) {}
@@ -59,16 +60,21 @@ class Tree {
   /* default constructor */
   Tree() noexcept : size_(0)
   {
-    FakeNode fake_node;
-    root_->parent = &fake_node;
+    fake_node_ = new FakeNode[sizeof(FakeNode)];
   }
 
   size_type size() noexcept {return size_;}
 
   bool insert(const key_type key, const mapped_type value) {
-    if(size_ == 0) {
+    if (size_ == 0) {
+      root_ = InitNode();
+      root_->parent = fake_node_;
       root_->data = value;
+    } else {
+    Node<key_type, mapped_type> *new_node = InitNode();
+    new_node->data = value;
     }
+    ++size_;
     return 1;
   }
 
@@ -80,8 +86,14 @@ class Tree {
   }
 
  private:
+  FakeNode *fake_node_;
   Node<KeyType, ValueType> *root_;
   size_t size_; // number of elements in the tree
+
+  Node<key_type, mapped_type> *InitNode() {
+    auto *new_node = new Node<key_type, mapped_type>[sizeof(Node<key_type, mapped_type>)];
+    return new_node;
+  }
 
 }; // class Tree
 

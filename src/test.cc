@@ -19,7 +19,9 @@ int main() {
 
 
   s21::Tree<int, int> b;
-  cout << b.size() << endl;
+  b.insert(1, 2);
+  b.printTree();
+  cout << "size = " << b.size() << endl;
 
   return 0;
 }
