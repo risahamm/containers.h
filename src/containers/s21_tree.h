@@ -71,6 +71,8 @@ class Tree {
       root_->parent = fake_node_;
       root_->data = value;
     } else {
+      if(key > root_->key) {
+      }
     Node<key_type, mapped_type> *new_node = InitNode();
     new_node->data = value;
     }
@@ -83,6 +85,17 @@ class Tree {
     if(root_->right != nullptr) {
       std::cout << root_->right->data << std::endl;
     }
+  }
+
+  void FindInsert(Node<KeyType, ValueType> *root, const key_type new_key, const mapped_type value) {
+    Node<KeyType, ValueType> *child;
+    child = new_key > root->key ? root->right : root->left;
+     if (child != nullptr) {
+      FindInsert(child, new_key, value);
+     } else {
+      child->key = new_key;
+      child->data = value;
+     }
   }
 
  private:

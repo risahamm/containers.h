@@ -7,7 +7,6 @@
 
 using namespace std;
 
-
 int main() {
 
 //  map<int, int> a;
@@ -20,6 +19,7 @@ int main() {
 
   s21::Tree<int, int> b;
   b.insert(1, 2);
+  b.insert(2, 4);
   b.printTree();
   cout << "size = " << b.size() << endl;
 
