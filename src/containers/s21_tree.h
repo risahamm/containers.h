@@ -9,7 +9,7 @@ namespace s21 {
 struct FakeNode {
   FakeNode *parent = nullptr;
 
-//  FakeNode() = default;
+  FakeNode() = default;
 };
 
 template <typename KeyType, typename ValueType>
@@ -65,16 +65,14 @@ class Tree {
 
   size_type size() noexcept {return size_;}
 
-  bool insert(const key_type key, const mapped_type value) {
+  bool insert(const key_type new_key, const mapped_type value) {
     if (size_ == 0) {
       root_ = InitNode();
       root_->parent = fake_node_;
+      root_->key = new_key;
       root_->data = value;
     } else {
-      if(key > root_->key) {
-      }
-    Node<key_type, mapped_type> *new_node = InitNode();
-    new_node->data = value;
+      FindInsert(root_, new_key, value);
     }
     ++size_;
     return 1;
@@ -93,8 +91,11 @@ class Tree {
      if (child != nullptr) {
       FindInsert(child, new_key, value);
      } else {
+
+      child = InitNode();
       child->key = new_key;
       child->data = value;
+      ++root->height;
      }
   }
 
