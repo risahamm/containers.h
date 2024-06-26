@@ -7,9 +7,11 @@ namespace s21 {
 
 
 struct FakeNode {
-  FakeNode *parent = nullptr;
+  FakeNode *parent;// = nullptr;
 
-  FakeNode() = default;
+  FakeNode() {
+      parent = nullptr;
+  }
 };
 
 template <typename KeyType, typename ValueType>
@@ -23,9 +25,9 @@ struct Node : FakeNode {
   Node *right = nullptr;
 
   Node() = default;
-  Node(KeyType NewKey, ValueType NewValue) :
-    key(NewKey),
-    data(NewValue) {}
+//  Node(KeyType NewKey, ValueType NewValue) :
+//    key(NewKey),
+//    data(NewValue) {}
 
 }; // Node
 
@@ -67,7 +69,7 @@ class Tree {
 
   bool insert(const key_type new_key, const mapped_type value) {
     if (size_ == 0) {
-      root_ = InitNode();
+      root_ = new Node<KeyType, ValueType>;//InitNode();
       root_->parent = fake_node_;
       root_->key = new_key;
       root_->data = value;
@@ -86,17 +88,24 @@ class Tree {
   }
 
   void FindInsert(Node<KeyType, ValueType> *root, const key_type new_key, const mapped_type value) {
-    Node<KeyType, ValueType> *child;
-    child = new_key > root->key ? root->right : root->left;
-     if (child != nullptr) {
-      FindInsert(child, new_key, value);
+   auto *child = new Node<KeyType, ValueType>;;
+     if (new_key > root->key) {
+        if (root->right != nullptr) {
+          FindInsert(root->right, new_key, value);
+        } else {
+          root->right = child;
+        }
      } else {
-
-      child = InitNode();
+        if (root->left != nullptr) {
+          FindInsert(root->left, new_key, value);
+        } else {
+          root->left = child;
+        }
+     }
       child->key = new_key;
       child->data = value;
+      child->parent = root;
       ++root->height;
-     }
   }
 
  private:
@@ -104,10 +113,11 @@ class Tree {
   Node<KeyType, ValueType> *root_;
   size_t size_; // number of elements in the tree
 
-  Node<key_type, mapped_type> *InitNode() {
-    auto *new_node = new Node<key_type, mapped_type>[sizeof(Node<key_type, mapped_type>)];
-    return new_node;
-  }
+//  Node<key_type, mapped_type> *InitNode() {
+//     auto *new_node = new Node<key_type, mapped_type>[sizeof(Node<key_type, mapped_type>)];
+//     return new_node;
+//  }
+
 
 }; // class Tree
 

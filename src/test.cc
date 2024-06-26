@@ -7,6 +7,12 @@
 
 using namespace std;
 
+//typedef struct {
+//  int x = 0;
+//  int y = 0;
+//} st;
+
+
 int main() {
 
 //  map<int, int> a;
@@ -23,6 +29,18 @@ int main() {
   b.insert(6, 4);
   b.printTree();
   cout << "size = " << b.size() << endl;
+
+//  st *a;
+//  a->x = 4;
+//  a->y = 9;
+//  st *b;
+//  b = a;
+//  b->y = 12;
+//  cout << "x = " << b->y << endl;
+//  cout << "x2 = " << a->y << endl;
+
+
+
 
   return 0;
 }
