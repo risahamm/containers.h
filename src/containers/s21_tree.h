@@ -6,21 +6,21 @@
 namespace s21 {
 
 
-struct FakeNode {
-  FakeNode *parent;// = nullptr;
-
-  FakeNode() {
-      parent = nullptr;
-  }
-};
+//struct FakeNode {
+//  FakeNode *parent;// = nullptr;
+//
+//  FakeNode() {
+//      parent = nullptr;
+//  }
+//};
 
 template <typename KeyType, typename ValueType>
-struct Node : FakeNode {
+struct Node {
 
   KeyType key;
   ValueType data;
   size_t height = 1;
-//  Node *parent = nullptr;
+  Node *parent = nullptr;
   Node *left = nullptr;
   Node *right = nullptr;
 
@@ -35,7 +35,7 @@ template <typename KeyType, typename ValueType>
 class Tree {
  public:
 
-// Tree Member type
+/* Tree Member type */
   using key_type = KeyType;
   using mapped_type = ValueType;
   using value_type = std::pair<const KeyType, ValueType>;
@@ -57,27 +57,39 @@ class Tree {
   using size_type = std::size_t;
 
 
-// Tree Member functions
+/* Tree Member functions */
 
   /* default constructor */
-  Tree() noexcept : size_(0)
-  {
-    fake_node_ = new FakeNode[sizeof(FakeNode)];
-  }
+  Tree() noexcept : size_(0), root_(nullptr) {}
 
+/* Tree Capacity */
+
+  /* returns the number of elements */
   size_type size() noexcept {return size_;}
 
-  bool insert(const key_type new_key, const mapped_type value) {
+/* Tree Modifiers */
+
+  /* checks whether the tree is empty or not */
+  bool insert(const key_type new_key, const mapped_type value) { // TODO not bool
+    bool ret_val = true;
     if (size_ == 0) {
-      root_ = new Node<KeyType, ValueType>;//InitNode();
-      root_->parent = fake_node_;
+      root_ = new Node<KeyType, ValueType>;  // InitNode();
+      root_->parent = nullptr;
       root_->key = new_key;
       root_->data = value;
     } else {
-      FindInsert(root_, new_key, value);
+      ret_val = FindInsert(root_, new_key, value);
     }
-    ++size_;
-    return 1;
+    if (ret_val) {
+      ++size_;
+    }
+    return ret_val;
+  }
+
+/* Tree lookup */
+
+  bool contains(const key_type& key) {
+
   }
 
   void printTree() {
@@ -87,36 +99,47 @@ class Tree {
     }
   }
 
-  void FindInsert(Node<KeyType, ValueType> *root, const key_type new_key, const mapped_type value) {
-   auto *child = new Node<KeyType, ValueType>;;
-     if (new_key > root->key) {
-        if (root->right != nullptr) {
-          FindInsert(root->right, new_key, value);
-        } else {
-          root->right = child;
-        }
-     } else {
-        if (root->left != nullptr) {
-          FindInsert(root->left, new_key, value);
-        } else {
-          root->left = child;
-        }
-     }
-      child->key = new_key;
-      child->data = value;
-      child->parent = root;
-      ++root->height;
-  }
 
  private:
-  FakeNode *fake_node_;
+  //FakeNode *fake_node_;
   Node<KeyType, ValueType> *root_;
   size_t size_; // number of elements in the tree
 
-//  Node<key_type, mapped_type> *InitNode() {
-//     auto *new_node = new Node<key_type, mapped_type>[sizeof(Node<key_type, mapped_type>)];
-//     return new_node;
-//  }
+  /* searches for the right place to insert a new node and inserts */
+  bool FindInsert(Node<KeyType, ValueType>* root, const key_type new_key, const mapped_type value) {
+    if (new_key == root->key) {
+      return false;
+    }
+    auto* child = new Node<KeyType, ValueType>;
+    if (new_key > root->key) {
+      if (root->right != nullptr) {
+        FindInsert(root->right, new_key, value);
+      } else {
+        root->right = child;
+      }
+    } else {
+      if (root->left != nullptr) {
+        FindInsert(root->left, new_key, value);
+      } else {
+        root->left = child;
+      }
+    }
+    child->key = new_key;
+    child->data = value;
+    child->parent = root;
+    if (root->left == nullptr || root->right == nullptr) {
+      UpdateHeight(child->parent);
+    }
+    return true;
+  }
+
+  /* recursively updates the height of the branch */
+  void UpdateHeight(Node<KeyType, ValueType>* node) {
+    if (node!= nullptr) {
+      ++node->height;
+      UpdateHeight(node->parent);
+    }
+  }
 
 
 }; // class Tree
