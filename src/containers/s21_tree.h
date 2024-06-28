@@ -132,7 +132,8 @@ class Tree {
       if (root->left == nullptr || root->right == nullptr) {
         UpdateHeight(child->parent);
       }
-//    } else {
+    }
+      //    else {
 //      child.destroy(); // TODO потом добавить деструктор
 //    }
     return ret_val;
