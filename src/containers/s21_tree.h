@@ -144,6 +144,7 @@ class Tree {
     }
   }
 
+  /* searches for the key in the tree */
   bool Find(Node<KeyType, ValueType> *root, const key_type key_to_find) {
     if(root->key == key_to_find) {
       return true;
