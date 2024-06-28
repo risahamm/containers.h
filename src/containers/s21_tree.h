@@ -95,7 +95,6 @@ class Tree {
     return Find(root_, key_to_find);
   }
 
-
  private:
   // FakeNode *fake_node_;
   Node<KeyType, ValueType> *root_;
@@ -146,13 +145,13 @@ class Tree {
 
   /* searches for the key in the tree */
   bool Find(Node<KeyType, ValueType> *root, const key_type key_to_find) {
-    if(root->key == key_to_find) {
+    if (root->key == key_to_find) {
       return true;
     }
     bool ret_val = false;
-    if(key_to_find < root->key && root->left != nullptr) {
+    if (key_to_find < root->key && root->left != nullptr) {
       ret_val = Find(root->left, key_to_find);
-    } else if (key_to_find > root->key && root->right != nullptr){
+    } else if (key_to_find > root->key && root->right != nullptr) {
       ret_val = Find(root->right, key_to_find);
     }
     return ret_val;
