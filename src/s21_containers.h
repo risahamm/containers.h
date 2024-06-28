@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "containers/s21_vector.h"
+#include "containers/s21_tree.h"
 
 // list 3
 // map 5

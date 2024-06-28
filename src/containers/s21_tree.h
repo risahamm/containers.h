@@ -88,9 +88,9 @@ class Tree {
 
 /* Tree lookup */
 
-  bool contains(const key_type& key) {
-
-  }
+//  bool contains(const key_type& key) {
+//
+//  }
 
   void printTree() {
     std::cout << "root value: " << root_->data << std::endl;
@@ -110,27 +110,32 @@ class Tree {
     if (new_key == root->key) {
       return false;
     }
+    bool ret_val = true;
     auto* child = new Node<KeyType, ValueType>;
     if (new_key > root->key) {
       if (root->right != nullptr) {
-        FindInsert(root->right, new_key, value);
+        ret_val = FindInsert(root->right, new_key, value);
       } else {
         root->right = child;
       }
     } else {
       if (root->left != nullptr) {
-        FindInsert(root->left, new_key, value);
+        ret_val = FindInsert(root->left, new_key, value);
       } else {
         root->left = child;
       }
     }
-    child->key = new_key;
-    child->data = value;
-    child->parent = root;
-    if (root->left == nullptr || root->right == nullptr) {
-      UpdateHeight(child->parent);
-    }
-    return true;
+    if (ret_val) {
+      child->key = new_key;
+      child->data = value;
+      child->parent = root;
+      if (root->left == nullptr || root->right == nullptr) {
+        UpdateHeight(child->parent);
+      }
+//    } else {
+//      child.destroy(); // TODO потом добавить деструктор
+//    }
+    return ret_val;
   }
 
   /* recursively updates the height of the branch */

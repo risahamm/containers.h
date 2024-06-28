@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "s21_containers.h"
-#include "s21_tree.h"
+//#include "s21_tree.h"
 
 using namespace std;
 
@@ -26,10 +26,10 @@ int main() {
   s21::Tree<int, int> b;
   b.insert(4, 2);
   b.insert(2, 4);
-  b.insert(2, 4);
+  b.insert(2, 7);
   b.insert(6, 4);
   b.insert(1, 4);
-  b.insert(6, 4);
+  b.insert(6, 3);
   b.printTree();
   cout << "size = " << b.size() << endl;
 
