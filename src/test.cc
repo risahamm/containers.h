@@ -30,7 +30,7 @@ int main() {
   b.insert(6, 4);
   b.insert(1, 4);
   b.insert(6, 3);
-  b.printTree();
+  cout << "find " << b.find(6) << endl;
   cout << "size = " << b.size() << endl;
 
 //  st *a;
