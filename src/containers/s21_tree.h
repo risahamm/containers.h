@@ -75,6 +75,7 @@ class Tree {
       root_->parent = nullptr;
       root_->key = new_key;
       root_->data = value;
+      std::cout << &root_->left << std::endl;
     } else {
       ret_val = FindInsert(root_, new_key, value);
     }
@@ -101,27 +102,54 @@ class Tree {
   size_t size_;  // number of elements in the tree
 
   /* searches for the right place to insert a new node and inserts */
+  //  bool FindInsert(Node<KeyType, ValueType> *root, const key_type new_key,
+  //                  const mapped_type value) {
+  //    if (new_key == root->key) {
+  //      return false;
+  //    }
+  //    bool ret_val = true;
+  //    auto *child = new Node<KeyType, ValueType>;
+  //    if (new_key > root->key) {
+  //      if (root->right != nullptr) {
+  //        ret_val = FindInsert(root->right, new_key, value);
+  //      } else {
+  //        root->right = child;
+  //      }
+  //    } else {
+  //      if (root->left != nullptr) {
+  //        ret_val = FindInsert(root->left, new_key, value);
+  //      } else {
+  //        root->left = child;
+  //      }
+  //    }
+  //    if (ret_val) {
+  //      child->key = new_key;
+  //      child->data = value;
+  //      child->parent = root;
+  //      if (root->left == nullptr || root->right == nullptr) {
+  //        UpdateHeight(child->parent);
+  //      }
+  //    }
+  //    //    else {
+  //    //      child.destroy(); // TODO потом добавить деструктор
+  //    //    }
+  //    return ret_val;
+  //  }
+
+  /* searches for the right place to insert a new node and inserts */
   bool FindInsert(Node<KeyType, ValueType> *root, const key_type new_key,
                   const mapped_type value) {
-    if (new_key == root->key) {
+
+    bool ret_val = true;
+    Node<KeyType, ValueType> **direction = Comparator(root, new_key); // = new Node<KeyType, ValueType>;
+    if (*direction == root) {
       return false;
     }
-    bool ret_val = true;
-    auto *child = new Node<KeyType, ValueType>;
-    if (new_key > root->key) {
-      if (root->right != nullptr) {
-        ret_val = FindInsert(root->right, new_key, value);
-      } else {
-        root->right = child;
-      }
+    if (*direction != nullptr) {
+      ret_val = FindInsert(*direction, new_key, value);
     } else {
-      if (root->left != nullptr) {
-        ret_val = FindInsert(root->left, new_key, value);
-      } else {
-        root->left = child;
-      }
-    }
-    if (ret_val) {
+      auto *child = new Node<KeyType, ValueType>;
+      *direction = child;
       child->key = new_key;
       child->data = value;
       child->parent = root;
@@ -129,10 +157,33 @@ class Tree {
         UpdateHeight(child->parent);
       }
     }
+//    if (ret_val) {
+//      child->key = new_key;
+//      child->data = value;
+//      child->parent = root;
+//      if (root->left == nullptr || root->right == nullptr) {
+//        UpdateHeight(child->parent);
+//      }
+//    }
     //    else {
     //      child.destroy(); // TODO потом добавить деструктор
     //    }
     return ret_val;
+  }
+
+  /* compares the keys and returns an iterator to a left or right child. if the
+   * key is equal to the current node key, returns an iterator to the current
+   * node */
+  Node<KeyType, ValueType> **Comparator(Node<KeyType, ValueType> *root, const key_type new_key) {
+    if (new_key == root->key) {
+      return &root;
+    }
+    else if (new_key > root->key) {
+      return &root->right;
+    }
+    else if (new_key < root->key) {
+      return &root->left;
+    }
   }
 
   /* recursively updates the height of the branch */

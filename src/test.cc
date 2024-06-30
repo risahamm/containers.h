@@ -7,12 +7,6 @@
 
 using namespace std;
 
-//typedef struct {
-//  int x = 0;
-//  int y = 0;
-//} st;
-
-
 int main() {
 
 //  map<int, int> a;
@@ -33,14 +27,13 @@ int main() {
   cout << "find " << b.find(6) << endl;
   cout << "size = " << b.size() << endl;
 
-//  st *a;
-//  a->x = 4;
-//  a->y = 9;
-//  st *b;
-//  b = a;
-//  b->y = 12;
-//  cout << "x = " << b->y << endl;
-//  cout << "x2 = " << a->y << endl;
+//  int x = 5;
+//  int *p = &x;
+//  int **pp = &p;
+//  *(*pp) = 8;
+//
+//  cout << "x = " << x << endl;
+
 
 
 
