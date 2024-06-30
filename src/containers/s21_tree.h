@@ -103,9 +103,9 @@ class Tree {
   /* searches for the right place to insert a new node and inserts */
   bool FindInsert(Node<KeyType, ValueType> *root, const key_type new_key,
                   const mapped_type value) {
-
     bool ret_val = true;
-    Node<KeyType, ValueType> **direction = Comparator(&root, new_key); // = new Node<KeyType, ValueType>;
+    Node<KeyType, ValueType> **direction =
+        Comparator(&root, new_key);  // = new Node<KeyType, ValueType>;
     if (*direction == root) {
       return false;
     }
@@ -127,15 +127,15 @@ class Tree {
   /* compares the keys and returns an iterator to a left or right child. if the
    * key is equal to the current node key, returns an iterator to the current
    * node */
-  Node<KeyType, ValueType> **Comparator(Node<KeyType, ValueType> **root, const key_type new_key) {
-    Node<KeyType, ValueType> **result; ;
+  Node<KeyType, ValueType> **Comparator(Node<KeyType, ValueType> **root,
+                                        const key_type new_key) {
+    Node<KeyType, ValueType> **result;
+    ;
     if (new_key == (*root)->key) {
       result = root;
-    }
-    else if (new_key > (*root)->key) {
+    } else if (new_key > (*root)->key) {
       result = &(*root)->right;
-    }
-    else if (new_key < (*root)->key) {
+    } else if (new_key < (*root)->key) {
       result = &(*root)->left;
     }
     return result;
