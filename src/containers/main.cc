@@ -28,6 +28,14 @@ int main() {
 
     cout << "Size = " << lst.GetSize() << endl;
 
+    cout << "Removed one value:" << endl;
+
+    lst.removeAt(1);
+    for (int i = 0; i < lst.GetSize(); i++){
+        cout << lst[i] << endl;}
+
+    cout << "Size = " << lst.GetSize() << endl;
+
     cout << "Clear" << endl;
 
     lst.clear();

@@ -16,6 +16,7 @@ class List {
   void push_front(T data);
   //  void pop_back();
   void insert(T value, int index);
+  void removeAt(int index);
 
  private:
   template <typename T1>
@@ -109,6 +110,22 @@ void List<T>::insert(T value, int index) {
     Node<T> *newNode = new Node<T>(value, previous->pNext);
     previous->pNext = newNode;
     Size++;
+  }
+}
+
+template <typename T>
+void List<T>::removeAt(int index) {
+  if (index == 0) {
+    pop_front();
+  } else {
+    Node<T> *previous = this->head;
+    for (int i = 0; i < index - 1; i++) {
+      previous = previous->pNext;
+    }
+    Node<T> *toDelete = previous->pNext;
+    previous->pNext = toDelete->pNext;
+    delete toDelete;
+    Size--;
   }
 }
 
