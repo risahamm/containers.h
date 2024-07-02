@@ -12,6 +12,7 @@ class List {
   int GetSize() { return Size; }
   T &operator[](const int index);
   void pop_front();
+  void clear();
 
  private:
   template <typename T1>
@@ -67,13 +68,18 @@ T &List<T>::operator[](const int index) {
 
 template <typename T>
 void List<T>::pop_front() {
-    Node<T> *temp = head;
-    head = head->pNext;
-    delete temp;
-    Size--;
+  Node<T> *temp = head;
+  head = head->pNext;
+  delete temp;
+  Size--;
 }
 
-
+template <typename T>
+void List<T>::clear() {
+    while (Size) {
+        pop_front();
+    }
+}
 
 }  // namespace s21
 

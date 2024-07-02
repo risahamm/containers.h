@@ -26,6 +26,13 @@ int main() {
         cout << lst[i] << endl;}
 
     cout << "Size = " << lst.GetSize() << endl;
+
+    cout << "Clear" << endl;
+
+    lst.clear();
+
+    cout << "Size = " << lst.GetSize() << endl;
+
     return 0;
 }
 
