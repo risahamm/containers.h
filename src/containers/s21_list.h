@@ -13,6 +13,8 @@ class List {
   T &operator[](const int index);
   void pop_front();
   void clear();
+  void push_front(T data);
+  //  void pop_back();
 
  private:
   template <typename T1>
@@ -82,6 +84,17 @@ void List<T>::clear() {
     pop_front();
   }
 }
+
+template <typename T>
+void List<T>::push_front(T data) {
+  head = new Node<T>(data, head);
+  Size++;
+}
+
+// template <typename T>
+// void List<T>::pop_back() {
+//
+// }
 
 }  // namespace s21
 

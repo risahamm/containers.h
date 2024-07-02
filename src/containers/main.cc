@@ -11,8 +11,9 @@ int main() {
 
     cout << "Added to list:" << endl;
 
-    lst.push_back(5);
-    lst.push_back(10);
+    lst.push_front(5);
+    lst.push_front(10);
+    lst.push_front(15);
     for (int i = 0; i < lst.GetSize(); i++){
     cout << lst[i] << endl;}
 
