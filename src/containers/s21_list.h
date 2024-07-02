@@ -15,6 +15,7 @@ class List {
   void clear();
   void push_front(T data);
   //  void pop_back();
+  void insert(T value, int index);
 
  private:
   template <typename T1>
@@ -95,6 +96,21 @@ void List<T>::push_front(T data) {
 // void List<T>::pop_back() {
 //
 // }
+
+template <typename T>
+void List<T>::insert(T value, int index) {
+  if (index == 0) {
+    push_front(value);
+  } else {
+    Node<T> *previous = this->head;
+    for (int i = 0; i < index - 1; i++) {
+      previous = previous->pNext;
+    }
+    Node<T> *newNode = new Node<T>(value, previous->pNext);
+    previous->pNext = newNode;
+    Size++;
+  }
+}
 
 }  // namespace s21
 

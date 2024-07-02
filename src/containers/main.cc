@@ -20,9 +20,9 @@ int main() {
     cout << "Size = " << lst.GetSize() << endl;
 
 
-    cout << "Something was deleted from list. Current list:" << endl;
+    cout << "Inserted one value:" << endl;
 
-    lst.pop_front();
+    lst.insert(20, 1);
     for (int i = 0; i < lst.GetSize(); i++){
         cout << lst[i] << endl;}
 
