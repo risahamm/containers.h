@@ -14,9 +14,9 @@ class List {
   void pop_front();
   void clear();
   void push_front(T data);
-  //  void pop_back();
   void insert(T value, int index);
   void removeAt(int index);
+  void pop_back();
 
  private:
   template <typename T1>
@@ -93,11 +93,6 @@ void List<T>::push_front(T data) {
   Size++;
 }
 
-// template <typename T>
-// void List<T>::pop_back() {
-//
-// }
-
 template <typename T>
 void List<T>::insert(T value, int index) {
   if (index == 0) {
@@ -127,6 +122,11 @@ void List<T>::removeAt(int index) {
     delete toDelete;
     Size--;
   }
+}
+
+template <typename T>
+void List<T>::pop_back() {
+  removeAt(Size - 1);
 }
 
 }  // namespace s21

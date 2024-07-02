@@ -28,9 +28,9 @@ int main() {
 
     cout << "Size = " << lst.GetSize() << endl;
 
-    cout << "Removed one value:" << endl;
+    cout << "Pop back:" << endl;
 
-    lst.removeAt(1);
+    lst.pop_back();
     for (int i = 0; i < lst.GetSize(); i++){
         cout << lst[i] << endl;}
 
