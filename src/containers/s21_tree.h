@@ -100,12 +100,12 @@ class Tree {
   Node<KeyType, ValueType> *root_;
   size_t size_;  // number of elements in the tree
 
-  /* searches for the right place to insert a new node and inserts */
+  /* recursively searches for the right place to insert a new node and inserts
+   */
   bool FindInsert(Node<KeyType, ValueType> *root, const key_type new_key,
                   const mapped_type value) {
     bool ret_val = true;
-    Node<KeyType, ValueType> **direction =
-        Comparator(&root, new_key);  // = new Node<KeyType, ValueType>;
+    Node<KeyType, ValueType> **direction = Comparator(&root, new_key);
     if (*direction == root) {
       return false;
     }
@@ -124,13 +124,12 @@ class Tree {
     return ret_val;
   }
 
-  /* compares the keys and returns an iterator to a left or right child. if the
-   * key is equal to the current node key, returns an iterator to the current
+  /* compares the keys and returns a pointer to a left or right child. if the
+   * key is equal to the current node key, returns a pointer to the current
    * node */
   Node<KeyType, ValueType> **Comparator(Node<KeyType, ValueType> **root,
                                         const key_type new_key) {
     Node<KeyType, ValueType> **result;
-    ;
     if (new_key == (*root)->key) {
       result = root;
     } else if (new_key > (*root)->key) {
@@ -149,16 +148,14 @@ class Tree {
     }
   }
 
-  /* searches for the key in the tree */
+  /* recursively searches for the key in the tree */
   bool Find(Node<KeyType, ValueType> *root, const key_type key_to_find) {
-    if (root->key == key_to_find) {
-      return true;
-    }
     bool ret_val = false;
-    if (key_to_find < root->key && root->left != nullptr) {
-      ret_val = Find(root->left, key_to_find);
-    } else if (key_to_find > root->key && root->right != nullptr) {
-      ret_val = Find(root->right, key_to_find);
+    Node<KeyType, ValueType> **direction = Comparator(&root, key_to_find);
+    if (*direction == root) {
+      ret_val = true;
+    } else if (*direction != nullptr) {
+      ret_val = Find(*direction, key_to_find);
     }
     return ret_val;
   }

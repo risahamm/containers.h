@@ -24,7 +24,7 @@ int main() {
   b.insert(6, 4);
   b.insert(1, 4);
   b.insert(6, 3);
-  cout << "find " << b.find(6) << endl;
+  cout << "find " << b.find(2) << endl;
   cout << "size = " << b.size() << endl;
 
 //  int x = 5;
