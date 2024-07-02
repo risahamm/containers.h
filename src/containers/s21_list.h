@@ -37,7 +37,9 @@ List<T>::List() {
 }
 
 template <typename T>
-List<T>::~List() {}
+List<T>::~List() {
+  clear();
+}
 
 template <typename T>
 void List<T>::push_back(T data) {
@@ -76,9 +78,9 @@ void List<T>::pop_front() {
 
 template <typename T>
 void List<T>::clear() {
-    while (Size) {
-        pop_front();
-    }
+  while (Size) {
+    pop_front();
+  }
 }
 
 }  // namespace s21
