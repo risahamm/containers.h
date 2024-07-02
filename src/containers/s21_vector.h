@@ -120,7 +120,7 @@ Vector<value_type> Vector<value_type>::operator=(
   v.size_ = 0;
   v.capacity_ = 0;
   v.data_ = nullptr;
-  return *this;
+  return *this; // TODO return &Vector
 }
 
 /* destructor */

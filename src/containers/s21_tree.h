@@ -36,11 +36,32 @@ class Tree {
   using key_type = KeyType;
   using mapped_type = ValueType;
   using value_type = std::pair<const KeyType, ValueType>;
+  using ptr = KeyType *;
+  using ref = KeyType &;
 
   class TreeIterator {
    public:
     TreeIterator() = default;
-    TreeIterator(Node<key_type, mapped_type> data) : node_(data) {}
+    TreeIterator(Node<key_type, mapped_type> *data) : node_(data) {}
+
+    TreeIterator &operator=(const TreeIterator &other) {
+      if (this == &other) {
+        return *this;
+      }
+      node_ = other.node_;
+      return *this;
+    }
+   ref operator*() { // TODO add exception
+      Node<key_type, mapped_type> *result = node_;
+      if (result != nullptr) {
+        result->key = node_->key;
+      }
+      return result->key;
+   }
+
+    Node<key_type, mapped_type>* operator->() {
+      return node_;
+    }
 
    private:
     Node<key_type, mapped_type> *node_ = nullptr;
@@ -86,19 +107,25 @@ class Tree {
 
   /* Tree lookup */
 
-  //  bool contains(const key_type& key) {
-  //
-  //  }
-
   /* finds element with specific key */
-  bool find(const key_type key_to_find) {  // TODO not bool
-    return Find(root_, key_to_find);
+  TreeIterator find(const key_type key_to_find) {  // TODO not bool
+    TreeIterator result(Find(root_, key_to_find));
+    return result;
+  }
+
+  bool contains(const key_type &key) {
+    bool ret_val = false;
+    Node<KeyType, ValueType> *result = Find(root_, key);
+    if (result != nullptr) {
+      ret_val = true;
+    }
+    return ret_val;
   }
 
  private:
   // FakeNode *fake_node_;
-  Node<KeyType, ValueType> *root_;
   size_t size_;  // number of elements in the tree
+  Node<KeyType, ValueType> *root_;
 
   /* recursively searches for the right place to insert a new node and inserts
    */
@@ -149,15 +176,26 @@ class Tree {
   }
 
   /* recursively searches for the key in the tree */
-  bool Find(Node<KeyType, ValueType> *root, const key_type key_to_find) {
-    bool ret_val = false;
+//  bool Find(Node<KeyType, ValueType> *root, const key_type key_to_find) {
+//    bool ret_val = false;
+//    Node<KeyType, ValueType> **direction = Comparator(&root, key_to_find);
+//    if (*direction == root) {
+//      ret_val = true;
+//    } else if (*direction != nullptr) {
+//      ret_val = Find(*direction, key_to_find);
+//    }
+//    return ret_val;
+//  }
+
+  Node<KeyType, ValueType> *Find(Node<KeyType, ValueType> *root, const key_type key_to_find) {
+    Node<KeyType, ValueType> *result = nullptr;
     Node<KeyType, ValueType> **direction = Comparator(&root, key_to_find);
     if (*direction == root) {
-      ret_val = true;
+      result = root;
     } else if (*direction != nullptr) {
-      ret_val = Find(*direction, key_to_find);
+      result = Find(*direction, key_to_find);
     }
-    return ret_val;
+    return result;
   }
 
 };  // class Tree

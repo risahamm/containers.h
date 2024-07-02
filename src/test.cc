@@ -24,9 +24,11 @@ int main() {
   b.insert(6, 4);
   b.insert(1, 4);
   b.insert(6, 3);
-  cout << "find " << b.find(2) << endl;
+  cout << "contains " << b.contains(12) << endl;
   cout << "size = " << b.size() << endl;
 
+  s21::Tree<int, int>::TreeIterator one = b.find(6);
+  cout << "iterator " << *one << endl;
 //  int x = 5;
 //  int *p = &x;
 //  int **pp = &p;
