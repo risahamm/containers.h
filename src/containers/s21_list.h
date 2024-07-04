@@ -7,7 +7,6 @@ class List {
  public:
   List();
   ~List();
-
   void push_back(T data);
   int GetSize() { return Size; }
   T &operator[](const int index);
@@ -23,14 +22,16 @@ class List {
   class Node {
    public:
     Node *pNext;
+    Node *pPrev;
     T data;
-
-    Node(T data = T(), Node *pNext = nullptr) {
+    Node(T data = T(), Node *pNext = nullptr, Node *pPrev = nullptr) {
       this->data = data;
       this->pNext = pNext;
+      this->pPrev = pPrev;
     }
   };
   Node<T> *head;
+  Node<T> *tail;
   int Size;
 };
 
@@ -38,6 +39,7 @@ template <typename T>
 List<T>::List() {
   Size = 0;
   head = nullptr;
+  tail = nullptr;
 }
 
 template <typename T>
@@ -47,8 +49,9 @@ List<T>::~List() {
 
 template <typename T>
 void List<T>::push_back(T data) {
-  if (head == nullptr) {
+  if (head == nullptr && tail == nullptr) {
     head = new Node<T>(data);
+    tail = head;
   } else {
     Node<T> *current = this->head;
     while (current->pNext != nullptr) {
@@ -94,15 +97,15 @@ void List<T>::push_front(T data) {
 }
 
 template <typename T>
-void List<T>::insert(T value, int index) {
+void List<T>::insert(T data, int index) {
   if (index == 0) {
-    push_front(value);
+    push_front(data);
   } else {
     Node<T> *previous = this->head;
     for (int i = 0; i < index - 1; i++) {
       previous = previous->pNext;
     }
-    Node<T> *newNode = new Node<T>(value, previous->pNext);
+    Node<T> *newNode = new Node<T>(data, previous->pNext);
     previous->pNext = newNode;
     Size++;
   }
