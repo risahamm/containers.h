@@ -42,7 +42,9 @@ class Tree {
   class TreeIterator {
    public:
     TreeIterator() = default;
-    TreeIterator(Node<key_type, mapped_type> *data) : node_(data) {}
+    explicit TreeIterator(Node<key_type, mapped_type> *data) : node_(data) {}
+
+    TreeIterator(const TreeIterator &other) { node_ = other.node_; }
 
     TreeIterator &operator=(const TreeIterator &other) {
       if (this == &other) {
@@ -51,19 +53,45 @@ class Tree {
       node_ = other.node_;
       return *this;
     }
-   ref operator*() { // TODO add exception
+
+    ref operator*() {  // TODO add exception
       Node<key_type, mapped_type> *result = node_;
       if (result != nullptr) {
         result->key = node_->key;
+      } else {
+        throw std::out_of_range("Bad access.");
       }
       return result->key;
-   }
-
-    Node<key_type, mapped_type>* operator->() {
-      return node_;
     }
 
-   private:
+    Node<key_type, mapped_type> *operator->() { return node_; }
+
+    TreeIterator &operator++() { // prefix
+      if (node_ != nullptr) {
+        if (node_->right != nullptr) {
+          node_ = node_->right;
+          while (node_->left != nullptr) {
+            node_ = node_->left;
+          }
+        } else {
+          Node<key_type, mapped_type> *temp = node_->parent;
+          while (temp != nullptr && node_ == temp->right) {
+            node_->temp;
+            temp = temp->parent;
+          }
+          node_ = temp;
+        }
+      }
+      return *this;
+    }
+
+    TreeIterator operator++(int) { // postfix
+      TreeIterator res(*this);
+      ++(*this);
+      return res;
+    }
+
+   private:  // TODO protected потому что наследование
     Node<key_type, mapped_type> *node_ = nullptr;
 
   };  // class TreeIterator
@@ -109,10 +137,14 @@ class Tree {
 
   /* finds element with specific key */
   TreeIterator find(const key_type key_to_find) {  // TODO not bool
-    TreeIterator result(Find(root_, key_to_find));
+    Node<KeyType, ValueType> *found = Find(root_, key_to_find);
+    TreeIterator result(found);
+
     return result;
   }
 
+  /* checks if there is an element with key equivalent to key in the container
+   */
   bool contains(const key_type &key) {
     bool ret_val = false;
     Node<KeyType, ValueType> *result = Find(root_, key);
@@ -175,19 +207,9 @@ class Tree {
     }
   }
 
-  /* recursively searches for the key in the tree */
-//  bool Find(Node<KeyType, ValueType> *root, const key_type key_to_find) {
-//    bool ret_val = false;
-//    Node<KeyType, ValueType> **direction = Comparator(&root, key_to_find);
-//    if (*direction == root) {
-//      ret_val = true;
-//    } else if (*direction != nullptr) {
-//      ret_val = Find(*direction, key_to_find);
-//    }
-//    return ret_val;
-//  }
-
-  Node<KeyType, ValueType> *Find(Node<KeyType, ValueType> *root, const key_type key_to_find) {
+  /* recursively searches for the key in the tree, returns a pointer  */
+  Node<KeyType, ValueType> *Find(Node<KeyType, ValueType> *root,
+                                 const key_type key_to_find) {
     Node<KeyType, ValueType> *result = nullptr;
     Node<KeyType, ValueType> **direction = Comparator(&root, key_to_find);
     if (*direction == root) {
