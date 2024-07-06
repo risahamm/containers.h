@@ -49,11 +49,5 @@ int main() {
   s21::Tree<int, int>::TreeIterator one = b.find(6);
   cout << "iterator " << *one << endl;
 
-
-
-
-
-
-
   return 0;
 }
