@@ -66,7 +66,7 @@ class Tree {
 
     Node<key_type, mapped_type> *operator->() { return node_; }
 
-    TreeIterator &operator++() { // prefix
+    TreeIterator &operator++() {  // prefix
       if (node_ != nullptr) {
         if (node_->right != nullptr) {
           node_ = node_->right;
@@ -85,10 +85,41 @@ class Tree {
       return *this;
     }
 
-    TreeIterator operator++(int) { // postfix
+    TreeIterator &operator--() {  // prefix
+      if (node_ != nullptr) {
+        if (node_->left != nullptr) {
+          node_ = node_->left;
+          while (node_->right != nullptr) {
+            node_ = node_->right;
+          }
+        } else {
+          Node<key_type, mapped_type> *temp = node_->parent;
+          while (temp != nullptr && node_ == temp->left) {
+            node_->temp;
+            temp = temp->parent;
+          }
+          node_ = temp;
+        }
+      }
+      return *this;
+    }
+
+    TreeIterator operator++(int) {  // postfix
       TreeIterator res(*this);
       ++(*this);
       return res;
+    }
+
+    TreeIterator operator--(int) {  // postfix
+      TreeIterator res(*this);
+      --(*this);
+      return res;
+    }
+
+    bool operator==(const TreeIterator &other) { return (node_ = other.node_); }
+
+    bool operator!=(const TreeIterator &other) {
+      return !(node_ = other.node_);
     }
 
    private:  // TODO protected потому что наследование
@@ -130,6 +161,7 @@ class Tree {
     if (ret_val) {
       ++size_;
     }
+    std::cout << BalanceFactor(root_) << '\n';  // TODO remove
     return ret_val;
   }
 
@@ -176,9 +208,9 @@ class Tree {
       child->key = new_key;
       child->data = value;
       child->parent = root;
-      if (root->left == nullptr || root->right == nullptr) {
-        UpdateHeight(child->parent);
-      }
+      //      if (root->left == nullptr || root->right == nullptr) {
+      UpdateHeight(child->parent);
+      //      }
     }
     return ret_val;
   }
@@ -188,7 +220,7 @@ class Tree {
    * node */
   Node<KeyType, ValueType> **Comparator(Node<KeyType, ValueType> **root,
                                         const key_type new_key) {
-    Node<KeyType, ValueType> **result;
+    Node<KeyType, ValueType> **result = nullptr;
     if (new_key == (*root)->key) {
       result = root;
     } else if (new_key > (*root)->key) {
@@ -202,7 +234,10 @@ class Tree {
   /* recursively updates the height of the branch */
   void UpdateHeight(Node<KeyType, ValueType> *node) {
     if (node != nullptr) {
-      ++node->height;
+      size_t l_height = getHeight(node->left);
+      size_t r_height = getHeight(node->right);
+      ;
+      node->height = (l_height > r_height ? l_height : r_height) + 1;
       UpdateHeight(node->parent);
     }
   }
@@ -218,6 +253,24 @@ class Tree {
       result = Find(*direction, key_to_find);
     }
     return result;
+  }
+
+  /* returns the difference between the heights of the left and right subtrees
+   */
+  int BalanceFactor(Node<KeyType, ValueType> *node) {
+    int ret_val = 0;
+    if (node != nullptr) {
+      ret_val = (getHeight(node->left) - getHeight(node->right));
+    }
+    return ret_val;
+  }
+
+  size_t getHeight(Node<KeyType, ValueType> *node) {
+    size_t ret_val = 0;
+    if (node != nullptr) {
+      ret_val = node->height;
+    }
+    return ret_val;
   }
 
 };  // class Tree
