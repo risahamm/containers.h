@@ -197,6 +197,8 @@ class Tree {
                   const mapped_type value) {
     bool ret_val = true;
     Node<KeyType, ValueType> **direction = Comparator(&root, new_key);
+
+    /* if the key already exists */
     if (*direction == root) {
       return false;
     }
@@ -209,6 +211,8 @@ class Tree {
       child->data = value;
       child->parent = root;
       UpdateHeight(child->parent);
+      //      Balance(root_);
+      Balance(child->parent);
     }
     return ret_val;
   }
@@ -229,12 +233,11 @@ class Tree {
     return result;
   }
 
-  /* recursively updates the height of the branch */
-  void UpdateHeight(Node<KeyType, ValueType> *node) { // TODO должно идти сверху от корня
+  /* recursively updates the height of the branch bottom-up*/
+  void UpdateHeight(Node<KeyType, ValueType> *node) {
     if (node != nullptr) {
       size_t l_height = getHeight(node->left);
       size_t r_height = getHeight(node->right);
-      ;
       node->height = (l_height > r_height ? l_height : r_height) + 1;
       UpdateHeight(node->parent);
     }
@@ -263,6 +266,7 @@ class Tree {
     return ret_val;
   }
 
+  /* returns the height of a node */
   size_t getHeight(Node<KeyType, ValueType> *node) {
     size_t ret_val = 0;
     if (node != nullptr) {
@@ -271,6 +275,8 @@ class Tree {
     return ret_val;
   }
 
+  /* if disbalanced, recursively rebalances the tree relative to the parent node
+   */
   void Balance(Node<KeyType, ValueType> *node) {
     if (node != nullptr) {
       if (BalanceFactor(node) == 2) {
@@ -279,38 +285,52 @@ class Tree {
         }
         RotateRight(node);
       } else if (BalanceFactor(node) == -2) {
-        if(BalanceFactor(node->right) == -1) {
-          RotateLeft(node->right);
+        if (BalanceFactor(node->right) == 1) {
+          RotateRight(node->right);
         }
         RotateLeft(node);
       }
+      UpdateHeight(node);
+      Balance(node->parent);
     }
   }
 
-  void RotateRight (Node<KeyType, ValueType> *node) {
-      Node<KeyType, ValueType> *new_root = node->left;
-      node->left = new_root->right;
-      if (new_root->right != nullptr) {
-        new_root->right->parent = node;
-      }
-      new_root->right = node;
-      new_root->parent = node->parent;
-      node->parent = new_root;
+  void RotateRight(Node<KeyType, ValueType> *node) {
+    Node<KeyType, ValueType> *new_root = node->left;
+    node->left = new_root->right;
+    if (new_root->right != nullptr) {
+      new_root->right->parent = node;
+    }
+    if (node->parent != nullptr) {
+      node->parent->left = new_root;
+    }
+    new_root->parent = node->parent;
+    new_root->right = node;
+    node->parent = new_root;
+    UpdateHeight(node);
+    UpdateHeight(new_root);
+    if (new_root->parent == nullptr) {
       root_ = new_root;
-      // TODO добавить UpdateHeight сверху
+    }
   }
 
-  void RotateLeft (Node<KeyType, ValueType> *node) {
-      Node<KeyType, ValueType> *new_root = node->right;
-      node->right = new_root->left;
-      if (new_root->left != nullptr) {
-        new_root->left->parent = node;
-      }
-      new_root->left = node;
-      new_root->parent = node->parent;
-      node->parent = new_root;
+  void RotateLeft(Node<KeyType, ValueType> *node) {
+    Node<KeyType, ValueType> *new_root = node->right;
+    node->right = new_root->left;
+    if (new_root->left != nullptr) {
+      new_root->left->parent = node;
+    }
+    if (node->parent != nullptr) {
+      node->parent->right = new_root;
+    }
+    new_root->parent = node->parent;
+    new_root->left = node;
+    node->parent = new_root;
+    UpdateHeight(node);
+    UpdateHeight(new_root);
+    if (new_root->parent == nullptr) {
       root_ = new_root;
-      // TODO добавить UpdateHeight сверху
+    }
   }
 
 };  // class Tree

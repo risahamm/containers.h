@@ -33,15 +33,12 @@ int main() {
 
 
   s21::Tree<int, int> b;
-  b.insert(4, 2);
-  b.insert(2, 4);
-//  b.insert(2, 7);
-  b.insert(6, 4);
-  b.insert(1, 4);
-//  b.insert(6, 3);
-  b.insert(7,  3);
-  b.insert(8,  3);
-  b.insert(9,  3);
+
+  for(int x = 0; x < 500; ++x) {
+    b.insert(x, 0);
+  }
+
+
 
   cout << "contains " << b.contains(12) << endl;
   cout << "size = " << b.size() << endl;
