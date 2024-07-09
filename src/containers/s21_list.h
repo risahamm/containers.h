@@ -28,29 +28,65 @@ class List {
   template <typename value_type>
   class ListIterator {
    public:
+    // Constructors:
     ListIterator() = default;
     ListIterator(Node<value_type> *node) : node_(node) {}
+    ListIterator(const ListIterator<value_type> &other) {  // copy
+      node_ = other.get_node();
+    }
     ~ListIterator() = default;
-    Node<value_type> *get_node() { return node_; }
+    // overloads:
+    reference operator*() const { return node_->data_; }
+    ListIterator *operator->() const { return &(operator*()); }
+    ListIterator &
+    operator++() {  // ++x    (int y = ( ++x)); 'y' changed his value.
+      node_ = node_->pNext;
+      return *this;
+    }
+    // ListIterator operator++(int) {} // x++     ((int y = x)++); 'y' didn't
+    // change his value.
+    ListIterator operator++(int) {
+      ListIterator temp(*this);
+      operator++();
+      return temp;
+    }
+    ListIterator &operator--() {
+      node_ = node_->pPrev;
+      return *this;
+    }
+    ListIterator operator--(int) {
+      ListIterator temp(*this);
+      operator--();
+      return temp;
+    }
+    bool operator==(const ListIterator &other) {
+        return node_ == other.node_;
+    }
+    bool operator!=(const ListIterator &other) {
+        return node_ != other.node_;
+    }
+    // functions:
+    Node<value_type> *get_node()const { return node_; }
 
    private:
-    Node<value_type> *node_;
+    Node<value_type> *node_ = nullptr;
   };  // ListIterator
 
   using iterator = ListIterator<value_type>;
   using const_iterator = const ListIterator<value_type>;
 
   // Iterators
-  iterator begin() { return (head_ + 1); }
-  iterator end() { return head_; }
+  iterator begin() { return iterator(head_->pNext); }
+  iterator end() { return iterator(head_); }
 
-  int getSize() { return size_; }
+    size_type size() { return size_; }
 
  private:
   Node<value_type> *head_;
   size_type size_;
 
  public:
+    // Constructors:
   List() : size_(0U) {
     auto *base = new Node<value_type>();
     head_ = base;
@@ -58,10 +94,7 @@ class List {
     head_->pPrev = base;
   }
 
-  ~List() {
-    clear();
-    delete head_;
-  }
+
 
   List(size_type n) : size_(0U) {
     auto *base = new Node<value_type>();
@@ -72,6 +105,11 @@ class List {
       push_back(value_type());
     }
   }
+
+    ~List() {
+        clear();
+        delete head_;
+    }
 
   iterator insert(iterator pos, const_reference value) {
     auto *new_node = new Node<value_type>(value);
@@ -84,26 +122,36 @@ class List {
       Node<value_type> *next_node = pos.get_node();
       new_node->pPrev = next_node->pPrev;
       new_node->pNext = next_node;
-      next_node->pPrev = new_node;
       next_node->pPrev->pNext = new_node;
+      next_node->pPrev = new_node;
     }
     ++size_;
     return iterator(new_node);
   }
 
-  void push_back(const reference value) { insert(end(), value); }
+  void push_back( reference value) { insert(end(), value); }
 
-  void push_front(const reference value) { insert(begin(), value); }
+  void push_front( reference value) { insert(begin(), value); }
 
   void erase(iterator pos) {
-      Node<value_type> * toErase = pos.get_node();
-      toErase->pPrev->pNext = toErase->pNext;
-      toErase->pNext->pPrev = toErase->pPrev;
-      delete toErase;
-      --size_;
+    Node<value_type> *toErase = pos.get_node();
+    toErase->pPrev->pNext = toErase->pNext;
+    toErase->pNext->pPrev = toErase->pPrev;
+    delete toErase;
+    --size_;
   }
 
+  void pop_back() {  // переделать?
+    erase(end() - 1);
+  }
 
+  void pop_front() { erase(begin()); }
+
+  void clear() {
+    while (size_) {
+      pop_front();
+    }
+  }
 
   // old
 
@@ -116,19 +164,6 @@ class List {
       }
       current = current->pNext;
       counter++;
-    }
-  }
-
-  void pop_front() {
-    Node<value_type> *temp = head_;
-    head_ = head_->pNext;
-    delete temp;
-    --size_;
-  }
-
-  void clear() {
-    while (size_) {
-      pop_front();
     }
   }
 
@@ -146,8 +181,6 @@ class List {
       --size_;
     }
   }
-
-  void pop_back() { removeAt(size_ - 1); }
 
 };  // List
 }  // namespace s21

@@ -8,39 +8,15 @@ int main() {
     cout << endl << endl << "OUTPUT:" << endl;
 
     s21::List<int> lst;
+    int x = 5, y = 3;
+    lst.push_back(x);
+    lst.push_back(y);
+    lst.push_front(x);
+    lst.pop_front();
 
-    cout << "Added to list:" << endl;
-
-    lst.push_front(5);
-    lst.push_front(10);
-    lst.push_front(15);
-    for (int i = 0; i < lst.getSize(); i++){
-    cout << lst[i] << endl;}
-
-    cout << "Size = " << lst.getSize() << endl;
+    cout << lst.size() << endl;
 
 
-    cout << "Inserted one value:" << endl;
-
-    lst.insert(20, 1);
-    for (int i = 0; i < lst.getSize(); i++){
-        cout << lst[i] << endl;}
-
-    cout << "Size = " << lst.getSize() << endl;
-
-    cout << "Pop back:" << endl;
-
-    lst.pop_back();
-    for (int i = 0; i < lst.getSize(); i++){
-        cout << lst[i] << endl;}
-
-    cout << "Size = " << lst.getSize() << endl;
-
-    cout << "Clear" << endl;
-
-    lst.clear();
-
-    cout << "Size = " << lst.getSize() << endl;
 
     return 0;
 }
