@@ -54,7 +54,7 @@ class Tree {
       return *this;
     }
 
-    ref operator*() {  // TODO add exception
+    ref operator*() {
       Node<key_type, mapped_type> *result = node_;
       if (result != nullptr) {
         result->key = node_->key;
@@ -64,7 +64,13 @@ class Tree {
       return result->key;
     }
 
-    Node<key_type, mapped_type> *operator->() { return node_; }
+    Node<key_type, mapped_type> *operator->() {
+      if (node_ != nullptr) {
+        return node_;
+      } else {
+        throw std::out_of_range("Bad access.");
+      }
+    }
 
     TreeIterator &operator++() {  // prefix
       if (node_ != nullptr) {
@@ -133,17 +139,17 @@ class Tree {
   //  using const_iterator;
   using size_type = std::size_t;
 
-  /* Tree Member functions */
+  /* TREE MEMBER FUNCTIONS */
 
   /* default constructor */
   Tree() noexcept : size_(0), root_(nullptr) {}
 
-  /* Tree Capacity */
+  /* TREE CAPACITY */
 
   /* returns the number of elements */
   size_type size() noexcept { return size_; }
 
-  /* Tree Modifiers */
+  /* TREE MODIFIERS */
 
   /* inserts value by key and returns iterator to where the element is in the
    * container and bool denoting whether the insertion took place */
@@ -161,13 +167,28 @@ class Tree {
     if (ret_val) {
       ++size_;
     }
-    std::cout << BalanceFactor(root_) << '\n';  // TODO remove
     return ret_val;
   }
 
-  /* Tree lookup */
+  /* if not found, returns exception*/
+  void remove(key_type key_to_remove) {
+    Node<KeyType, ValueType> *delete_node = Find(root_, key_to_remove);
+    if (delete_node != nullptr) { // if the needed node is found
+      if (delete_node->right != nullptr) {
+        Node<KeyType, ValueType> *new_join_node = FindMinRight(delete_node);
+      }
+
+    } else {
+      throw std::out_of_range("Key not found.");
+    }
+
+
+  }
+
+  /* TREE LOOKUP */
 
   /* finds element with specific key */
+  // TODO If no such element is found, past-the-end (see end()) iterator is returned.
   TreeIterator find(const key_type key_to_find) {  // TODO not bool
     Node<KeyType, ValueType> *found = Find(root_, key_to_find);
     TreeIterator result(found);
@@ -243,7 +264,8 @@ class Tree {
     }
   }
 
-  /* recursively searches for the key in the tree, returns a pointer  */
+  /* recursively searches for the key in the tree, returns a pointer, if not
+   * found, returns nullptr */
   Node<KeyType, ValueType> *Find(Node<KeyType, ValueType> *root,
                                  const key_type key_to_find) {
     Node<KeyType, ValueType> *result = nullptr;
@@ -331,6 +353,26 @@ class Tree {
     if (new_root->parent == nullptr) {
       root_ = new_root;
     }
+  }
+
+  /* returns a pointer to a node with min value of the right subtree */
+  Node<KeyType, ValueType> *FindMinRight(Node<KeyType, ValueType> *node) {
+    Node<KeyType, ValueType> *result = nullptr;
+    if (node->left != nullptr) {
+      result = FindMinRight(node->left);
+    } else {
+      result = node;
+    }
+    return result;
+  }
+
+  void RemoveMinRight(Node<KeyType, ValueType> *min_node, Node<KeyType, ValueType> *erase_node) {
+    min_node->parent->left = min_node->right;
+    min_node->left = erase_node->left;
+    min_node->right = erase_node->right;
+    min_node->parent = erase_node->parent;
+    erase_node->right->parent = min_node;
+
   }
 
 };  // class Tree
