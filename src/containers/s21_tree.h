@@ -173,7 +173,7 @@ class Tree {
   /* if not found, returns exception*/
   void remove(key_type key_to_remove) {
     Node<KeyType, ValueType> *delete_node = Find(root_, key_to_remove);
-    if (delete_node != nullptr) { // if the needed node is found
+    if (delete_node != nullptr) {  // if the needed node is found
       if (delete_node->right != nullptr) {
         Node<KeyType, ValueType> *new_join_node = FindMinRight(delete_node);
       }
@@ -181,14 +181,13 @@ class Tree {
     } else {
       throw std::out_of_range("Key not found.");
     }
-
-
   }
 
   /* TREE LOOKUP */
 
   /* finds element with specific key */
-  // TODO If no such element is found, past-the-end (see end()) iterator is returned.
+  // TODO If no such element is found, past-the-end (see end()) iterator is
+  // returned.
   TreeIterator find(const key_type key_to_find) {  // TODO not bool
     Node<KeyType, ValueType> *found = Find(root_, key_to_find);
     TreeIterator result(found);
@@ -232,7 +231,6 @@ class Tree {
       child->data = value;
       child->parent = root;
       UpdateHeight(child->parent);
-      //      Balance(root_);
       Balance(child->parent);
     }
     return ret_val;
@@ -298,7 +296,7 @@ class Tree {
   }
 
   /* if disbalanced, recursively rebalances the tree relative to the parent node
-   */
+   * of a newly added node */
   void Balance(Node<KeyType, ValueType> *node) {
     if (node != nullptr) {
       if (BalanceFactor(node) == 2) {
@@ -312,6 +310,7 @@ class Tree {
         }
         RotateLeft(node);
       }
+
       UpdateHeight(node);
       Balance(node->parent);
     }
@@ -325,6 +324,7 @@ class Tree {
     }
     if (node->parent != nullptr) {
       node->parent->left = new_root;
+//      node->parent->right = new_root;
     }
     new_root->parent = node->parent;
     new_root->right = node;
@@ -342,9 +342,9 @@ class Tree {
     if (new_root->left != nullptr) {
       new_root->left->parent = node;
     }
-    if (node->parent != nullptr) {
-      node->parent->right = new_root;
-    }
+//    if (node->parent != nullptr) {
+//      node->parent->right = new_root;
+//    }
     new_root->parent = node->parent;
     new_root->left = node;
     node->parent = new_root;
@@ -366,13 +366,26 @@ class Tree {
     return result;
   }
 
-  void RemoveMinRight(Node<KeyType, ValueType> *min_node, Node<KeyType, ValueType> *erase_node) {
-    min_node->parent->left = min_node->right;
-    min_node->left = erase_node->left;
-    min_node->right = erase_node->right;
-    min_node->parent = erase_node->parent;
-    erase_node->right->parent = min_node;
-
+  void RemoveMinRight(Node<KeyType, ValueType> *min_node,
+                      Node<KeyType, ValueType> *erase_node) {
+    /* if distance between erase_node and min_node > 1 */
+    if (min_node->parent != erase_node) {
+      min_node->parent->left = min_node->right;
+      min_node->left = erase_node->left;
+      min_node->right = erase_node->right;
+      min_node->parent = erase_node->parent;
+      erase_node->right->parent = min_node;
+      erase_node->left->parent = min_node;
+    } else {
+    /* if distance between erase_node and min_node == 1 */
+      erase_node->parent->left = min_node;
+      min_node->left = erase_node->left;
+      erase_node->left->parent = min_node;
+      min_node->parent = erase_node->parent;
+    }
+    UpdateHeight(min_node);
+    Balance(min_node);
+    delete erase_node;
   }
 
 };  // class Tree
