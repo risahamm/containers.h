@@ -93,9 +93,6 @@ class List {
     head_->pNext = base;
     head_->pPrev = base;
   }
-
-
-
   List(size_type n) : size_(0U) {
     auto *base = new Node<value_type>();
     head_ = base;
@@ -105,12 +102,43 @@ class List {
       push_back(value_type());
     }
   }
-
+  List(const List &l) {
+        auto *prev_node = new Node<value_type>(value_type());
+        head_ = prev_node;
+        Node<value_type> *current = l.head_->pNext;
+        while (current != l.head_) {
+            auto *new_node = new Node<value_type>(current->data_);
+            prev_node->pNext = new_node;
+            new_node->pPrev = prev_node;
+            prev_node = new_node;
+            current = current->pNext;
+            ++size_;
+        }
+        prev_node->pNext = head_;
+        head_->pPrev = prev_node;
+    }
+    List(List &&l) {
+        head_ = l.head_;
+        size_ = l.size_;
+        l.head_ = nullptr;
+        l.size_ = 0;
+    }
     ~List() {
         clear();
         delete head_;
     }
 
+    // overload:
+    auto operator=(List &&l) {
+        clear();
+        head_ = l.head_;
+        size_ = l.size_;
+        l.head_ = nullptr;
+        l.size_ = 0;
+        return *this;
+    }
+
+    // functions:
   iterator insert(iterator pos, const_reference value) {
     auto *new_node = new Node<value_type>(value);
     if (size_ == 0) {
@@ -128,11 +156,8 @@ class List {
     ++size_;
     return iterator(new_node);
   }
-
   void push_back( reference value) { insert(end(), value); }
-
   void push_front( reference value) { insert(begin(), value); }
-
   void erase(iterator pos) {
     Node<value_type> *toErase = pos.get_node();
     toErase->pPrev->pNext = toErase->pNext;
@@ -140,18 +165,17 @@ class List {
     delete toErase;
     --size_;
   }
-
-  void pop_back() {  // переделать?
+  void pop_back() {  // переделать!
     erase(end() - 1);
   }
-
   void pop_front() { erase(begin()); }
-
   void clear() {
     while (size_) {
       pop_front();
     }
   }
+
+
 
   // old
 

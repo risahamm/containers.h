@@ -14,9 +14,15 @@ int main() {
     lst.push_front(x);
     lst.pop_front();
 
-    cout << lst.size() << endl;
+    s21::List<int>::ListIterator<int> It = lst.begin();
+    It++;
+    lst.insert(It, 4);
 
-
+    cout << "SIZE = " << lst.size() << endl;
+    cout << "LIST:" << endl;
+    for (int i = 1; i != lst.size() + 1; i ++) {
+        cout << lst[i] << endl;
+    }
 
     return 0;
 }
