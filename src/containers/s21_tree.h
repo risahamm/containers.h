@@ -175,9 +175,9 @@ class Tree {
     Node<KeyType, ValueType> *delete_node = Find(root_, key_to_remove);
     if (delete_node != nullptr) {  // if the needed node is found
       if (delete_node->right != nullptr) {
-        Node<KeyType, ValueType> *new_join_node = FindMinRight(delete_node);
+        RemoveMinRight(FindMinRight(delete_node->right), delete_node);
+        --size_;
       }
-
     } else {
       throw std::out_of_range("Key not found.");
     }
@@ -377,14 +377,24 @@ class Tree {
       min_node->left = erase_node->left;
       min_node->right = erase_node->right;
       min_node->parent = erase_node->parent;
+      if (erase_node->parent != nullptr) {
+        erase_node->parent->right = min_node;
+      }
       erase_node->right->parent = min_node;
       erase_node->left->parent = min_node;
     } else {
       /* if distance between erase_node and min_node == 1 */
-      erase_node->parent->left = min_node;
+      if (erase_node->parent != nullptr) {
+        erase_node->parent->right = min_node;
+      }
       min_node->left = erase_node->left;
-      erase_node->left->parent = min_node;
+      if (erase_node->left != nullptr) {
+        erase_node->left->parent = min_node;
+      }
       min_node->parent = erase_node->parent;
+    }
+    if (min_node->parent == nullptr) {
+      root_ = min_node;
     }
     UpdateHeight(min_node);
     Balance(min_node);
