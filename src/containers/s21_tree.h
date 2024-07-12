@@ -316,6 +316,7 @@ class Tree {
     }
   }
 
+  /* rotates relative to the disbalanced node */
   void RotateRight(Node<KeyType, ValueType> *node) {
     Node<KeyType, ValueType> *new_root = node->left;
     node->left = new_root->right;
@@ -337,6 +338,7 @@ class Tree {
     }
   }
 
+  /* rotates relative to the disbalanced node */
   void RotateLeft(Node<KeyType, ValueType> *node) {
     Node<KeyType, ValueType> *new_root = node->right;
     node->right = new_root->left;
