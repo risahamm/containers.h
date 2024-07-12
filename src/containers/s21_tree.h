@@ -175,7 +175,7 @@ class Tree {
     Node<KeyType, ValueType> *delete_node = Find(root_, key_to_remove);
     if (delete_node != nullptr) {  // if the needed node is found
       if (delete_node->right != nullptr) {
-        RemoveMinRight(FindMinRight(delete_node->right), delete_node);
+        RedirectMinRight(FindMinRight(delete_node->right), delete_node);
         --size_;
       }
     } else {
@@ -252,7 +252,7 @@ class Tree {
     return result;
   }
 
-  /* recursively updates the height of the branch bottom-up*/
+  /* recursively updates the height of the branch bottom-up */
   void UpdateHeight(Node<KeyType, ValueType> *node) {
     if (node != nullptr) {
       size_t l_height = getHeight(node->left);
@@ -369,8 +369,10 @@ class Tree {
     return result;
   }
 
-  void RemoveMinRight(Node<KeyType, ValueType> *min_node,
-                      Node<KeyType, ValueType> *erase_node) {
+  /* removes the node and reappoints min node in the right subtree to where
+   * erase_node had been */
+  void RedirectMinRight(Node<KeyType, ValueType> *min_node,
+                        Node<KeyType, ValueType> *erase_node) {
     /* if distance between erase_node and min_node > 1 */
     if (min_node->parent != erase_node) {
       min_node->parent->left = min_node->right;
