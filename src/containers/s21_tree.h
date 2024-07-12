@@ -323,8 +323,9 @@ class Tree {
       new_root->right->parent = node;
     }
     if (node->parent != nullptr) {
-      node->parent->left = new_root;
-//      node->parent->right = new_root;
+      new_root->key > node->parent->key ? node->parent->right = new_root
+                                        : node->parent->left = new_root;
+      //      node->parent->left = new_root;
     }
     new_root->parent = node->parent;
     new_root->right = node;
@@ -342,9 +343,11 @@ class Tree {
     if (new_root->left != nullptr) {
       new_root->left->parent = node;
     }
-//    if (node->parent != nullptr) {
-//      node->parent->right = new_root;
-//    }
+    if (node->parent != nullptr) {
+      new_root->key > node->parent->key ? node->parent->right = new_root
+                                        : node->parent->left = new_root;
+      //      node->parent->right = new_root;
+    }
     new_root->parent = node->parent;
     new_root->left = node;
     node->parent = new_root;
@@ -377,7 +380,7 @@ class Tree {
       erase_node->right->parent = min_node;
       erase_node->left->parent = min_node;
     } else {
-    /* if distance between erase_node and min_node == 1 */
+      /* if distance between erase_node and min_node == 1 */
       erase_node->parent->left = min_node;
       min_node->left = erase_node->left;
       erase_node->left->parent = min_node;
