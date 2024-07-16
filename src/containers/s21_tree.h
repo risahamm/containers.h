@@ -170,14 +170,27 @@ class Tree {
     return ret_val;
   }
 
-  /* if not found, returns exception*/
+  /* if not found, returns exception */
   void remove(key_type key_to_remove) {
     Node<KeyType, ValueType> *delete_node = Find(root_, key_to_remove);
-    if (delete_node != nullptr) {  // if the needed node is found
+
+    /* if the needed node is found */
+    if (delete_node != nullptr) {
+      /* if right subtree is not empty */
       if (delete_node->right != nullptr) {
-        RedirectMinRight(FindMinRight(delete_node->right), delete_node);
-        --size_;
+        RedirectRight(delete_node);
+        return;
+
+        /* if left subtree is not empty */
+      } else if (delete_node->left != nullptr) {
+        RedirectLeft(delete_node);
+        return;
+
+        /* if delete_node is a leaf */
+      } else {
+        DeleteLeaf(delete_node);
       }
+
     } else {
       throw std::out_of_range("Key not found.");
     }
@@ -186,8 +199,7 @@ class Tree {
   /* TREE LOOKUP */
 
   /* finds element with specific key */
-  // TODO If no such element is found, past-the-end (see end()) iterator is
-  // returned.
+  // TODO If no such element is found, end() iterator is returned.
   TreeIterator find(const key_type key_to_find) {  // TODO not bool
     Node<KeyType, ValueType> *found = Find(root_, key_to_find);
     TreeIterator result(found);
@@ -324,8 +336,8 @@ class Tree {
       new_root->right->parent = node;
     }
     if (node->parent != nullptr) {
-      new_root->key > node->parent->key ? node->parent->right = new_root
-                                        : node->parent->left = new_root;
+      (new_root->key > node->parent->key) ? node->parent->right = new_root
+                                          : node->parent->left = new_root;
       //      node->parent->left = new_root;
     }
     new_root->parent = node->parent;
@@ -346,8 +358,8 @@ class Tree {
       new_root->left->parent = node;
     }
     if (node->parent != nullptr) {
-      new_root->key > node->parent->key ? node->parent->right = new_root
-                                        : node->parent->left = new_root;
+      (new_root->key > node->parent->key) ? node->parent->right = new_root
+                                          : node->parent->left = new_root;
       //      node->parent->right = new_root;
     }
     new_root->parent = node->parent;
@@ -373,8 +385,9 @@ class Tree {
 
   /* removes the node and reappoints min node in the right subtree to where
    * erase_node had been */
-  void RedirectMinRight(Node<KeyType, ValueType> *min_node,
-                        Node<KeyType, ValueType> *erase_node) {
+  void RedirectRight(Node<KeyType, ValueType> *erase_node) {
+    Node<KeyType, ValueType> *min_node = FindMinRight(erase_node->right);
+
     /* if distance between erase_node and min_node > 1 */
     if (min_node->parent != erase_node) {
       min_node->parent->left = min_node->right;
@@ -386,6 +399,7 @@ class Tree {
       }
       erase_node->right->parent = min_node;
       erase_node->left->parent = min_node;
+
     } else {
       /* if distance between erase_node and min_node == 1 */
       if (erase_node->parent != nullptr) {
@@ -397,11 +411,45 @@ class Tree {
       }
       min_node->parent = erase_node->parent;
     }
+
     if (min_node->parent == nullptr) {
       root_ = min_node;
     }
     UpdateHeight(min_node);
     Balance(min_node);
+    delete erase_node;
+    --size_;
+  }
+
+  /* if right subtree is empty, returns a pointer to left subtree of erase_node
+   */
+  void RedirectLeft(Node<KeyType, ValueType> *erase_node) {
+    Node<KeyType, ValueType> *replace_node = erase_node->left;
+    replace_node->parent = erase_node->parent;
+    if (erase_node->parent != nullptr) {
+      (erase_node->key > erase_node->parent->key)
+          ? erase_node->parent->right = replace_node
+          : erase_node->parent->left = replace_node;
+    }
+    if (replace_node->parent == nullptr) {
+      root_ = replace_node;
+    }
+    UpdateHeight(replace_node);
+    Balance(replace_node);
+    delete erase_node;
+    --size_;
+  }
+
+  void DeleteLeaf(Node<KeyType, ValueType> *erase_node) {
+    if (erase_node->parent != nullptr) {
+      (erase_node->key > erase_node->parent->key)
+          ? erase_node->parent->right = nullptr
+          : erase_node->parent->left = nullptr;
+    }
+    --size_;
+    if (size_ == 0) {
+      root_ = nullptr;
+    }
     delete erase_node;
   }
 

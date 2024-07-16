@@ -36,13 +36,13 @@ int main() {
   b.insert(40, 0);
   b.insert(20, 0);
   b.insert(80, 0);
-  b.insert(10, 0);
-  b.insert(90, 0);
-  b.insert(5, 0);
-  b.insert(60, 0);
-  b.insert(70, 0);
-  b.insert(50, 0);
-  b.insert(45, 0);
+//  b.insert(10, 0);
+//  b.insert(90, 0);
+//  b.insert(5, 0);
+//  b.insert(60, 0);
+//  b.insert(70, 0);
+//  b.insert(50, 0);
+//  b.insert(45, 0);
 
 //  b.insert(4, 0);
 //  b.insert(5, 0);
