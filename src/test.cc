@@ -43,7 +43,7 @@ int main() {
 //  b.insert(45, 0);
 
 
-  cout << "empty " << b.empty() << endl;
+  cout << "max " << b.max_size() << endl;
 
 //  b.erase(b.find(70));
 

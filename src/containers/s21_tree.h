@@ -152,6 +152,11 @@ class Tree {
   /* checks whether the container is empty */
   bool empty() noexcept { return !size_; }
 
+  /* returns the maximum possible number of elements */
+  size_type max_size() {
+      return SIZE_MAX / sizeof(Node<KeyType, ValueType> *);
+  }
+
   /* TREE MODIFIERS */
 
   /* inserts value by key and returns iterator to where the element is in the
