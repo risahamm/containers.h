@@ -19,11 +19,9 @@ int main() {
 //      a.insert({6, 7});
 //      a.insert({7, 7});
 //      a.insert({8, 7});
-//
-//      auto it = a.begin();
-//      cout << "begin: " << it->first << endl;
-//      a.erase(it);
-//      cout << "a: " << a.at(1) << endl;
+
+//      cout << "insert->first " << a.insert({8, 0}).first->first << endl;
+//      cout << "insert->second " << a.insert({8, 0}).second << endl;
 
 
 
@@ -45,15 +43,10 @@ int main() {
   b.insert(45, 0);
 
 
+//  b.erase(b.find(70));
 
-  b.erase(b.find(70));
-
-
-  cout << "contains " << b.contains(6) << endl;
-  cout << "size = " << b.size() << endl;
-
-//  s21::Tree<int, int>::TreeIterator one = b.find(6);
-//  cout << "iterator " << one->key << endl;
+//  cout << "insert->first " << *b.insert(45, 0).first << endl;
+  cout << "insert->second " << b.insert(45, 0).second << endl;
 
 
   return 0;

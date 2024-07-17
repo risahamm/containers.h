@@ -153,9 +153,11 @@ class Tree {
 
   /* inserts value by key and returns iterator to where the element is in the
    * container and bool denoting whether the insertion took place */
-  bool insert(const key_type new_key,
-              const mapped_type value) {  // TODO not bool
+  std::pair<TreeIterator, bool> insert(const key_type new_key,
+                                       const mapped_type value) {
+    std::pair<TreeIterator, bool> result;
     bool ret_val = true;
+
     if (size_ == 0) {
       root_ = new Node<KeyType, ValueType>;  // InitNode();
       root_->parent = nullptr;
@@ -167,7 +169,11 @@ class Tree {
     if (ret_val) {
       ++size_;
     }
-    return ret_val;
+
+    result.first = find(new_key);
+    result.second = ret_val;
+
+    return result;
   }
 
   /* if not found, returns exception */
