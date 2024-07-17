@@ -144,6 +144,14 @@ class Tree {
   /* default constructor */
   Tree() noexcept : size_(0), root_(nullptr) {}
 
+  /* TREE ELEMENT ACCESS */
+
+  /* access or insert specified element */  // TODO добавить bounds checking
+  mapped_type &operator[](const key_type &key) {
+    auto iterator = find(key);
+    return iterator->data;
+  }
+
   /* TREE CAPACITY */
 
   /* returns the number of elements */
@@ -188,6 +196,24 @@ class Tree {
     result.first = find(new_key);
     result.second = ret_val;
 
+    return result;
+  }
+
+  /* if no equivalent key exists, inserts an element. if the key already exists,
+   * assigns new value to the element with such key */
+  std::pair<TreeIterator, bool> insert_or_assign(const key_type &key,
+                                                 const mapped_type &value) {
+    /* if the key is unique */
+    if (contains(key) == false) {
+      return insert(key, value);
+    }
+
+    /* if the key already exists */
+    this[key] = value;
+    auto res_iterator = find(key);
+    std::pair<TreeIterator, bool> result;
+    result.first = res_iterator;
+    result.second = false;
     return result;
   }
 

@@ -40,18 +40,19 @@ int main() {
   b.insert(60, 0);
   b.insert(70, 0);
   b.insert(50, 0);
-  b.insert(45, 0);
+  b.insert(45, 3);
 
+//  s21::Tree<int, int>::TreeIterator it = b.find(45);
+//  cout << "it " << it->data << endl;
 
 //  b.erase(b.find(70));
 
-  pair<int, int> el;
-  el.first = 45;
-  el.second = 0;
-
-  cout << "insert->first " << *b.insert(45, 0).first << endl;
+//  cout << "insert->first " << *b.insert(43, 0).first << endl;
 //  cout << "insert->second " << b.insert(el).second << endl;
 
+  b[45] = 5;
+
+  cout << "at " << b[45] << endl;
 
   return 0;
 }
