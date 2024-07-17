@@ -149,6 +149,9 @@ class Tree {
   /* returns the number of elements */
   size_type size() noexcept { return size_; }
 
+  /* checks whether the container is empty */
+  bool empty() noexcept { return !size_; }
+
   /* TREE MODIFIERS */
 
   /* inserts value by key and returns iterator to where the element is in the
