@@ -171,7 +171,8 @@ class Tree {
   }
 
   /* if not found, returns exception */
-  void remove(key_type key_to_remove) {
+  void erase(iterator pos) {
+    key_type key_to_remove = *pos;
     Node<KeyType, ValueType> *delete_node = Find(root_, key_to_remove);
 
     /* if the needed node is found */
@@ -200,7 +201,7 @@ class Tree {
 
   /* finds element with specific key */
   // TODO If no such element is found, end() iterator is returned.
-  TreeIterator find(const key_type key_to_find) {  // TODO not bool
+  TreeIterator find(const key_type key_to_find) {
     Node<KeyType, ValueType> *found = Find(root_, key_to_find);
     TreeIterator result(found);
 
@@ -228,7 +229,7 @@ class Tree {
   bool FindInsert(Node<KeyType, ValueType> *root, const key_type new_key,
                   const mapped_type value) {
     bool ret_val = true;
-    Node<KeyType, ValueType> **direction = Comparator(&root, new_key);
+    Node<KeyType, ValueType> **direction = Compare(&root, new_key);
 
     /* if the key already exists */
     if (*direction == root) {
@@ -251,8 +252,8 @@ class Tree {
   /* compares the keys and returns a pointer to a left or right child. if the
    * key is equal to the current node key, returns a pointer to the current
    * node */
-  Node<KeyType, ValueType> **Comparator(Node<KeyType, ValueType> **root,
-                                        const key_type new_key) {
+  Node<KeyType, ValueType> **Compare(Node<KeyType, ValueType> **root,
+                                     const key_type new_key) {
     Node<KeyType, ValueType> **result = nullptr;
     if (new_key == (*root)->key) {
       result = root;
@@ -279,7 +280,7 @@ class Tree {
   Node<KeyType, ValueType> *Find(Node<KeyType, ValueType> *root,
                                  const key_type key_to_find) {
     Node<KeyType, ValueType> *result = nullptr;
-    Node<KeyType, ValueType> **direction = Comparator(&root, key_to_find);
+    Node<KeyType, ValueType> **direction = Compare(&root, key_to_find);
     if (*direction == root) {
       result = root;
     } else if (*direction != nullptr) {
