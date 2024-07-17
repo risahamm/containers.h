@@ -31,24 +31,26 @@ int main() {
 //    b.insert(x, 0);
 //  }
 
-//  b.insert(40, 0);
-//  b.insert(20, 0);
-//  b.insert(80, 0);
-//  b.insert(10, 0);
-//  b.insert(90, 0);
-//  b.insert(5, 0);
-//  b.insert(60, 0);
-//  b.insert(70, 0);
-//  b.insert(50, 0);
-//  b.insert(45, 0);
+  b.insert(40, 0);
+  b.insert(20, 0);
+  b.insert(80, 0);
+  b.insert(10, 0);
+  b.insert(90, 0);
+  b.insert(5, 0);
+  b.insert(60, 0);
+  b.insert(70, 0);
+  b.insert(50, 0);
+  b.insert(45, 0);
 
-
-  cout << "max " << b.max_size() << endl;
 
 //  b.erase(b.find(70));
 
-//  cout << "insert->first " << *b.insert(45, 0).first << endl;
-  cout << "insert->second " << b.insert(45, 0).second << endl;
+  pair<int, int> el;
+  el.first = 45;
+  el.second = 0;
+
+  cout << "insert->first " << *b.insert(45, 0).first << endl;
+//  cout << "insert->second " << b.insert(el).second << endl;
 
 
   return 0;

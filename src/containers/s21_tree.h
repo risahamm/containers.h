@@ -153,16 +153,23 @@ class Tree {
   bool empty() noexcept { return !size_; }
 
   /* returns the maximum possible number of elements */
-  size_type max_size() {
-      return SIZE_MAX / sizeof(Node<KeyType, ValueType> *);
-  }
+  size_type max_size() { return SIZE_MAX / sizeof(Node<KeyType, ValueType> *); }
 
   /* TREE MODIFIERS */
 
+  /* inserts node and returns iterator to where the element is in the container
+   * and bool denoting whether the insertion took place */
+  std::pair<TreeIterator, bool> insert(const value_type &new_node) {
+    std::pair<TreeIterator, bool> result;
+    key_type new_key = new_node.first;
+    mapped_type value = new_node.second;
+    return insert(new_key, value);
+  }
+
   /* inserts value by key and returns iterator to where the element is in the
    * container and bool denoting whether the insertion took place */
-  std::pair<TreeIterator, bool> insert(const key_type new_key,
-                                       const mapped_type value) {
+  std::pair<TreeIterator, bool> insert(const key_type &new_key,
+                                       const mapped_type &value) {
     std::pair<TreeIterator, bool> result;
     bool ret_val = true;
 
@@ -215,7 +222,7 @@ class Tree {
 
   /* finds element with specific key */
   // TODO If no such element is found, end() iterator is returned.
-  TreeIterator find(const key_type key_to_find) {
+  TreeIterator find(const key_type &key_to_find) {
     Node<KeyType, ValueType> *found = Find(root_, key_to_find);
     TreeIterator result(found);
 
