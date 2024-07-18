@@ -128,6 +128,8 @@ class Tree {
       return !(node_ = other.node_);
     }
 
+    bool IsNull() { return (node_ == nullptr) ? true : false; }
+
    private:  // TODO protected потому что наследование
     Node<key_type, mapped_type> *node_ = nullptr;
 
@@ -147,8 +149,13 @@ class Tree {
   /* TREE ELEMENT ACCESS */
 
   /* access or insert specified element */  // TODO добавить bounds checking
-  mapped_type &operator[](const key_type &key) {
+  mapped_type &operator[](const key_type &key) { return at(key); }
+
+  mapped_type &at(const key_type key) {
     auto iterator = find(key);
+    if (iterator.IsNull() == true) {
+      throw std::out_of_range("Bad access. Index out of range.");
+    }
     return iterator->data;
   }
 
@@ -161,7 +168,9 @@ class Tree {
   bool empty() noexcept { return !size_; }
 
   /* returns the maximum possible number of elements */
-  size_type max_size() { return SIZE_MAX / sizeof(Node<KeyType, ValueType> *); }
+  size_type max_size() noexcept {
+    return SIZE_MAX / sizeof(Node<KeyType, ValueType> *);
+  }
 
   /* TREE MODIFIERS */
 

@@ -22,8 +22,8 @@ int main() {
 
 //      cout << "insert->first " << a.insert({8, 0}).first->first << endl;
 //      cout << "insert->second " << a.insert({8, 0}).second << endl;
-
-
+//a.at(2) = 8;
+//cout << a.at(2) << endl;
 
   s21::Tree<int, int> b;
 
@@ -31,16 +31,16 @@ int main() {
 //    b.insert(x, 0);
 //  }
 
-  b.insert(40, 0);
-  b.insert(20, 0);
-  b.insert(80, 0);
-  b.insert(10, 0);
-  b.insert(90, 0);
-  b.insert(5, 0);
-  b.insert(60, 0);
-  b.insert(70, 0);
-  b.insert(50, 0);
-  b.insert(45, 3);
+//  b.insert(40, 0);
+//  b.insert(20, 0);
+//  b.insert(80, 0);
+//  b.insert(10, 0);
+//  b.insert(90, 0);
+//  b.insert(5, 0);
+//  b.insert(60, 0);
+//  b.insert(70, 0);
+//  b.insert(50, 0);
+//  b.insert(45, 3);
 
 //  s21::Tree<int, int>::TreeIterator it = b.find(45);
 //  cout << "it " << it->data << endl;
@@ -50,9 +50,11 @@ int main() {
 //  cout << "insert->first " << *b.insert(43, 0).first << endl;
 //  cout << "insert->second " << b.insert(el).second << endl;
 
-  b[45] = 5;
+//  b.at(45 ) = 5;
 
-  cout << "at " << b[45] << endl;
+  cout << "at " << b.contains(45) << endl;
+
+//  cout << "max " << b.max_size() << endl;
 
   return 0;
 }
