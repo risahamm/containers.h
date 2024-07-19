@@ -54,9 +54,7 @@ class Tree {
       return *this;
     }
 
-    void CopyNode(const Node<key_type, mapped_type> *node) {
-      node_ = node;
-    }
+    void CopyNode(const Node<key_type, mapped_type> *node) { node_ = node; }
 
     ref operator*() {
       Node<key_type, mapped_type> *result = node_;
@@ -86,7 +84,7 @@ class Tree {
         } else {
           Node<key_type, mapped_type> *temp = node_->parent;
           while (temp != nullptr && node_ == temp->right) {
-            node_->temp;
+            node_ = temp;
             temp = temp->parent;
           }
           node_ = temp;
@@ -105,7 +103,7 @@ class Tree {
         } else {
           Node<key_type, mapped_type> *temp = node_->parent;
           while (temp != nullptr && node_ == temp->left) {
-            node_->temp;
+            node_ = temp;
             temp = temp->parent;
           }
           node_ = temp;
@@ -159,12 +157,12 @@ class Tree {
     return FindMinLeft(root_);
   }
 
-//  TreeIterator begin() {
-//    if (size_ == 0) {
-//      throw std::out_of_range("Container is empty.");
-//    }
-//    return FindMinLeft(root_);
-//  }
+  TreeIterator end() {
+    if (size_ == 0) {
+      throw std::out_of_range("Container is empty.");
+    }
+    return ++FindMaxRight(root_);
+  }
 
   /* TREE ELEMENT ACCESS */
 
@@ -193,6 +191,10 @@ class Tree {
   }
 
   /* TREE MODIFIERS */
+
+  //  void clear() {
+  //
+  //  }
 
   /* inserts node and returns iterator to where the element is in the container
    * and bool denoting whether the insertion took place */
@@ -541,8 +543,17 @@ class Tree {
   /* returns iterator to min element in the left subtree */
   TreeIterator FindMinLeft(Node<KeyType, ValueType> *node) {
     TreeIterator result(node);
-    if(node->left != nullptr) {
+    if (node->left != nullptr) {
       result = FindMinLeft(node->left);
+    }
+    return result;
+  }
+
+  /* returns iterator to max element in the right subtree */
+  TreeIterator FindMaxRight(Node<KeyType, ValueType> *node) {
+    TreeIterator result(node);
+    if (node->right != nullptr) {
+      result = FindMaxRight(node->right);
     }
     return result;
   }

@@ -33,19 +33,19 @@ int main() {
 
   b.insert(40, 0);
   b.insert(20, 0);
-  b.insert(80, 0);
-  b.insert(10, 0);
-  b.insert(90, 0);
-  b.insert(5, 0);
-  b.insert(60, 0);
-  b.insert(70, 0);
-  b.insert(50, 0);
-  b.insert(45, 3);
+//  b.insert(80, 0);
+//  b.insert(10, 0);
+//  b.insert(90, 0);
+//  b.insert(5, 0);
+//  b.insert(60, 0);
+//  b.insert(70, 0);
+//  b.insert(50, 0);
+//  b.insert(45, 3);
 
   s21::Tree<int, int>::TreeIterator it = b.begin();
   cout << "it " << it->key << endl;
 
-//  b.erase(b.find(70));
+//  b.erase(b.end());
 
 //  cout << "insert->first " << *b.insert_or_assign(45, 0).first << endl;
 //  cout << "insert->second " << b.insert_or_assign(43, 56).first->data << endl;
