@@ -54,6 +54,10 @@ class Tree {
       return *this;
     }
 
+    void CopyNode(const Node<key_type, mapped_type> *node) {
+      node_ = node;
+    }
+
     ref operator*() {
       Node<key_type, mapped_type> *result = node_;
       if (result != nullptr) {
@@ -146,9 +150,25 @@ class Tree {
   /* default constructor */
   Tree() noexcept : size_(0), root_(nullptr) {}
 
+  /* TREE ITERATORS */
+
+  TreeIterator begin() {
+    if (size_ == 0) {
+      throw std::out_of_range("Container is empty.");
+    }
+    return FindMinLeft(root_);
+  }
+
+//  TreeIterator begin() {
+//    if (size_ == 0) {
+//      throw std::out_of_range("Container is empty.");
+//    }
+//    return FindMinLeft(root_);
+//  }
+
   /* TREE ELEMENT ACCESS */
 
-  /* access or insert specified element */  // TODO добавить bounds checking
+  /* access or insert specified element */
   mapped_type &operator[](const key_type &key) { return at(key); }
 
   mapped_type &at(const key_type key) {
@@ -218,16 +238,18 @@ class Tree {
     }
 
     /* if the key already exists */
-    this[key] = value;
-    auto res_iterator = find(key);
+    at(key) = value;
     std::pair<TreeIterator, bool> result;
-    result.first = res_iterator;
+    result.first = find(key);
     result.second = false;
     return result;
   }
 
   /* if not found, returns exception */
   void erase(iterator pos) {
+    if (size_ == 0) {
+      throw std::out_of_range("No elements in the container.");
+    }
     key_type key_to_remove = *pos;
     Node<KeyType, ValueType> *delete_node = Find(root_, key_to_remove);
 
@@ -258,6 +280,9 @@ class Tree {
   /* finds element with specific key */
   // TODO If no such element is found, end() iterator is returned.
   TreeIterator find(const key_type &key_to_find) {
+    if (size_ == 0) {
+      throw std::out_of_range("No elements in the container.");
+    }
     Node<KeyType, ValueType> *found = Find(root_, key_to_find);
     TreeIterator result(found);
 
@@ -266,7 +291,10 @@ class Tree {
 
   /* checks if there is an element with key equivalent to key in the container
    */
-  bool contains(const key_type &key) {
+  bool contains(const key_type &key) noexcept {
+    if (size_ == 0) {
+      return false;
+    }
     bool ret_val = false;
     Node<KeyType, ValueType> *result = Find(root_, key);
     if (result != nullptr) {
@@ -508,6 +536,15 @@ class Tree {
       root_ = nullptr;
     }
     delete erase_node;
+  }
+
+  /* returns iterator to min element in the left subtree */
+  TreeIterator FindMinLeft(Node<KeyType, ValueType> *node) {
+    TreeIterator result(node);
+    if(node->left != nullptr) {
+      result = FindMinLeft(node->left);
+    }
+    return result;
   }
 
 };  // class Tree

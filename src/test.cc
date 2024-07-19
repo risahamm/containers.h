@@ -31,28 +31,29 @@ int main() {
 //    b.insert(x, 0);
 //  }
 
-//  b.insert(40, 0);
-//  b.insert(20, 0);
-//  b.insert(80, 0);
-//  b.insert(10, 0);
-//  b.insert(90, 0);
-//  b.insert(5, 0);
-//  b.insert(60, 0);
-//  b.insert(70, 0);
-//  b.insert(50, 0);
-//  b.insert(45, 3);
+  b.insert(40, 0);
+  b.insert(20, 0);
+  b.insert(80, 0);
+  b.insert(10, 0);
+  b.insert(90, 0);
+  b.insert(5, 0);
+  b.insert(60, 0);
+  b.insert(70, 0);
+  b.insert(50, 0);
+  b.insert(45, 3);
 
-//  s21::Tree<int, int>::TreeIterator it = b.find(45);
-//  cout << "it " << it->data << endl;
+  s21::Tree<int, int>::TreeIterator it = b.begin();
+  cout << "it " << it->key << endl;
 
 //  b.erase(b.find(70));
 
-//  cout << "insert->first " << *b.insert(43, 0).first << endl;
-//  cout << "insert->second " << b.insert(el).second << endl;
+//  cout << "insert->first " << *b.insert_or_assign(45, 0).first << endl;
+//  cout << "insert->second " << b.insert_or_assign(43, 56).first->data << endl;
+//  cout << "insert->second " << b.insert(45, 56).second << endl;
 
 //  b.at(45 ) = 5;
 
-  cout << "at " << b.contains(45) << endl;
+//  cout << "at " << b.contains(43) << endl;
 
 //  cout << "max " << b.max_size() << endl;
 
