@@ -54,8 +54,6 @@ class Tree {
       return *this;
     }
 
-    void CopyNode(const Node<key_type, mapped_type> *node) { node_ = node; }
-
     ref operator*() {
       Node<key_type, mapped_type> *result = node_;
       if (result != nullptr) {
@@ -124,13 +122,20 @@ class Tree {
       return res;
     }
 
-    bool operator==(const TreeIterator &other) { return (node_ = other.node_); }
+    bool operator==(const TreeIterator &other) {
+      return (node_ == other.node_);
+    }
 
     bool operator!=(const TreeIterator &other) {
-      return !(node_ = other.node_);
+      return !(node_ == other.node_);
     }
 
     bool IsNull() { return (node_ == nullptr) ? true : false; }
+
+    void DeleteElement() {
+      //      node_ = nullptr;
+      delete node_;
+    }
 
    private:  // TODO protected потому что наследование
     Node<key_type, mapped_type> *node_ = nullptr;
@@ -192,9 +197,13 @@ class Tree {
 
   /* TREE MODIFIERS */
 
-  //  void clear() {
-  //
-  //  }
+  void clear() {
+    if (size_ == 0) {
+      return;
+    }
+    Destroy(root_);
+    root_ = nullptr;
+  }
 
   /* inserts node and returns iterator to where the element is in the container
    * and bool denoting whether the insertion took place */
@@ -556,6 +565,26 @@ class Tree {
       result = FindMaxRight(node->right);
     }
     return result;
+  }
+
+  /* recursively deletes nodes on the right and on the left */
+  void Destroy(Node<KeyType, ValueType> *node) {
+    if (node == nullptr) {
+      return;
+    }
+
+    Destroy(node->left);
+    Destroy(node->right);
+    if (node->left == nullptr && node->right == nullptr) {
+      if (node->parent != nullptr) {
+        (node->key > node->parent->key) ? node->parent->right = nullptr
+                                        : node->parent->left = nullptr;
+      }
+
+      delete node;
+      node = nullptr;
+      --size_;
+    }
   }
 
 };  // class Tree

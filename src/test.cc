@@ -33,17 +33,17 @@ int main() {
 
   b.insert(40, 0);
   b.insert(20, 0);
-//  b.insert(80, 0);
-//  b.insert(10, 0);
+  b.insert(80, 0);
+  b.insert(10, 0);
 //  b.insert(90, 0);
-//  b.insert(5, 0);
-//  b.insert(60, 0);
+  b.insert(5, 0);
+  b.insert(60, 0);
 //  b.insert(70, 0);
-//  b.insert(50, 0);
+  b.insert(50, 0);
 //  b.insert(45, 3);
 
-  s21::Tree<int, int>::TreeIterator it = b.begin();
-  cout << "it " << it->key << endl;
+//  s21::Tree<int, int>::TreeIterator it = b.begin();
+//  cout << "it " << it->key << endl;
 
 //  b.erase(b.end());
 
@@ -53,9 +53,11 @@ int main() {
 
 //  b.at(45 ) = 5;
 
+  b.clear();
+
 //  cout << "at " << b.contains(43) << endl;
 
-//  cout << "max " << b.max_size() << endl;
+  cout << "empty " << b.empty() << endl;
 
   return 0;
 }
