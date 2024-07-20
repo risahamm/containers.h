@@ -1,6 +1,7 @@
 #ifndef S21_CONTAINERS_CONTAINERS_S21_VECTOR_H_
 #define S21_CONTAINERS_CONTAINERS_S21_VECTOR_H_
 
+
 namespace s21 {
 template <typename T>
 class List {
@@ -59,14 +60,10 @@ class List {
       operator--();
       return temp;
     }
-    bool operator==(const ListIterator &other) {
-        return node_ == other.node_;
-    }
-    bool operator!=(const ListIterator &other) {
-        return node_ != other.node_;
-    }
+    bool operator==(const ListIterator &other) { return node_ == other.node_; }
+    bool operator!=(const ListIterator &other) { return node_ != other.node_; }
     // functions:
-    Node<value_type> *get_node()const { return node_; }
+    Node<value_type> *get_node() const { return node_; }
 
    private:
     Node<value_type> *node_ = nullptr;
@@ -79,14 +76,14 @@ class List {
   iterator begin() { return iterator(head_->pNext); }
   iterator end() { return iterator(head_); }
 
-    size_type size() { return size_; }
+  size_type size() { return size_; }
 
  private:
   Node<value_type> *head_;
   size_type size_;
 
  public:
-    // Constructors:
+  // Constructors:
   List() : size_(0U) {
     auto *base = new Node<value_type>();
     head_ = base;
@@ -102,43 +99,51 @@ class List {
       push_back(value_type());
     }
   }
+  // e.g. List <int> A = {1, 2, 3} (List initializing with the help of { } )
+  List(std::initializer_list<value_type> const &items) : size_(0U) {
+    auto *base = new Node<value_type>();
+    head_ = base;
+    for (const auto &i : items) {
+      push_back(i);
+    }
+  }
   List(const List &l) {
-        auto *prev_node = new Node<value_type>(value_type());
-        head_ = prev_node;
-        Node<value_type> *current = l.head_->pNext;
-        while (current != l.head_) {
-            auto *new_node = new Node<value_type>(current->data_);
-            prev_node->pNext = new_node;
-            new_node->pPrev = prev_node;
-            prev_node = new_node;
-            current = current->pNext;
-            ++size_;
-        }
-        prev_node->pNext = head_;
-        head_->pPrev = prev_node;
+    auto *prev_node = new Node<value_type>(value_type());
+    head_ = prev_node;
+    Node<value_type> *current = l.head_->pNext;
+    while (current != l.head_) {
+      auto *new_node = new Node<value_type>(current->data_);
+      prev_node->pNext = new_node;
+      new_node->pPrev = prev_node;
+      prev_node = new_node;
+      current = current->pNext;
+      ++size_;
     }
-    List(List &&l) {
-        head_ = l.head_;
-        size_ = l.size_;
-        l.head_ = nullptr;
-        l.size_ = 0;
-    }
-    ~List() {
-        clear();
-        delete head_;
-    }
+    prev_node->pNext = head_;
+    head_->pPrev = prev_node;
+  }
+  List(List &&l) {
+    head_ = l.head_;
+    size_ = l.size_;
+    l.head_ = nullptr;
+    l.size_ = 0;
+  }
+  ~List() {
+    clear();
+    delete head_;
+  }
 
-    // overload:
-    auto operator=(List &&l) {
-        clear();
-        head_ = l.head_;
-        size_ = l.size_;
-        l.head_ = nullptr;
-        l.size_ = 0;
-        return *this;
-    }
+  // overload:
+  auto operator=(List &&l) {
+    clear();
+    head_ = l.head_;
+    size_ = l.size_;
+    l.head_ = nullptr;
+    l.size_ = 0;
+    return *this;
+  }
 
-    // functions:
+  // functions:
   iterator insert(iterator pos, const_reference value) {
     auto *new_node = new Node<value_type>(value);
     if (size_ == 0) {
@@ -156,8 +161,11 @@ class List {
     ++size_;
     return iterator(new_node);
   }
-  void push_back( reference value) { insert(end(), value); }
-  void push_front( reference value) { insert(begin(), value); }
+  iterator insert_many(const_iterator pos, Args&&... args) {
+
+  }
+  void push_back(const_reference value) { insert(end(), value); }
+  void push_front(reference value) { insert(begin(), value); }
   void erase(iterator pos) {
     Node<value_type> *toErase = pos.get_node();
     toErase->pPrev->pNext = toErase->pNext;
@@ -174,8 +182,6 @@ class List {
       pop_front();
     }
   }
-
-
 
   // old
 

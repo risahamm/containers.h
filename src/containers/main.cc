@@ -7,16 +7,16 @@ using namespace std;
 int main() {
     cout << endl << endl << "OUTPUT:" << endl;
 
-    s21::List<int> lst;
-    int x = 5, y = 3;
-    lst.push_back(x);
-    lst.push_back(y);
-    lst.push_front(x);
-    lst.pop_front();
+    s21::List<int> lst = {1, 2, 3};
+//    int x = 5, y = 3;
+//    lst.push_back(x);
+//    lst.push_back(y);
+//    lst.push_front(x);
+//    lst.pop_front();
 
     s21::List<int>::ListIterator<int> It = lst.begin();
     It++;
-    lst.insert(It, 4);
+//    lst.insert(It, 4);
 
     cout << "SIZE = " << lst.size() << endl;
     cout << "LIST:" << endl;
