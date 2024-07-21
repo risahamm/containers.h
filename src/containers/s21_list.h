@@ -1,6 +1,12 @@
 #ifndef S21_CONTAINERS_CONTAINERS_S21_VECTOR_H_
 #define S21_CONTAINERS_CONTAINERS_S21_VECTOR_H_
 
+//#include <cmath>
+//#include <initializer_list>
+//#include <iostream>
+//#include <limits>
+//#include <memory>
+//#include <type_traits>
 
 namespace s21 {
 template <typename T>
@@ -161,8 +167,20 @@ class List {
     ++size_;
     return iterator(new_node);
   }
-  iterator insert_many(const_iterator pos, Args&&... args) {
-
+  template <typename... Args>
+  iterator insert_many(const_iterator pos, Args &&...args) {
+    iterator index = pos;
+    for (const auto &i : {args...}) {
+      index = insert(index, i);
+      index++;
+    }
+    return index;
+  }
+  template <typename... Args>
+  void insert_many_back(Args &&...args) {
+    for (const auto &i : {args...}) {
+      push_back(i);
+    }
   }
   void push_back(const_reference value) { insert(end(), value); }
   void push_front(reference value) { insert(begin(), value); }

@@ -18,6 +18,9 @@ int main() {
     It++;
 //    lst.insert(It, 4);
 
+lst.insert_many(It, 15, 16, 17);
+lst.insert_many_back(9, 8, 7);
+
     cout << "SIZE = " << lst.size() << endl;
     cout << "LIST:" << endl;
     for (int i = 1; i != lst.size() + 1; i ++) {
