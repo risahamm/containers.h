@@ -7,19 +7,19 @@ using namespace std;
 int main() {
     cout << endl << endl << "OUTPUT:" << endl;
 
-    s21::List<int> lst = {1, 2, 3};
+    s21::List<int> lst = {5, 2, 6};
 //    int x = 5, y = 3;
 //    lst.push_back(x);
 //    lst.push_back(y);
 //    lst.push_front(x);
-//    lst.pop_front();
-
+//    lst.pop_back();
+int a = lst.back();
+    cout << lst.back() << endl;
     s21::List<int>::ListIterator<int> It = lst.begin();
     It++;
 //    lst.insert(It, 4);
 
-lst.insert_many(It, 15, 16, 17);
-lst.insert_many_back(9, 8, 7);
+
 
     cout << "SIZE = " << lst.size() << endl;
     cout << "LIST:" << endl;

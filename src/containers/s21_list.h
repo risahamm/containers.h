@@ -43,7 +43,7 @@ class List {
     }
     ~ListIterator() = default;
     // overloads:
-    reference operator*() const { return node_->data_; }
+    reference operator*() const { return node_->data; }
     ListIterator *operator->() const { return &(operator*()); }
     ListIterator &
     operator++() {  // ++x    (int y = ( ++x)); 'y' changed his value.
@@ -84,12 +84,20 @@ class List {
 
   size_type size() { return size_; }
 
+  // List Element access
+  const_reference front() { return *begin(); }
+  const_reference back() {
+    iterator temp = end();
+    --temp;
+    return *temp;
+  }
+
  private:
   Node<value_type> *head_;
   size_type size_;
 
  public:
-  // Constructors:
+  // Constructors: (all done)
   List() : size_(0U) {
     auto *base = new Node<value_type>();
     head_ = base;
@@ -182,8 +190,14 @@ class List {
       push_back(i);
     }
   }
+  //  template <typename... Args>
+  //  void insert_many_front(Args &&...args) { // надо переделать
+  //    for (const auto &i : {args...}) {
+  //      push_front(i);
+  //    }
+  //  }
   void push_back(const_reference value) { insert(end(), value); }
-  void push_front(reference value) { insert(begin(), value); }
+  void push_front(const_reference value) { insert(begin(), value); }
   void erase(iterator pos) {
     Node<value_type> *toErase = pos.get_node();
     toErase->pPrev->pNext = toErase->pNext;
@@ -191,8 +205,10 @@ class List {
     delete toErase;
     --size_;
   }
-  void pop_back() {  // переделать!
-    erase(end() - 1);
+  void pop_back() {
+    iterator temp = end();
+    --temp;
+    erase(temp);
   }
   void pop_front() { erase(begin()); }
   void clear() {
