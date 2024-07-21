@@ -193,12 +193,7 @@ class List {
       push_back(i);
     }
   }
-  //  template <typename... Args>
-  //  void insert_many_front(Args &&...args) { // надо переделать
-  //    for (const auto &i : {args...}) {
-  //      push_front(i);
-  //    }
-  //  }
+
   void push_back(const_reference value) { insert(end(), value); }
   void push_front(const_reference value) { insert(begin(), value); }
   void erase(iterator pos) {
@@ -219,6 +214,10 @@ class List {
       pop_front();
     }
   }
+  void swap(List &other) { // не работает. конструктор копирования тоже?
+      std::swap(head_, other.head_);
+      std::swap(size_, other.size_);
+  }
 
   // old
 
@@ -231,21 +230,6 @@ class List {
       }
       current = current->pNext;
       counter++;
-    }
-  }
-
-  void removeAt(int index) {
-    if (index == 0) {
-      pop_front();
-    } else {
-      Node<value_type> *previous = this->head_;
-      for (int i = 0; i < index - 1; i++) {
-        previous = previous->pNext;
-      }
-      Node<value_type> *toDelete = previous->pNext;
-      previous->pNext = toDelete->pNext;
-      delete toDelete;
-      --size_;
     }
   }
 

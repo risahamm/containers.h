@@ -8,24 +8,28 @@ int main() {
     cout << endl << endl << "OUTPUT:" << endl;
 
     s21::List<int> lst = {5, 2, 6};
+    s21::List<int> lst2 = {1, 2, 3};
 //    int x = 5, y = 3;
 //    lst.push_back(x);
 //    lst.push_back(y);
 //    lst.push_front(x);
 //    lst.pop_back();
+    swap(lst, lst2);
 
 
     s21::List<int>::ListIterator<int> It = lst.begin();
     It++;
 //    lst.insert(It, 4);
 
-lst.empty();
-    cout << lst.empty() << endl;
 
     cout << "SIZE = " << lst.size() << endl;
     cout << "LIST:" << endl;
     for (int i = 1; i != lst.size() + 1; i ++) {
         cout << lst[i] << endl;
+    }
+    cout << "LIST2:" << endl;
+    for (int i = 1; i != lst2.size() + 1; i ++) {
+        cout << lst2[i] << endl;
     }
 
     return 0;
