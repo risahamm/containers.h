@@ -82,8 +82,6 @@ class List {
   iterator begin() { return iterator(head_->pNext); }
   iterator end() { return iterator(head_); }
 
-  size_type size() { return size_; }
-
   // List Element access
   const_reference front() { return *begin(); }
   const_reference back() {
@@ -91,6 +89,11 @@ class List {
     --temp;
     return *temp;
   }
+
+  // List Capacity
+  bool empty() { return (head_->pPrev == head_->pNext); }
+  size_type size() { return size_; }
+  size_type max_size() { return SIZE_MAX / sizeof(value_type); }
 
  private:
   Node<value_type> *head_;

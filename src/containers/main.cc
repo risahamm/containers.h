@@ -13,13 +13,14 @@ int main() {
 //    lst.push_back(y);
 //    lst.push_front(x);
 //    lst.pop_back();
-int a = lst.back();
-    cout << lst.back() << endl;
+
+
     s21::List<int>::ListIterator<int> It = lst.begin();
     It++;
 //    lst.insert(It, 4);
 
-
+lst.empty();
+    cout << lst.empty() << endl;
 
     cout << "SIZE = " << lst.size() << endl;
     cout << "LIST:" << endl;
