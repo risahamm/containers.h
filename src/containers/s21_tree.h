@@ -130,12 +130,11 @@ class Tree {
       return !(node_ == other.node_);
     }
 
-    bool IsNull() { return (node_ == nullptr) ? true : false; }
-
-    void DeleteElement() {
-      //      node_ = nullptr;
-      delete node_;
+    bool operator<=(const TreeIterator &other) {
+      return (this->node_->key <= other.node_->key);
     }
+
+    bool IsNull() { return (node_ == nullptr) ? true : false; }
 
    private:  // TODO protected потому что наследование
     Node<key_type, mapped_type> *node_ = nullptr;
@@ -152,6 +151,8 @@ class Tree {
 
   /* default constructor */
   Tree() noexcept : size_(0), root_(nullptr) {}
+
+  ~Tree() noexcept { clear(); }
 
   /* TREE ITERATORS */
 
@@ -243,12 +244,12 @@ class Tree {
    * assigns new value to the element with such key */
   std::pair<TreeIterator, bool> insert_or_assign(const key_type &key,
                                                  const mapped_type &value) {
-    /* if the key is unique */
+    /* if the key is unique, insert a node */
     if (contains(key) == false) {
       return insert(key, value);
     }
 
-    /* if the key already exists */
+    /* if the key already exists, overwrite the value */
     at(key) = value;
     std::pair<TreeIterator, bool> result;
     result.first = find(key);
@@ -281,8 +282,39 @@ class Tree {
         DeleteLeaf(delete_node);
       }
 
+      /* if no elements left */
+      if (size_ == 0) {
+        root_ = nullptr;
+      }
+
     } else {
       throw std::out_of_range("Key not found.");
+    }
+  }
+
+  /* swaps the contents */
+  void swap(Tree<key_type, mapped_type> &other) {
+    std::swap(root_, other.root_);
+    std::swap(size_, other.size_);
+  }
+
+  /* splices nodes from another container */
+  void merge(Tree<key_type, mapped_type> &other) {
+    if (this == &other) {
+      return;
+    }
+    TreeIterator iter = other.begin();
+    while (iter.IsNull() == false) {
+      key_type key = iter->key;
+      mapped_type value = iter->data;
+      std::pair<TreeIterator, bool> res;
+      res = insert(key, value);
+      ++iter;
+
+      /* if insertion took place, remove the node */
+      if (res.second == true) {
+        other.erase(res.first);
+      }
     }
   }
 
@@ -499,7 +531,9 @@ class Tree {
     } else {
       /* if distance between erase_node and min_node == 1 */
       if (erase_node->parent != nullptr) {
-        erase_node->parent->right = min_node;
+        (min_node->key > erase_node->parent->key)
+            ? erase_node->parent->right = min_node
+            : erase_node->parent->left = min_node;
       }
       min_node->left = erase_node->left;
       if (erase_node->left != nullptr) {
