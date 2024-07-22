@@ -14,7 +14,7 @@ int main() {
 //    lst.push_back(y);
 //    lst.push_front(x);
 //    lst.pop_back();
-    swap(lst, lst2);
+    lst.swap(lst2);
 
 
     s21::List<int>::ListIterator<int> It = lst.begin();
@@ -24,11 +24,11 @@ int main() {
 
     cout << "SIZE = " << lst.size() << endl;
     cout << "LIST:" << endl;
-    for (int i = 1; i != lst.size() + 1; i ++) {
+    for (size_t i = 1; i != lst.size() + 1; i ++) {
         cout << lst[i] << endl;
     }
     cout << "LIST2:" << endl;
-    for (int i = 1; i != lst2.size() + 1; i ++) {
+    for (size_t i = 1; i != lst2.size() + 1; i ++) {
         cout << lst2[i] << endl;
     }
 

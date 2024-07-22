@@ -129,7 +129,7 @@ class List {
     head_ = prev_node;
     Node<value_type> *current = l.head_->pNext;
     while (current != l.head_) {
-      auto *new_node = new Node<value_type>(current->data_);
+      auto *new_node = new Node<value_type>(current->data);
       prev_node->pNext = new_node;
       new_node->pPrev = prev_node;
       prev_node = new_node;
@@ -231,6 +231,7 @@ class List {
       current = current->pNext;
       counter++;
     }
+    return current->data;
   }
 
 };  // List
