@@ -26,11 +26,6 @@ int main() {
 //cout << a.at(2) << endl;
 
   s21::Tree<int, int> b;
-  s21::Tree<int, int> c;
-
-//  for(int x = 0; x < 20; ++x) {
-//    b.insert(x, 0);
-//  }
 
   b.insert(6, 0);
   b.insert(3, 0);
@@ -38,31 +33,8 @@ int main() {
   b.insert(1, 0);
   b.insert(4, 0);
 
-  auto it = c.insert(5, 0);
-  c.insert(7, 0);
-  c.insert(8, 0);
-  c.insert(6, 0);
-//  b.insert(50, 0);
-//  b.insert(45, 3);
+  s21::Tree<int, int> c(b);
 
-//  c.erase(it.first);
-
-  b.merge(c);
-
-//  s21::Tree<int, int>::TreeIterator it = b.begin();
-//  cout << "it " << it->key << endl;
-
-//  b.erase(b.end());
-
-//  cout << "insert->first " << *b.insert_or_assign(45, 0).first << endl;
-//  cout << "insert->second " << b.insert_or_assign(43, 56).first->data << endl;
-//  cout << "insert->second " << b.insert(45, 56).second << endl;
-
-//  b.at(45 ) = 5;
-
-//  b.clear();
-
-//  cout << "at " << b.contains(43) << endl;
 
   cout << "empty " << b.empty() << endl;
 

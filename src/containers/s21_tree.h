@@ -5,14 +5,6 @@
 
 namespace s21 {
 
-// struct FakeNode {
-//   FakeNode *parent;// = nullptr;
-//
-//   FakeNode() {
-//       parent = nullptr;
-//   }
-// };
-
 template <typename KeyType, typename ValueType>
 struct Node {
   KeyType key;
@@ -23,10 +15,6 @@ struct Node {
   Node *right = nullptr;
 
   Node() = default;
-  //  Node(KeyType NewKey, ValueType NewValue) :
-  //    key(NewKey),
-  //    data(NewValue) {}
-
 };  // Node
 
 template <typename KeyType, typename ValueType>
@@ -136,6 +124,8 @@ class Tree {
 
     bool IsNull() { return (node_ == nullptr) ? true : false; }
 
+    Node<KeyType, ValueType> *getNode() { return node_; }
+
    private:  // TODO protected потому что наследование
     Node<key_type, mapped_type> *node_ = nullptr;
 
@@ -151,6 +141,9 @@ class Tree {
 
   /* default constructor */
   Tree() noexcept : size_(0), root_(nullptr) {}
+
+  /* copy constructor */
+  Tree(const Tree &other) noexcept { CopyNode(other.root_); }
 
   ~Tree() noexcept { clear(); }
 
@@ -466,7 +459,6 @@ class Tree {
     if (node->parent != nullptr) {
       (new_root->key > node->parent->key) ? node->parent->right = new_root
                                           : node->parent->left = new_root;
-      //      node->parent->left = new_root;
     }
     new_root->parent = node->parent;
     new_root->right = node;
@@ -488,7 +480,6 @@ class Tree {
     if (node->parent != nullptr) {
       (new_root->key > node->parent->key) ? node->parent->right = new_root
                                           : node->parent->left = new_root;
-      //      node->parent->right = new_root;
     }
     new_root->parent = node->parent;
     new_root->left = node;
@@ -619,6 +610,15 @@ class Tree {
       node = nullptr;
       --size_;
     }
+  }
+
+  void CopyNode(Node<KeyType, ValueType> *other_node) {
+    if (other_node == nullptr) {
+      return;
+    }
+    insert(other_node->key, other_node->data);
+    CopyNode(other_node->left);
+    CopyNode(other_node->right);
   }
 
 };  // class Tree
