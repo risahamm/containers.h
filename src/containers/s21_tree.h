@@ -20,7 +20,7 @@ struct Node {
 template <typename KeyType, typename ValueType>
 class Tree {
  public:
-  /* Tree Member type */
+  /* TREE MEMBER TYPE */
   using key_type = KeyType;
   using mapped_type = ValueType;
   using value_type = std::pair<const KeyType, ValueType>;
@@ -30,6 +30,7 @@ class Tree {
   class TreeIterator {
    public:
     TreeIterator() = default;
+
     explicit TreeIterator(Node<key_type, mapped_type> *data) : node_(data) {}
 
     TreeIterator(const TreeIterator &other) { node_ = other.node_; }
@@ -42,6 +43,7 @@ class Tree {
       return *this;
     }
 
+    /* access node key */
     ref operator*() {
       Node<key_type, mapped_type> *result = node_;
       if (result != nullptr) {
@@ -52,6 +54,7 @@ class Tree {
       return result->key;
     }
 
+    /* access node elements */
     Node<key_type, mapped_type> *operator->() {
       if (node_ != nullptr) {
         return node_;
@@ -124,8 +127,6 @@ class Tree {
 
     bool IsNull() { return (node_ == nullptr) ? true : false; }
 
-    Node<KeyType, ValueType> *getNode() { return node_; }
-
    private:  // TODO protected потому что наследование
     Node<key_type, mapped_type> *node_ = nullptr;
 
@@ -152,6 +153,8 @@ class Tree {
   }
 
   ~Tree() noexcept { clear(); }
+
+
 
   /* TREE ITERATORS */
 
@@ -346,7 +349,6 @@ class Tree {
   }
 
  private:
-  // FakeNode *fake_node_;
   size_t size_;  // number of elements in the tree
   Node<KeyType, ValueType> *root_;
 
