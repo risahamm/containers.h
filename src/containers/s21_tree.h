@@ -143,7 +143,13 @@ class Tree {
   Tree() noexcept : size_(0), root_(nullptr) {}
 
   /* copy constructor */
-  Tree(const Tree &other) noexcept { CopyNode(other.root_); }
+  Tree(const Tree &other) noexcept { CopyTree(other.root_); }
+
+  /* move constructor */
+  Tree(Tree &&other) noexcept {
+    CopyTree(other.root_);
+    other.clear();
+  }
 
   ~Tree() noexcept { clear(); }
 
@@ -612,13 +618,14 @@ class Tree {
     }
   }
 
-  void CopyNode(Node<KeyType, ValueType> *other_node) {
+  /* recursively inserts nodes from other tree */
+  void CopyTree(Node<KeyType, ValueType> *other_node) {
     if (other_node == nullptr) {
       return;
     }
     insert(other_node->key, other_node->data);
-    CopyNode(other_node->left);
-    CopyNode(other_node->right);
+    CopyTree(other_node->left);
+    CopyTree(other_node->right);
   }
 
 };  // class Tree
