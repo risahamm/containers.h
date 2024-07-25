@@ -18,123 +18,125 @@ struct Node {
 };  // Node
 
 template <typename KeyType, typename ValueType>
+class TreeIterator {
+ public:
+  using key_type = KeyType;
+  using mapped_type = ValueType;
+  using ptr = KeyType *;
+  using ref = KeyType &;
+
+  TreeIterator() = default;
+
+  explicit TreeIterator(Node<key_type, mapped_type> *data) : node_(data) {}
+
+  TreeIterator(const TreeIterator &other) { node_ = other.node_; }
+
+  TreeIterator &operator=(const TreeIterator &other) {
+    if (this == &other) {
+      return *this;
+    }
+    node_ = other.node_;
+    return *this;
+  }
+
+  /* access node key */
+  ref operator*() {
+    Node<key_type, mapped_type> *result = node_;
+    if (result != nullptr) {
+      result->key = node_->key;
+    } else {
+      throw std::out_of_range("Bad access.");
+    }
+    return result->key;
+  }
+
+  /* access node elements */
+  Node<key_type, mapped_type> *operator->() {
+    if (node_ != nullptr) {
+      return node_;
+    } else {
+      throw std::out_of_range("Bad access.");
+    }
+  }
+
+  TreeIterator &operator++() {  // prefix
+    if (node_ != nullptr) {
+      if (node_->right != nullptr) {
+        node_ = node_->right;
+        while (node_->left != nullptr) {
+          node_ = node_->left;
+        }
+      } else {
+        Node<key_type, mapped_type> *temp = node_->parent;
+        while (temp != nullptr && node_ == temp->right) {
+          node_ = temp;
+          temp = temp->parent;
+        }
+        node_ = temp;
+      }
+    }
+    return *this;
+  }
+
+  TreeIterator &operator--() {  // prefix
+    if (node_ != nullptr) {
+      if (node_->left != nullptr) {
+        node_ = node_->left;
+        while (node_->right != nullptr) {
+          node_ = node_->right;
+        }
+      } else {
+        Node<key_type, mapped_type> *temp = node_->parent;
+        while (temp != nullptr && node_ == temp->left) {
+          node_ = temp;
+          temp = temp->parent;
+        }
+        node_ = temp;
+      }
+    }
+    return *this;
+  }
+
+  TreeIterator operator++(int) {  // postfix
+    TreeIterator res(*this);
+    ++(*this);
+    return res;
+  }
+
+  TreeIterator operator--(int) {  // postfix
+    TreeIterator res(*this);
+    --(*this);
+    return res;
+  }
+
+  bool operator==(const TreeIterator &other) {
+    return (node_ == other.node_);
+  }
+
+  bool operator!=(const TreeIterator &other) {
+    return !(node_ == other.node_);
+  }
+
+  bool operator<=(const TreeIterator &other) {
+    return (this->node_->key <= other.node_->key);
+  }
+
+  bool IsNull() { return (node_ == nullptr) ? true : false; }
+
+ private:  // TODO protected потому что наследование
+  Node<key_type, mapped_type> *node_ = nullptr;
+
+};  // class TreeIterator
+
+template <typename KeyType, typename ValueType>
 class Tree {
  public:
   /* TREE MEMBER TYPE */
   using key_type = KeyType;
   using mapped_type = ValueType;
   using value_type = std::pair<const KeyType, ValueType>;
-  using ptr = KeyType *;
-  using ref = KeyType &;
-
-  class TreeIterator {
-   public:
-    TreeIterator() = default;
-
-    explicit TreeIterator(Node<key_type, mapped_type> *data) : node_(data) {}
-
-    TreeIterator(const TreeIterator &other) { node_ = other.node_; }
-
-    TreeIterator &operator=(const TreeIterator &other) {
-      if (this == &other) {
-        return *this;
-      }
-      node_ = other.node_;
-      return *this;
-    }
-
-    /* access node key */
-    ref operator*() {
-      Node<key_type, mapped_type> *result = node_;
-      if (result != nullptr) {
-        result->key = node_->key;
-      } else {
-        throw std::out_of_range("Bad access.");
-      }
-      return result->key;
-    }
-
-    /* access node elements */
-    Node<key_type, mapped_type> *operator->() {
-      if (node_ != nullptr) {
-        return node_;
-      } else {
-        throw std::out_of_range("Bad access.");
-      }
-    }
-
-    TreeIterator &operator++() {  // prefix
-      if (node_ != nullptr) {
-        if (node_->right != nullptr) {
-          node_ = node_->right;
-          while (node_->left != nullptr) {
-            node_ = node_->left;
-          }
-        } else {
-          Node<key_type, mapped_type> *temp = node_->parent;
-          while (temp != nullptr && node_ == temp->right) {
-            node_ = temp;
-            temp = temp->parent;
-          }
-          node_ = temp;
-        }
-      }
-      return *this;
-    }
-
-    TreeIterator &operator--() {  // prefix
-      if (node_ != nullptr) {
-        if (node_->left != nullptr) {
-          node_ = node_->left;
-          while (node_->right != nullptr) {
-            node_ = node_->right;
-          }
-        } else {
-          Node<key_type, mapped_type> *temp = node_->parent;
-          while (temp != nullptr && node_ == temp->left) {
-            node_ = temp;
-            temp = temp->parent;
-          }
-          node_ = temp;
-        }
-      }
-      return *this;
-    }
-
-    TreeIterator operator++(int) {  // postfix
-      TreeIterator res(*this);
-      ++(*this);
-      return res;
-    }
-
-    TreeIterator operator--(int) {  // postfix
-      TreeIterator res(*this);
-      --(*this);
-      return res;
-    }
-
-    bool operator==(const TreeIterator &other) {
-      return (node_ == other.node_);
-    }
-
-    bool operator!=(const TreeIterator &other) {
-      return !(node_ == other.node_);
-    }
-
-    bool operator<=(const TreeIterator &other) {
-      return (this->node_->key <= other.node_->key);
-    }
-
-    bool IsNull() { return (node_ == nullptr) ? true : false; }
-
-   private:  // TODO protected потому что наследование
-    Node<key_type, mapped_type> *node_ = nullptr;
-
-  };  // class TreeIterator
-
   using reference = value_type &;
   using const_reference = const value_type &;
-  using iterator = TreeIterator;
   //  using const_iterator;
   using size_type = std::size_t;
 
@@ -158,14 +160,14 @@ class Tree {
 
   /* TREE ITERATORS */
 
-  TreeIterator begin() {
+  TreeIterator<KeyType, ValueType> begin() {
     if (size_ == 0) {
       throw std::out_of_range("Container is empty.");
     }
     return FindMinLeft(root_);
   }
 
-  TreeIterator end() {
+  TreeIterator<KeyType, ValueType> end() {
     if (size_ == 0) {
       throw std::out_of_range("Container is empty.");
     }
@@ -210,8 +212,8 @@ class Tree {
 
   /* inserts node and returns iterator to where the element is in the container
    * and bool denoting whether the insertion took place */
-  std::pair<TreeIterator, bool> insert(const value_type &new_node) {
-    std::pair<TreeIterator, bool> result;
+  std::pair<TreeIterator<KeyType, ValueType>, bool> insert(const value_type &new_node) {
+    std::pair<TreeIterator<KeyType, ValueType>, bool> result;
     key_type new_key = new_node.first;
     mapped_type value = new_node.second;
     return insert(new_key, value);
@@ -219,9 +221,9 @@ class Tree {
 
   /* inserts value by key and returns iterator to where the element is in the
    * container and bool denoting whether the insertion took place */
-  std::pair<TreeIterator, bool> insert(const key_type &new_key,
+  std::pair<TreeIterator<KeyType, ValueType>, bool> insert(const key_type &new_key,
                                        const mapped_type &value) {
-    std::pair<TreeIterator, bool> result;
+    std::pair<TreeIterator<KeyType, ValueType>, bool> result;
     bool ret_val = true;
 
     if (size_ == 0) {
@@ -244,7 +246,7 @@ class Tree {
 
   /* if no equivalent key exists, inserts an element. if the key already exists,
    * assigns new value to the element with such key */
-  std::pair<TreeIterator, bool> insert_or_assign(const key_type &key,
+  std::pair<TreeIterator<KeyType, ValueType>, bool> insert_or_assign(const key_type &key,
                                                  const mapped_type &value) {
     /* if the key is unique, insert a node */
     if (contains(key) == false) {
@@ -253,14 +255,14 @@ class Tree {
 
     /* if the key already exists, overwrite the value */
     at(key) = value;
-    std::pair<TreeIterator, bool> result;
+    std::pair<TreeIterator<KeyType, ValueType>, bool> result;
     result.first = find(key);
     result.second = false;
     return result;
   }
 
   /* if not found, returns exception */
-  void erase(iterator pos) {
+  void erase(TreeIterator<KeyType, ValueType> pos) {
     if (size_ == 0) {
       throw std::out_of_range("No elements in the container.");
     }
@@ -305,11 +307,11 @@ class Tree {
     if (this == &other) {
       return;
     }
-    TreeIterator iter = other.begin();
+    TreeIterator<KeyType, ValueType> iter = other.begin();
     while (iter.IsNull() == false) {
       key_type key = iter->key;
       mapped_type value = iter->data;
-      std::pair<TreeIterator, bool> res;
+      std::pair<TreeIterator<KeyType, ValueType>, bool> res;
       res = insert(key, value);
       ++iter;
 
@@ -324,12 +326,12 @@ class Tree {
 
   /* finds element with specific key */
   // TODO If no such element is found, end() iterator is returned.
-  TreeIterator find(const key_type &key_to_find) {
+  TreeIterator<KeyType, ValueType> find(const key_type &key_to_find) {
     if (size_ == 0) {
       throw std::out_of_range("No elements in the container.");
     }
     Node<KeyType, ValueType> *found = Find(root_, key_to_find);
-    TreeIterator result(found);
+    TreeIterator<KeyType, ValueType> result(found);
 
     return result;
   }
@@ -583,8 +585,8 @@ class Tree {
   }
 
   /* returns iterator to min element in the left subtree */
-  TreeIterator FindMinLeft(Node<KeyType, ValueType> *node) {
-    TreeIterator result(node);
+  TreeIterator<KeyType, ValueType> FindMinLeft(Node<KeyType, ValueType> *node) {
+    TreeIterator<KeyType, ValueType> result(node);
     if (node->left != nullptr) {
       result = FindMinLeft(node->left);
     }
@@ -592,8 +594,8 @@ class Tree {
   }
 
   /* returns iterator to max element in the right subtree */
-  TreeIterator FindMaxRight(Node<KeyType, ValueType> *node) {
-    TreeIterator result(node);
+  TreeIterator<KeyType, ValueType> FindMaxRight(Node<KeyType, ValueType> *node) {
+    TreeIterator<KeyType, ValueType> result(node);
     if (node->right != nullptr) {
       result = FindMaxRight(node->right);
     }

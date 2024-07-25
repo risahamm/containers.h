@@ -14,14 +14,9 @@ class Map {
   using value_type = std::pair<const KeyType, ValueType>;
   using reference = value_type &;
   using const_reference = const value_type &;
+  using iterator = TreeIterator<KeyType, ValueType>;
   // using const_iterator = typename Tree<key_type, value_type>::TreeItrator;
   using size_type = std::size_t;
-
-  class iterator : Tree<KeyType, ValueType>::TreeItrator {
-   public:
-    iterator() : Tree<KeyType, ValueType>::TreeItrator(){};
-    ~iterator() = default;
-  };  // class iterator
 
   /* MAP MEMBER FUNCTIONS */
 
@@ -57,6 +52,8 @@ class Map {
 
   iterator begin() { return tree_.begin(); }
 
+  iterator end() { return tree_.end(); }
+
   /* MAP CAPACITY */
 
   /* checks whether the container is empty */
@@ -68,7 +65,7 @@ class Map {
    * container and bool denoting whether the insertion took place */
   std::pair<iterator, bool> insert(const key_type &new_key,
                                    const mapped_type &value) {
-    //    return tree_.insert(new_key, value);
+    return tree_.insert(new_key, value);
   }
 
  private:
