@@ -24,22 +24,19 @@ int main() {
   // a.at(2) = 8;
   // cout << a.at(2) << endl;
 
-//  s21::Tree<int, int> b;
-//
-//  b.insert(6, 0);
-//  b.insert(3, 0);
-//  b.insert(9, 0);
-//  b.insert(1, 0);
-//  b.insert(4, 0);
+  s21::Map<int, int> b;
+
+  auto it = b.insert(6, 0);
+  b.insert(3, 0);
+  b.insert(9, 0);
+  b.insert(1, 0);
+  b.insert(4, 0);
 
 
-  s21::Map<int, int> a;
+  b.erase(it.first);
 
-  a.insert(6, 0);
-  a.insert(3, 0);
-  a.insert(9, 0);
 
-  cout << "empty " << a.empty() << endl;
+  cout << "empty " << b.empty() << endl;
 
   return 0;
 }

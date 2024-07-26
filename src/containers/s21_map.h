@@ -9,6 +9,7 @@ template <typename KeyType, typename ValueType>
 class Map {
  public:
   /* MAP MEMBER TYPE */
+
   using key_type = KeyType;
   using mapped_type = ValueType;
   using value_type = std::pair<const KeyType, ValueType>;
@@ -28,6 +29,12 @@ class Map {
 
   /* move constructor */
   Map(Map &&other) noexcept { tree_(std::move(other.tree_)); }
+
+  Map(std::initializer_list<value_type> const &items) {
+    for (auto &item : items) {
+      tree_.insert(item);
+    }
+  }
 
   /* destructor */
   ~Map() noexcept {}
@@ -52,6 +59,7 @@ class Map {
 
   iterator begin() { return tree_.begin(); }
 
+  /* returns an iterator to the element following the last element of the map */
   iterator end() { return tree_.end(); }
 
   /* MAP CAPACITY */
@@ -59,14 +67,49 @@ class Map {
   /* checks whether the container is empty */
   bool empty() noexcept { return tree_.empty(); }
 
+  /* checks whether the container is empty */
+  size_t size() noexcept { return tree_.size(); }
+
+  /* returns the maximum possible number of elements */
+  size_type max_size() noexcept { return tree_.max_size(); }
+
   /* MAP MODIFIERS */
 
-  /* inserts value by key and returns iterator to where the element is in the
-   * container and bool denoting whether the insertion took place */
+  /* clears the contents */
+  void clear() { tree_.clear(); }
+
+  /* inserts node and returns iterator to where the element is in the container
+   * and bool denoting whether the insertion took place */
+  std::pair<iterator, bool> insert(const value_type &new_node) {
+    return tree_.insert(new_node);
+  }
+
   std::pair<iterator, bool> insert(const key_type &new_key,
                                    const mapped_type &value) {
     return tree_.insert(new_key, value);
   }
+
+  /* if no equivalent key exists, inserts an element. if the key already exists,
+   * assigns new value to the element with such key */
+  std::pair<TreeIterator<KeyType, ValueType>, bool> insert_or_assign(
+      const key_type &key, const mapped_type &value) {
+    return tree_.insert_or_assign(key, value);
+  }
+
+  /* if not found, returns exception */
+  void erase(TreeIterator<KeyType, ValueType> pos) { tree_.erase(pos); }
+
+  /* swaps the contents */
+  void swap(Tree<key_type, mapped_type> &other) { tree_.swap(other); }
+
+  /* splices nodes from another container */
+  void merge(Tree<key_type, mapped_type> &other) { tree_.merge(other); }
+
+  /* MAP LOOKUP */
+
+  /* checks if there is an element with key equivalent to key in the container
+   */
+  bool contains(const key_type &key) noexcept { return tree_.contains(key); }
 
  private:
   Tree<KeyType, ValueType> tree_;

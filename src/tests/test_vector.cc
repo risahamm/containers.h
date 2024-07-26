@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "../containers/s21_vector.h"
 
-TEST(constructor, Default) {
+TEST(vector_constructor, Default) {
   s21::Vector<int> a;
   s21::Vector<double> b;
   s21::Vector<char> c;
