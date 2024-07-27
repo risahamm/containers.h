@@ -14,7 +14,7 @@ int main() {
 //    lst.push_back(y);
 //    lst.push_front(x);
 //    lst.pop_back();
-    lst.swap(lst2);
+    lst.reverse();
 
 
     s21::List<int>::ListIterator<int> It = lst.begin();

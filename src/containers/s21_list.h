@@ -214,9 +214,16 @@ class List {
       pop_front();
     }
   }
-  void swap(List &other) { // не работает. конструктор копирования тоже?
+  void swap(List &other) {
       std::swap(head_, other.head_);
       std::swap(size_, other.size_);
+  }
+
+    void reverse() {
+      for (size_type i = 0; i <= size(); ++i) {
+          std::swap(head_->pPrev, head_->pNext);
+          head_ = head_->pPrev;
+      }
   }
 
   // old
