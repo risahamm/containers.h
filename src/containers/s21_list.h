@@ -194,6 +194,15 @@ class List {
     }
   }
 
+  template <typename... Args>
+  void insert_many_front(Args &&...args) {
+    List temp{args...};
+    temp.reverse();
+    for (const auto &i : temp) {
+      push_front(i);
+    }
+  }
+
   void push_back(const_reference value) { insert(end(), value); }
   void push_front(const_reference value) { insert(begin(), value); }
   void erase(iterator pos) {
@@ -215,15 +224,15 @@ class List {
     }
   }
   void swap(List &other) {
-      std::swap(head_, other.head_);
-      std::swap(size_, other.size_);
+    std::swap(head_, other.head_);
+    std::swap(size_, other.size_);
   }
 
-    void reverse() {
-      for (size_type i = 0; i <= size(); ++i) {
-          std::swap(head_->pPrev, head_->pNext);
-          head_ = head_->pPrev;
-      }
+  void reverse() {
+    for (size_type i = 0; i <= size(); ++i) {
+      std::swap(head_->pPrev, head_->pNext);
+      head_ = head_->pPrev;
+    }
   }
 
   // old
