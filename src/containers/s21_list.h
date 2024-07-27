@@ -52,6 +52,12 @@ class List {
     }
     // ListIterator operator++(int) {} // x++     ((int y = x)++); 'y' didn't
     // change his value.
+    ListIterator &operator=(ListIterator &other) {
+        if (*this != other) {
+            node_ = other.node_;
+        }
+        return *this;
+    }
     ListIterator operator++(int) {
       ListIterator temp(*this);
       operator++();
@@ -232,6 +238,24 @@ class List {
     for (size_type i = 0; i <= size(); ++i) {
       std::swap(head_->pPrev, head_->pNext);
       head_ = head_->pPrev;
+    }
+  }
+
+  void unique() {  // удаляет дубликаты, которые идут друг за другом
+    if (size_ > 1) {
+      iterator current = begin();
+      iterator next = current;
+      ++next;
+      while (next != end()) {
+        if (*current == *next) {
+          erase(next);
+          next = current;
+          ++next;
+        } else {
+          current = next;
+          ++next;
+        }
+      }
     }
   }
 

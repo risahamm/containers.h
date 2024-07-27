@@ -7,14 +7,14 @@ using namespace std;
 int main() {
     cout << endl << endl << "OUTPUT:" << endl;
 
-    s21::List<int> lst = {5, 2, 6};
+    s21::List<int> lst = {5, 2, 2, 5, 6};
     s21::List<int> lst2 = {1, 2, 3};
 //    int x = 5, y = 3;
 //    lst.push_back(x);
 //    lst.push_back(y);
 //    lst.push_front(x);
 //    lst.pop_back();
-    lst.insert_many_front(10, 11, 12);
+    lst.unique();
 
 
     s21::List<int>::ListIterator<int> It = lst.begin();
