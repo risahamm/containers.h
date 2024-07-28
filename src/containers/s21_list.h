@@ -8,8 +8,6 @@
 //#include <memory>
 //#include <type_traits>
 
-
-
 namespace s21 {
 template <typename T>
 class List {
@@ -274,8 +272,8 @@ class List {
     Node<value_type> *previous = pos.get_node()->pPrev;
     Node<value_type> *current = const_cast<Node<value_type> *>(pos.get_node());
     Node<value_type> *other_first = other.begin().get_node();
-//        Node<value_type> *other_last = std::prev(other.end()).get_node();
-        Node<value_type> *other_last = (other.end().get_node())->pPrev;
+    //        Node<value_type> *other_last = std::prev(other.end()).get_node();
+    Node<value_type> *other_last = (other.end().get_node())->pPrev;
 
     current->pPrev = other_last;
     other_last->pNext = current;
@@ -287,6 +285,22 @@ class List {
     other.size_ = 0;
   }
 
+  void merge(List &other) {
+    if (this != &other) {
+      iterator this_iterator = begin();
+      iterator other_iterator = other.begin();
+      while (!other.empty()) {
+        if (this->empty() || this_iterator == end() ||
+            *this_iterator > *other_iterator) {
+          insert(this_iterator, *other_iterator);
+          other.erase(other_iterator);
+          other_iterator++;
+        } else {
+          ++this_iterator;
+        }
+      }
+    }
+  }
   // old
 
   reference operator[](const int index) {
