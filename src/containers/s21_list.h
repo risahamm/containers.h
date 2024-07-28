@@ -8,6 +8,8 @@
 //#include <memory>
 //#include <type_traits>
 
+
+
 namespace s21 {
 template <typename T>
 class List {
@@ -53,10 +55,10 @@ class List {
     // ListIterator operator++(int) {} // x++     ((int y = x)++); 'y' didn't
     // change his value.
     ListIterator &operator=(ListIterator &other) {
-        if (*this != other) {
-            node_ = other.node_;
-        }
-        return *this;
+      if (*this != other) {
+        node_ = other.node_;
+      }
+      return *this;
     }
     ListIterator operator++(int) {
       ListIterator temp(*this);
@@ -106,7 +108,7 @@ class List {
   size_type size_;
 
  public:
-  // Constructors: (all done)
+  // Constructors:
   List() : size_(0U) {
     auto *base = new Node<value_type>();
     head_ = base;
@@ -193,6 +195,7 @@ class List {
     }
     return index;
   }
+
   template <typename... Args>
   void insert_many_back(Args &&...args) {
     for (const auto &i : {args...}) {
@@ -257,6 +260,31 @@ class List {
         }
       }
     }
+  }
+
+  //    // List Element access
+  //    const_reference front() { return *begin(); }
+  //    const_reference back() {
+  //        iterator temp = end();
+  //        --temp;
+  //        return *temp;
+  //    }
+
+  void splice(const_iterator pos, List &other) {
+    Node<value_type> *previous = pos.get_node()->pPrev;
+    Node<value_type> *current = const_cast<Node<value_type> *>(pos.get_node());
+    Node<value_type> *other_first = other.begin().get_node();
+//        Node<value_type> *other_last = std::prev(other.end()).get_node();
+        Node<value_type> *other_last = (other.end().get_node())->pPrev;
+
+    current->pPrev = other_last;
+    other_last->pNext = current;
+    previous->pNext = other_first;
+    other_first->pPrev = previous;
+
+    other.head_->pPrev = other.head_->pNext = other.head_;
+    size_ = size_ + other.size_;
+    other.size_ = 0;
   }
 
   // old
