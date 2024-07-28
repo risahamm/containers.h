@@ -16,6 +16,7 @@ struct Node {
 
   Node() = default;
 };  // struct Node
+/*----------------------------------------------------------------------------*/
 
 template <typename KeyType, typename ValueType>
 class TreeIterator {
@@ -30,6 +31,8 @@ class TreeIterator {
   explicit TreeIterator(Node<key_type, mapped_type> *data) : node_(data) {}
 
   TreeIterator(const TreeIterator &other) { node_ = other.node_; }
+
+  ~TreeIterator() = default;
 
   TreeIterator &operator=(const TreeIterator &other) {
     if (this == &other) {
@@ -123,6 +126,7 @@ class TreeIterator {
   Node<key_type, mapped_type> *node_ = nullptr;
 
 };  // class TreeIterator
+/*----------------------------------------------------------------------------*/
 
 template <typename KeyType, typename ValueType>
 class Tree {
@@ -143,15 +147,39 @@ class Tree {
   Tree() noexcept : size_(0), root_(nullptr) {}
 
   /* copy constructor */
-  Tree(const Tree &other) noexcept { CopyTree(other.root_); }
+  Tree(const Tree &other) noexcept : size_(0) { *this = other; }
 
   /* move constructor */
-  Tree(Tree &&other) noexcept {
-    CopyTree(other.root_);
-    other.clear();
-  }
+  Tree(Tree &&other) noexcept : size_(0) { *this = std::move(other); }
 
   ~Tree() noexcept { clear(); }
+
+  /* = overload, copy assignment */
+  Tree &operator=(const Tree &other) noexcept {
+    if (this != &other) {
+      if (size_ != 0) {
+        clear();
+      }
+      size_ = 0;
+      CopyTree(other.root_);
+    }
+    return *this;
+  }
+
+  /* = overload, move assignment */
+  Tree &operator=(Tree &&other) noexcept {
+    if (this != &other) {
+      if (size_ != 0) {
+        clear();
+      }
+      size_ = other.size_;
+      root_ = other.root_;
+      other.root_ = nullptr;
+      other.size_ = 0;
+    }
+    return *this;
+  }
+  /*--------------------------------------------------------------------------*/
 
   /* TREE ITERATORS */
 
@@ -168,6 +196,7 @@ class Tree {
     }
     return ++FindMaxRight(root_);
   }
+  /*--------------------------------------------------------------------------*/
 
   /* TREE ELEMENT ACCESS */
 
@@ -181,6 +210,7 @@ class Tree {
     }
     return iterator->data;
   }
+  /*--------------------------------------------------------------------------*/
 
   /* TREE CAPACITY */
 
@@ -194,6 +224,7 @@ class Tree {
   size_type max_size() noexcept {
     return SIZE_MAX / sizeof(Node<KeyType, ValueType> *);
   }
+  /*--------------------------------------------------------------------------*/
 
   /* TREE MODIFIERS */
 
@@ -223,7 +254,7 @@ class Tree {
     bool ret_val = true;
 
     if (size_ == 0) {
-      root_ = new Node<KeyType, ValueType>;  // InitNode();
+      root_ = new Node<KeyType, ValueType>;
       root_->parent = nullptr;
       root_->key = new_key;
       root_->data = value;
@@ -300,7 +331,7 @@ class Tree {
 
   /* splices nodes from another container */
   void merge(Tree<key_type, mapped_type> &other) {
-    if (this == &other) {
+    if (this == &other || other.size_ == 0) {
       return;
     }
     TreeIterator<KeyType, ValueType> iter = other.begin();
@@ -317,6 +348,7 @@ class Tree {
       }
     }
   }
+  /*--------------------------------------------------------------------------*/
 
   /* TREE LOOKUP */
 
@@ -345,10 +377,12 @@ class Tree {
     }
     return ret_val;
   }
+  /*--------------------------------------------------------------------------*/
 
  private:
-  size_t size_;  // number of elements in the tree
+  size_t size_; /* number of elements in the tree */
   Node<KeyType, ValueType> *root_;
+  /*--------------------------------------------------------------------------*/
 
   /* recursively searches for the right place to insert a new node and inserts
    */

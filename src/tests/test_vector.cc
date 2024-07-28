@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "../containers/s21_vector.h"
 
-TEST(vector_constructor, Default) {
+TEST(Vector, DefaultConstructor1) {
   s21::Vector<int> a;
   s21::Vector<double> b;
   s21::Vector<char> c;
@@ -13,7 +13,7 @@ TEST(vector_constructor, Default) {
   EXPECT_EQ(k, 0);
 }
 
-TEST(constructor, parametrized) {
+TEST(Vector, ParametrizedConstructor) {
   s21::Vector<int> a(2);
   s21::Vector<double> b(45);
   s21::Vector<char> c(200);
@@ -31,7 +31,7 @@ TEST(constructor, parametrized) {
   EXPECT_EQ(n, 200);
 }
 
-TEST(constructor, init_list) {
+TEST(Vector, InitListConstructor) {
   s21::Vector<int> a = {1, 2, 3, 4, 5};
   s21::Vector<double> b = {};
   s21::Vector<char> c = {'a', 'b', 'c'};
@@ -43,14 +43,14 @@ TEST(constructor, init_list) {
   EXPECT_EQ(k, 3);
 }
 
-TEST(VectorTest, DefaultConstructor) {
+TEST(Vector, DefaultConstructor2) {
   s21::Vector<int> our_vector;
   std::vector<int> std_vector;
   EXPECT_EQ(our_vector.empty(), std_vector.empty());
   EXPECT_EQ(our_vector.size(), std_vector.size());
 }
 
-TEST(VectorTest, SizeConstructor) {
+TEST(Vector, SizeConstructor) {
   const size_t size = 5;
   s21::Vector<int> our_vector(size);
   std::vector<int> std_vector(size);
@@ -61,7 +61,7 @@ TEST(VectorTest, SizeConstructor) {
   }
 }
 
-TEST(VectorTest, SizeConstructorZero) {
+TEST(Vector, SizeConstructorZero) {
   const size_t size = 0;
   s21::Vector<int> our_vector(size);
   std::vector<int> std_vector(size);
@@ -69,14 +69,14 @@ TEST(VectorTest, SizeConstructorZero) {
   EXPECT_EQ(our_vector.size(), std_vector.size());
 }
 
-TEST(VectorTest, InitializerListEmpty) {
+TEST(Vector, InitializerListEmpty) {
   s21::Vector<int> our_vector = {};
   std::vector<int> std_vector = {};
   EXPECT_EQ(our_vector.empty(), std_vector.empty());
   EXPECT_EQ(our_vector.size(), std_vector.size());
 }
 
-TEST(VectorTest, InitializerListConstructor) {
+TEST(Vector, InitializerListConstructor) {
   s21::Vector<int> our_vector = {1, 2, 3, 4, 5};
   std::vector<int> std_vector = {1, 2, 3, 4, 5};
   EXPECT_EQ(our_vector.empty(), std_vector.empty());
@@ -85,7 +85,7 @@ TEST(VectorTest, InitializerListConstructor) {
   EXPECT_EQ(our_vector[4], std_vector[4]);
 }
 
-TEST(VectorTest, CopyConstructorEmpty) {
+TEST(Vector, CopyConstructorEmpty) {
   s21::Vector<int> our_vector;
   s21::Vector<int> our_vector_copy(our_vector);
   std::vector<int> std_vector;
@@ -94,7 +94,7 @@ TEST(VectorTest, CopyConstructorEmpty) {
   EXPECT_EQ(our_vector_copy.size(), std_vector_copy.size());
 }
 
-TEST(VectorTest, ConstructorCopy) {
+TEST(Vector, ConstructorCopy) {
   s21::Vector<int> our_vector = {1, 2, 3};
   s21::Vector<int> our_vector_copy(our_vector);
   EXPECT_EQ(our_vector_copy.size(), our_vector.size());
@@ -103,14 +103,14 @@ TEST(VectorTest, ConstructorCopy) {
   }
 }
 
-TEST(VectorTest, MoveConstructorEmpty) {
+TEST(Vector, MoveConstructorEmpty) {
   s21::Vector<int> our_vector;
   s21::Vector<int> our_vector_copy(std::move(our_vector));
   EXPECT_TRUE(our_vector_copy.empty());
   EXPECT_EQ(our_vector_copy.size(), (size_t)0);
 }
 
-TEST(VectorTest, MoveConstructorNonEmpty) {
+TEST(Vector, MoveConstructorNonEmpty) {
   s21::Vector<int> our_vector = {1, 2, 3};
   s21::Vector<int> our_vector_copy(std::move(our_vector));
   std::vector<int> std_vector = {1, 2, 3};
@@ -119,17 +119,17 @@ TEST(VectorTest, MoveConstructorNonEmpty) {
   EXPECT_EQ(our_vector.empty(), std_vector.empty());
 }
 
-TEST(VectorTest, DestructorEmpty) {
+TEST(Vector, DestructorEmpty) {
   s21::Vector<int> *v = new s21::Vector<int>();
   delete v;
 }
 
-TEST(VectorTest, DestructorNonEmpty) {
+TEST(Vector, DestructorNonEmpty) {
   s21::Vector<int> *v = new s21::Vector<int>{1, 2, 3};
   delete v;
 }
 
-TEST(VectorTest, MoveAssignmentOperatorNonEmptyToEmpty) {
+TEST(Vector, MoveAssignmentOperatorNonEmptyToEmpty) {
   s21::Vector<int> our_vector = {1, 2, 3};
   s21::Vector<int> our_vector_move;
   std::vector<int> std_vector = {1, 2, 3};
@@ -140,7 +140,7 @@ TEST(VectorTest, MoveAssignmentOperatorNonEmptyToEmpty) {
   EXPECT_EQ(our_vector.empty(), std_vector.empty());
 }
 
-TEST(VectorTest, MoveAssignmentOperatorNonEmptyToNonEmpty) {
+TEST(Vector, MoveAssignmentOperatorNonEmptyToNonEmpty) {
   s21::Vector<int> our_vector = {1, 2, 3};
   s21::Vector<int> our_vector_move = {4, 5, 6};
   std::vector<int> std_vector = {1, 2, 3};
@@ -151,7 +151,7 @@ TEST(VectorTest, MoveAssignmentOperatorNonEmptyToNonEmpty) {
   EXPECT_EQ(our_vector.empty(), std_vector.empty());
 }
 
-TEST(VectorTest, AtValid) {
+TEST(Vector, AtValid) {
   s21::Vector<int> our_vector = {1, 2, 3, 4, 5};
   std::vector<int> std_vector = {1, 2, 3, 4, 5};
   EXPECT_EQ(our_vector.at(0), std_vector.at(0));
@@ -159,13 +159,13 @@ TEST(VectorTest, AtValid) {
   EXPECT_EQ(our_vector.at(4), std_vector.at(4));
 }
 
-TEST(VectorTest, AtInvalid) {
+TEST(Vector, AtInvalid) {
   s21::Vector<int> our_vector = {1, 2, 3, 4, 5};
   EXPECT_THROW(our_vector.at(5), std::out_of_range);
   EXPECT_THROW(our_vector.at(10), std::out_of_range);
 }
 
-TEST(VectorTest, IndexOperatorValid) {
+TEST(Vector, IndexOperatorValid) {
   s21::Vector<int> our_vector = {1, 2, 3, 4, 5};
   std::vector<int> std_vector = {1, 2, 3, 4, 5};
   EXPECT_EQ(our_vector[0], std_vector[0]);
@@ -173,7 +173,7 @@ TEST(VectorTest, IndexOperatorValid) {
   EXPECT_EQ(our_vector[4], std_vector[4]);
 }
 
-TEST(VectorTest, ConstIndexOperatorValidI) {
+TEST(Vector, ConstIndexOperatorValidI) {
   s21::Vector<int> our_vector = {1, 2, 3, 4, 5};
   std::vector<int> std_vector = {1, 2, 3, 4, 5};
   EXPECT_EQ(our_vector[0], std_vector[0]);
@@ -181,19 +181,19 @@ TEST(VectorTest, ConstIndexOperatorValidI) {
   EXPECT_EQ(our_vector[4], std_vector[4]);
 }
 
-TEST(VectorTest, FrontConst) {
+TEST(Vector, FrontConst) {
   s21::Vector<int> our_vector = {1, 2, 3, 4, 5};
   std::vector<int> std_vector = {1, 2, 3, 4, 5};
   EXPECT_EQ(our_vector.front(), std_vector.front());
 }
 
-TEST(VectorTest, BackConst) {
+TEST(Vector, BackConst) {
   s21::Vector<int> our_vector = {1, 2, 3, 4, 5};
   std::vector<int> std_vector = {1, 2, 3, 4, 5};
   EXPECT_EQ(our_vector.back(), std_vector.back());
 }
 
-TEST(VectorTest, Data) {
+TEST(Vector, Data) {
   s21::Vector<int> our_vector = {1, 2, 3, 4, 5};
   std::vector<int> std_vector = {1, 2, 3, 4, 5};
   int *dataPtr = our_vector.data();
@@ -204,13 +204,13 @@ TEST(VectorTest, Data) {
   EXPECT_EQ(our_vector[0], std_vector[0]);
 }
 
-TEST(VectorTest, DataEmpty) {
+TEST(Vector, DataEmpty) {
   s21::Vector<int> our_vector;
   int *dataPtr = our_vector.data();
   EXPECT_EQ(dataPtr, nullptr);
 }
 
-TEST(VectorTest, Begin) {
+TEST(Vector, Begin) {
   s21::Vector<int> our_vector = {1, 2, 3, 4, 5};
   std::vector<int> std_vector = {1, 2, 3, 4, 5};
   auto it = our_vector.begin();
@@ -221,55 +221,55 @@ TEST(VectorTest, Begin) {
   EXPECT_EQ(our_vector[0], std_vector[0]);
 }
 
-TEST(VectorTest, BeginEmpty) {
+TEST(Vector, BeginEmpty) {
   s21::Vector<int> our_vector;
   auto it = our_vector.begin();
   EXPECT_EQ(it, our_vector.end());
 }
 
-TEST(VectorTest, End) {
+TEST(Vector, End) {
   s21::Vector<int> our_vector = {1, 2, 3, 4, 5};
   auto it = our_vector.end();
   auto beginIt = our_vector.begin();
   EXPECT_NE(it, beginIt);
 }
 
-TEST(VectorTest, EndEmpty) {
+TEST(Vector, EndEmpty) {
   s21::Vector<int> our_vector;
   auto it = our_vector.end();
   EXPECT_EQ(it, our_vector.begin());
 }
 
-TEST(VectorTest, Empty) {
+TEST(Vector, Empty) {
   s21::Vector<int> our_vector;
   std::vector<int> std_vector;
   EXPECT_EQ(our_vector.empty(), std_vector.empty());
 }
 
-TEST(VectorTest, EmptyNonEmptyVector) {
+TEST(Vector, EmptyNonEmptyVector) {
   s21::Vector<int> our_vector = {1, 2, 3};
   std::vector<int> std_vector = {1, 2, 3};
   EXPECT_EQ(our_vector.empty(), std_vector.empty());
 }
 
-TEST(VectorTest, SizeEmpty) {
+TEST(Vector, SizeEmpty) {
   s21::Vector<int> our_vector;
   std::vector<int> std_vector;
   EXPECT_EQ(our_vector.size(), std_vector.size());
 }
 
-TEST(VectorTest, Size) {
+TEST(Vector, Size) {
   s21::Vector<int> our_vector = {1, 2, 3};
   std::vector<int> std_vector = {1, 2, 3};
   EXPECT_EQ(our_vector.size(), std_vector.size());
 }
 
-TEST(VectorTest, MaxSize) {
+TEST(Vector, MaxSize) {
   s21::Vector<int> our_vector;
   EXPECT_GT(our_vector.max_size(), 0U);
 }
 
-TEST(VectorTest, ReserveIncreaseCapacity) {
+TEST(Vector, ReserveIncreaseCapacity) {
   s21::Vector<int> our_vector;
   size_t initialCapacity = our_vector.capacity();
   size_t newCapacity = initialCapacity + 10;
@@ -277,7 +277,7 @@ TEST(VectorTest, ReserveIncreaseCapacity) {
   EXPECT_GE(our_vector.capacity(), newCapacity);
 }
 
-TEST(VectorTest, ReserveDecreaseCapacity) {
+TEST(Vector, ReserveDecreaseCapacity) {
   s21::Vector<int> our_vector = {1, 2, 3, 4, 5};
   size_t initialCapacity = our_vector.capacity();
   size_t newCapacity = initialCapacity - 2;
@@ -286,26 +286,26 @@ TEST(VectorTest, ReserveDecreaseCapacity) {
   EXPECT_GE(our_vector.capacity(), newCapacity);
 }
 
-TEST(VectorTest, CapacityEmpty) {
+TEST(Vector, CapacityEmpty) {
   s21::Vector<int> our_vector;
   std::vector<int> std_vector;
   EXPECT_EQ(our_vector.capacity(), std_vector.capacity());
 }
 
-TEST(VectorTest, CapacityNonEmptyVector) {
+TEST(Vector, CapacityNonEmptyVector) {
   s21::Vector<int> our_vector = {1, 2, 3};
   std::vector<int> std_vector = {1, 2, 3};
   EXPECT_EQ(our_vector.capacity(), std_vector.capacity());
   EXPECT_EQ(our_vector.size(), std_vector.size());
 }
 
-TEST(VectorTest, ShrinkToFitEmptyVector) {
+TEST(Vector, ShrinkToFitEmptyVector) {
   s21::Vector<int> our_vector;
   our_vector.shrink_to_fit();
   EXPECT_GE(our_vector.capacity(), 0U);
 }
 
-TEST(VectorTest, ShrinkToFitNonEmptyVector) {
+TEST(Vector, ShrinkToFitNonEmptyVector) {
   s21::Vector<int> our_vector = {1, 2, 3, 4, 5};
   size_t initialCapacity = our_vector.capacity();
   our_vector.pop_back();
@@ -314,7 +314,7 @@ TEST(VectorTest, ShrinkToFitNonEmptyVector) {
   EXPECT_LE(our_vector.capacity(), initialCapacity);
 }
 
-TEST(VectorTest, ClearEmptyVector) {
+TEST(Vector, ClearEmptyVector) {
   s21::Vector<int> our_vector;
   our_vector.clear();
   EXPECT_TRUE(our_vector.empty());
@@ -322,7 +322,7 @@ TEST(VectorTest, ClearEmptyVector) {
   EXPECT_GE(our_vector.capacity(), 0U);
 }
 
-TEST(VectorTest, ClearNonEmptyVector) {
+TEST(Vector, ClearNonEmptyVector) {
   s21::Vector<int> our_vector = {1, 2, 3, 4, 5};
   our_vector.clear();
   EXPECT_TRUE(our_vector.empty());
@@ -330,7 +330,7 @@ TEST(VectorTest, ClearNonEmptyVector) {
   EXPECT_GE(our_vector.capacity(), 0U);
 }
 
-TEST(VectorTest, InsertBeginning) {
+TEST(Vector, InsertBeginning) {
   s21::Vector<int> our_vector = {2, 3, 4};
   auto it = our_vector.insert(our_vector.begin(), 1);
   std::vector<int> std_vector = {2, 3, 4};
@@ -340,7 +340,7 @@ TEST(VectorTest, InsertBeginning) {
   EXPECT_EQ(*it, *it1);
 }
 
-TEST(VectorTest, InsertMiddle) {
+TEST(Vector, InsertMiddle) {
   s21::Vector<int> our_vector = {2, 3, 4};
   auto it = our_vector.insert(our_vector.begin() + 1, 2);
   std::vector<int> std_vector = {2, 3, 4};
@@ -350,7 +350,7 @@ TEST(VectorTest, InsertMiddle) {
   EXPECT_EQ(*it, *it1);
 }
 
-TEST(VectorTest, InsertEnd) {
+TEST(Vector, InsertEnd) {
   s21::Vector<int> our_vector = {2, 3, 4};
   auto it = our_vector.insert(our_vector.end(), 5);
   std::vector<int> std_vector = {2, 3, 4};
@@ -360,7 +360,7 @@ TEST(VectorTest, InsertEnd) {
   EXPECT_EQ(*it, *it1);
 }
 
-TEST(VectorTest, EraseBeginning) {
+TEST(Vector, EraseBeginning) {
   s21::Vector<int> our_vector = {1, 2, 3, 4};
   our_vector.erase(our_vector.begin());
   std::vector<int> std_vector = {1, 2, 3, 4};
@@ -369,7 +369,7 @@ TEST(VectorTest, EraseBeginning) {
   EXPECT_EQ(our_vector[0], std_vector[0]);
 }
 
-TEST(VectorTest, EraseMiddle) {
+TEST(Vector, EraseMiddle) {
   s21::Vector<int> our_vector = {1, 2, 3, 4};
   our_vector.erase(our_vector.begin() + 1);
   std::vector<int> std_vector = {1, 2, 3, 4};
@@ -378,7 +378,7 @@ TEST(VectorTest, EraseMiddle) {
   EXPECT_EQ(our_vector[1], std_vector[1]);
 }
 
-TEST(VectorTest, EraseEnd) {
+TEST(Vector, EraseEnd) {
   s21::Vector<int> our_vector = {1, 2, 3, 4};
   our_vector.erase(our_vector.end() - 1);
   std::vector<int> std_vector = {1, 2, 3, 4};
@@ -387,7 +387,7 @@ TEST(VectorTest, EraseEnd) {
   EXPECT_EQ(our_vector[2], std_vector[2]);
 }
 
-TEST(VectorTest, PushBackEmptyVector) {
+TEST(Vector, PushBackEmptyVector) {
   s21::Vector<int> our_vector;
   our_vector.push_back(1);
   std::vector<int> std_vector;
@@ -396,7 +396,7 @@ TEST(VectorTest, PushBackEmptyVector) {
   EXPECT_EQ(our_vector[0], std_vector[0]);
 }
 
-TEST(VectorTest, PushBackNonEmptyVector) {
+TEST(Vector, PushBackNonEmptyVector) {
   s21::Vector<int> our_vector = {1, 2, 3};
   our_vector.push_back(4);
   std::vector<int> std_vector = {1, 2, 3};
@@ -405,7 +405,7 @@ TEST(VectorTest, PushBackNonEmptyVector) {
   EXPECT_EQ(our_vector[3], std_vector[3]);
 }
 
-TEST(VectorTest, PopBackNonEmptyVector) {
+TEST(Vector, PopBackNonEmptyVector) {
   s21::Vector<int> our_vector = {1, 2, 3};
   our_vector.pop_back();
   std::vector<int> std_vector = {1, 2, 3};
@@ -414,13 +414,13 @@ TEST(VectorTest, PopBackNonEmptyVector) {
   EXPECT_EQ(our_vector.back(), std_vector.back());
 }
 
-TEST(VectorTest, PopBackEmptyVector) {
+TEST(Vector, PopBackEmptyVector) {
   s21::Vector<int> our_vector;
   our_vector.pop_back();
   EXPECT_EQ(our_vector.empty(), 1);
 }
 
-TEST(VectorTest, SwapNonEmptyVectors) {
+TEST(Vector, SwapNonEmptyVectors) {
   s21::Vector<int> our_vector = {1, 2, 3};
   s21::Vector<int> our_vector_swap = {4, 5, 6};
   our_vector.swap(our_vector_swap);
@@ -432,7 +432,7 @@ TEST(VectorTest, SwapNonEmptyVectors) {
   EXPECT_EQ(our_vector_swap[2], 3);
 }
 
-TEST(VectorTest, SwapEmptyAndNonEmptyVectors) {
+TEST(Vector, SwapEmptyAndNonEmptyVectors) {
   s21::Vector<int> our_vector;
   s21::Vector<int> our_vector_swap = {1, 2, 3};
   our_vector.swap(our_vector_swap);

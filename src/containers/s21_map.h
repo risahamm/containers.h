@@ -18,6 +18,7 @@ class Map {
   using iterator = TreeIterator<KeyType, ValueType>;
   // using const_iterator = typename Tree<key_type, value_type>::TreeItrator;
   using size_type = std::size_t;
+  /*--------------------------------------------------------------------------*/
 
   /* MAP MEMBER FUNCTIONS */
 
@@ -25,10 +26,10 @@ class Map {
   Map() noexcept : tree_() {}
 
   /* copy constructor */
-  Map(const Map &other) noexcept { tree_(other.tree_); }
+  Map(const Map &other) noexcept : tree_(other.tree_) {}
 
   /* move constructor */
-  Map(Map &&other) noexcept { tree_(std::move(other.tree_)); }
+  Map(Map &&other) noexcept : tree_(std::move(other.tree_)) {}
 
   Map(std::initializer_list<value_type> const &items) {
     for (auto &item : items) {
@@ -39,14 +40,24 @@ class Map {
   /* destructor */
   ~Map() noexcept {}
 
+  /* = overload, copy assignment */
+  Map &operator=(const Map &other) noexcept {
+    if (this == &other) {
+      return *this;
+    }
+    tree_ = other.tree_;
+    return *this;
+  }
+
   /* = overload, move assignment */
   Map &operator=(Map &&other) noexcept {
     if (this == &other) {
       return *this;
     }
-    tree_(std::move(other.tree_));
+    tree_ = std::move(other.tree_);
     return *this;
   }
+  /*--------------------------------------------------------------------------*/
 
   /* MAP ELEMENT ACCESS */
 
@@ -54,6 +65,7 @@ class Map {
   mapped_type &at(const key_type key) { return tree_.at(key); }
 
   mapped_type &operator[](const key_type &key) { return at(key); }
+  /*--------------------------------------------------------------------------*/
 
   /* MAP ITERATORS */
 
@@ -61,6 +73,7 @@ class Map {
 
   /* returns an iterator to the element following the last element of the map */
   iterator end() { return tree_.end(); }
+  /*--------------------------------------------------------------------------*/
 
   /* MAP CAPACITY */
 
@@ -72,6 +85,7 @@ class Map {
 
   /* returns the maximum possible number of elements */
   size_type max_size() noexcept { return tree_.max_size(); }
+  /*--------------------------------------------------------------------------*/
 
   /* MAP MODIFIERS */
 
@@ -91,25 +105,27 @@ class Map {
 
   /* if no equivalent key exists, inserts an element. if the key already exists,
    * assigns new value to the element with such key */
-  std::pair<TreeIterator<KeyType, ValueType>, bool> insert_or_assign(
+  std::pair<iterator, bool> insert_or_assign(
       const key_type &key, const mapped_type &value) {
     return tree_.insert_or_assign(key, value);
   }
 
   /* if not found, returns exception */
-  void erase(TreeIterator<KeyType, ValueType> pos) { tree_.erase(pos); }
+  void erase(iterator pos) { tree_.erase(pos); }
 
   /* swaps the contents */
-  void swap(Tree<key_type, mapped_type> &other) { tree_.swap(other); }
+  void swap(Map &other) { tree_.swap(other.tree_); }
 
   /* splices nodes from another container */
-  void merge(Tree<key_type, mapped_type> &other) { tree_.merge(other); }
+  void merge(Map &other) { tree_.merge(other.tree_); }
+  /*--------------------------------------------------------------------------*/
 
   /* MAP LOOKUP */
 
   /* checks if there is an element with key equivalent to key in the container
    */
   bool contains(const key_type &key) noexcept { return tree_.contains(key); }
+  /*--------------------------------------------------------------------------*/
 
  private:
   Tree<KeyType, ValueType> tree_;
