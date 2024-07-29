@@ -288,6 +288,26 @@ class Tree {
     return result;
   }
 
+  template <typename... Args>
+  std::vector<std::pair<TreeIterator<KeyType, ValueType>, bool>> insert_many(
+      Args &&...args) {
+    std::vector<std::pair<TreeIterator<KeyType, ValueType>, bool>> result;
+    (result.push_back(insert(std::forward<Args>(args))), ...);
+//    insert_pack(result, std::forward<Args>(args)...);
+    return result;
+  }
+
+  template <typename... Args>
+  void insert_pack(
+      std::vector<std::pair<TreeIterator<KeyType, ValueType>, bool>> &result,
+      KeyType key, ValueType value, Args &&...args) {
+    auto res = insert({key, value});
+    result.push_back(res);
+    if (sizeof...(args) > 0) {
+      insert_many_helper(result, std::forward<Args>(args)...);
+    }
+  }
+
   /* if not found, returns exception */
   void erase(TreeIterator<KeyType, ValueType> pos) {
     if (size_ == 0) {

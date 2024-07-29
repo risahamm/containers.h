@@ -105,9 +105,15 @@ class Map {
 
   /* if no equivalent key exists, inserts an element. if the key already exists,
    * assigns new value to the element with such key */
-  std::pair<iterator, bool> insert_or_assign(
-      const key_type &key, const mapped_type &value) {
+  std::pair<iterator, bool> insert_or_assign(const key_type &key,
+                                             const mapped_type &value) {
     return tree_.insert_or_assign(key, value);
+  }
+
+  template <typename... Args>
+  std::vector<std::pair<iterator, bool>> insert_many(
+      Args &&...args) {
+    return (tree_.insert_many(std::forward<Args>(args)...));
   }
 
   /* if not found, returns exception */
