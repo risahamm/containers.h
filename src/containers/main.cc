@@ -7,12 +7,12 @@ using namespace std;
 int main() {
     cout << endl << endl << "OUTPUT:" << endl;
 
-    s21::List<int> lst = {5, 6, 7};
-    s21::List<int> lst2 = {1, 2};
+    s21::List<int> lst = {5, 6};
+    s21::List<int> lst2 = {1, 2, 3};
 
 
-    s21::List<int>::ListIterator<int> It = lst.begin();
-    It++;
+//    s21::List<int>::ListIterator<int> It = lst.begin();
+//    It++;
 //    lst.insert(It, 4);
     lst.merge(lst2);
 

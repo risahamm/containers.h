@@ -97,7 +97,7 @@ class List {
   }
 
   // List Capacity
-  bool empty() { return (head_->pPrev == head_->pNext); }
+  bool empty() { return (begin() == end()); }
   size_type size() { return size_; }
   size_type max_size() { return SIZE_MAX / sizeof(value_type); }
 
@@ -260,14 +260,6 @@ class List {
     }
   }
 
-  //    // List Element access
-  //    const_reference front() { return *begin(); }
-  //    const_reference back() {
-  //        iterator temp = end();
-  //        --temp;
-  //        return *temp;
-  //    }
-
   void splice(const_iterator pos, List &other) {
     Node<value_type> *previous = pos.get_node()->pPrev;
     Node<value_type> *current = const_cast<Node<value_type> *>(pos.get_node());
@@ -293,14 +285,15 @@ class List {
         if (this->empty() || this_iterator == end() ||
             *this_iterator > *other_iterator) {
           insert(this_iterator, *other_iterator);
-          other.erase(other_iterator);
-          other_iterator++;
+          other.erase(other_iterator++);
+//          other_iterator++;
         } else {
           ++this_iterator;
         }
       }
     }
   }
+
   // old
 
   reference operator[](const int index) {
