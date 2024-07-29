@@ -286,12 +286,73 @@ class List {
             *this_iterator > *other_iterator) {
           insert(this_iterator, *other_iterator);
           other.erase(other_iterator++);
-//          other_iterator++;
+          //          other_iterator++;
         } else {
           ++this_iterator;
         }
       }
     }
+  }
+
+  void sort() {
+    if (size_ > 1) {
+      Node<value_type> *first_node = head_->pNext;
+      Node<value_type> *last_node = head_->pPrev;
+      Node<value_type> *head = head_;
+
+      first_node->pPrev = nullptr;
+      last_node->pNext = nullptr;
+
+      first_node = merge_sort(first_node);
+      first_node->pPrev = head;
+      head_->pNext = first_node;
+      Node<value_type> *temp = head_;
+      while (temp->pNext != nullptr) {
+        temp = temp->pNext;
+      }
+      temp->pNext = head_;
+      head_->pPrev = temp;
+    }
+  }
+
+  Node<value_type> *merge_sort(Node<value_type> *head) {
+    if (head == nullptr || head->pNext == nullptr) {
+      return head;
+    }
+    Node<value_type> *slow = head;
+    Node<value_type> *fast = head->pNext;
+    while (fast != nullptr && fast->pNext != nullptr) {
+      slow = slow->pNext;
+      fast = fast->pNext->pNext;
+    }
+    Node<value_type> *second_half = slow->pNext;
+    slow->pNext = nullptr;
+    Node<value_type> *left = merge_sort(head);
+    Node<value_type> *right = merge_sort(second_half);
+    return merge_sorted(left, right);
+  }
+
+  Node<value_type> *merge_sorted(Node<value_type> *left,
+                                 Node<value_type> *right) {
+    if (left == nullptr) {
+      return right;
+    }
+    if (right == nullptr) {
+      return left;
+    }
+    Node<value_type> *result = nullptr;
+    if (left->data <= right->data) {
+      result = left;
+      result->pPrev = nullptr;
+      result->pNext = merge_sorted(left->pNext, right);
+      result->pNext->pPrev = result;
+    } else {
+      result = right;
+      result->pPrev = nullptr;
+      result->pNext = merge_sorted(left, right->pNext);
+      result->pNext->pPrev = result;
+    }
+    return result;
   }
 
   // old
