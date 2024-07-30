@@ -1,13 +1,6 @@
 #ifndef S21_CONTAINERS_CONTAINERS_S21_VECTOR_H_
 #define S21_CONTAINERS_CONTAINERS_S21_VECTOR_H_
 
-//#include <cmath>
-//#include <initializer_list>
-//#include <iostream>
-//#include <limits>
-//#include <memory>
-//#include <type_traits>
-
 namespace s21 {
 template <typename T>
 class List {
@@ -353,21 +346,6 @@ class List {
       result->pNext->pPrev = result;
     }
     return result;
-  }
-
-  // old
-
-  reference operator[](const int index) {
-    Node<value_type> *current = this->head_;
-    int counter = 0;
-    while (current != nullptr) {
-      if (counter == index) {
-        return current->data;
-      }
-      current = current->pNext;
-      counter++;
-    }
-    return current->data;
   }
 
 };  // List

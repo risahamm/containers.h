@@ -7,12 +7,12 @@ using namespace std;
 int main() {
     cout << endl << endl << "OUTPUT:" << endl;
 
-    s21::List<int> lst = {5, 4, 3, 8, 9, 10, 2, 1, 6, 7};
-    s21::List<int> lst2 = {1, 2, 3};
+    s21::List<int> lst = {5, 4, 3, 2};
+//    s21::List<int> lst2 = {1, 2, 3};
 
 
-    s21::List<int>::ListIterator<int> It1 = lst.begin();
-    s21::List<int>::ListIterator<int> It2 = lst2.begin();
+//    s21::List<int>::ListIterator<int> It1 = lst.begin();
+//    s21::List<int>::ListIterator<int> It2 = lst2.begin();
 //    It++;
 //    lst.insert(It, 4);
 //s21::List<int>::Node<int> *Node1 = It1.get_node();
@@ -25,12 +25,36 @@ int main() {
     for (size_t i = 1; i != lst.size() + 1; i ++) {
         cout << lst[i] << endl;
     }
-    cout << "LIST2:" << endl;
-    for (size_t i = 1; i != lst2.size() + 1; i ++) {
-        cout << lst2[i] << endl;
-    }
+//    cout << "LIST2:" << endl;
+//    for (size_t i = 1; i != lst2.size() + 1; i ++) {
+//        cout << lst2[i] << endl;
+//    }
 
     return 0;
 }
+
+
+
+// old
+//
+//reference operator[](const int index) {
+//    Node<value_type> *current = this->head_;
+//    int counter = 0;
+//    while (current != nullptr) {
+//        if (counter == index) {
+//            return current->data;
+//        }
+//        current = current->pNext;
+//        counter++;
+//    }
+//    return current->data;
+//}
+
+//#include <cmath>
+//#include <initializer_list>
+//#include <iostream>
+//#include <limits>
+//#include <memory>
+//#include <type_traits>
 
 // clang-format -style=Google -i s21_list.h
