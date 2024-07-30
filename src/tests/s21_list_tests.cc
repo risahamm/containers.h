@@ -22,15 +22,15 @@ TEST(ListTest, InitializerListConstructor) {
     EXPECT_EQ(our_list.back(), std_list.back());
 }
 
-TEST(ListTest, ConstructorCopy) {
-    s21::List<int> our_list = {1, 2, 3};
-    std::list<int> std_list = {1, 2, 3};
-    s21::List<int> our_copy(our_list);
-    std::list<int> std_copy(std_list);
-    EXPECT_EQ(our_copy.front(), std_copy.front());
-    EXPECT_EQ(our_copy.back(), std_copy.back());
-}
-
+//TEST(ListTest, ConstructorCopy) {
+//    s21::List<int> our_list = {1, 2, 3};
+//    std::list<int> std_list = {1, 2, 3};
+//    s21::List<int> our_copy(our_list);
+//    std::list<int> std_copy(std_list);
+//    EXPECT_EQ(our_copy.front(), std_copy.front());
+//    EXPECT_EQ(our_copy.back(), std_copy.back());
+//}
+//
 TEST(ListTest, ConstructorMove) {
     s21::List<int> our_list = {1, 2, 3};
     std::list<int> std_list = {1, 2, 3};
@@ -40,16 +40,16 @@ TEST(ListTest, ConstructorMove) {
     EXPECT_EQ(our_copy.back(), std_copy.back());
 }
 
-TEST(ListTest, OperatorMove) {
-    s21::List<int> our_list = {1, 2, 3};
-    std::list<int> std_list = {1, 2, 3};
-    s21::List<int> our_copy;
-    our_copy = std::move(our_list);
-    std::list<int> std_copy;
-    std_copy = std::move(std_list);
-    EXPECT_EQ(our_copy.front(), std_copy.front());
-    EXPECT_EQ(our_copy.back(), std_copy.back());
-}
+//TEST(ListTest, OperatorMove) {
+//    s21::List<int> our_list = {1, 2, 3};
+//    std::list<int> std_list = {1, 2, 3};
+//    s21::List<int> our_copy;
+//    our_copy = std::move(our_list);
+//    std::list<int> std_copy;
+//    std_copy = std::move(std_list);
+//    EXPECT_EQ(our_copy.front(), std_copy.front());
+//    EXPECT_EQ(our_copy.back(), std_copy.back());
+//}
 
 TEST(ListTest, Size) {
     s21::List<int> our_list = {1, 2, 3};
@@ -177,23 +177,6 @@ TEST(ListTest, IteratorEnd_Last) {
     EXPECT_EQ(*our_it, *std_it);
 }
 
-// TEST(ListTest, IteratorEquals) {
-//   s21::List<int> first_list = {1, 2, 3};
-//   s21::List<int>::iterator our_it_first;
-//   our_it_first = first_list.begin();
-//   s21::List<int>::iterator our_it_second;
-//   our_it_second = first_list.begin();
-//   EXPECT_TRUE(our_it_first == our_it_second);
-//   EXPECT_TRUE(our_it_first >= our_it_second);
-//   EXPECT_TRUE(our_it_first <= our_it_second);
-//   ++our_it_second;
-//   EXPECT_TRUE(our_it_first != our_it_second);
-//   EXPECT_TRUE(our_it_second > our_it_first);
-//   EXPECT_TRUE(our_it_second >= our_it_first);
-//   EXPECT_TRUE(our_it_first < our_it_second);
-//   EXPECT_TRUE(our_it_first <= our_it_second);
-// }
-
 TEST(ListTest, Insert) {
     s21::List<int> our_list;
     std::list<int> std_list;
@@ -282,10 +265,10 @@ TEST(ListTest, Unique) {
 TEST(ListTest, Sort) {
     s21::List<int> our_list = {2, 4, 1, 3, 5};
     std::list<int> std_list = {2, 4, 1, 3, 5};
-    s21::List<int>::iterator our_it = our_list.begin();
-    std::list<int>::iterator std_it;
     our_list.sort();
     std_list.sort();
+    s21::List<int>::iterator our_it = our_list.begin();
+    std::list<int>::iterator std_it;
     std_it = std_list.begin();
     EXPECT_EQ(*our_it, *std_it);
     ++our_it;

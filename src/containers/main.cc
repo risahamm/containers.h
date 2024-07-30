@@ -7,7 +7,7 @@ using namespace std;
 int main() {
     cout << endl << endl << "OUTPUT:" << endl;
 
-    s21::List<int> lst = {5, 4, 3, 2};
+    s21::List<int> lst = {2, 4, 1, 3, 5};
 //    s21::List<int> lst2 = {1, 2, 3};
 
 

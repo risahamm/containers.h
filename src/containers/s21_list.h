@@ -1,5 +1,5 @@
-#ifndef S21_CONTAINERS_CONTAINERS_S21_VECTOR_H_
-#define S21_CONTAINERS_CONTAINERS_S21_VECTOR_H_
+#ifndef S21_CONTAINERS_CONTAINERS_S21_LIST_H_
+#define S21_CONTAINERS_CONTAINERS_S21_LIST_H_
 
 namespace s21 {
 template <typename T>
@@ -348,7 +348,24 @@ class List {
     return result;
   }
 
+
+
+//reference operator[](const int index) {
+//    Node<value_type> *current = this->head_;
+//    int counter = 0;
+//    while (current != nullptr) {
+//        if (counter == index) {
+//            return current->data;
+//        }
+//        current = current->pNext;
+//        counter++;
+//    }
+//    return current->data;
+//}
+
+
+
 };  // List
 }  // namespace s21
 
-#endif  // S21_CONTAINERS_CONTAINERS_S21_VECTOR_H_
+#endif  // S21_CONTAINERS_CONTAINERS_S21_LIST_H_
