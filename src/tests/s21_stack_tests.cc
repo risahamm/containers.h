@@ -10,7 +10,6 @@ TEST(StackTest, ConstructorDefault) {
   EXPECT_EQ(our_stack.empty(), std_stack.empty());
 }
 
-
 TEST(StackTest, ConstructorList) {
   s21::Stack<int> our_stack = {1, 2, 3};
   std::stack<int> std_stack;

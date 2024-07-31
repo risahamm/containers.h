@@ -7,7 +7,6 @@ namespace s21 {
 template <typename T, class Container = List<T> >
 class Stack {
  public:
-
   // Member type
   using value_type = T;
   using reference = T &;
