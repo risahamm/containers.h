@@ -46,7 +46,7 @@ int main() {
 //  b = std::move(a);
 
 //  cout << "a = " << a.size() << endl << "b = " << b.size() << endl;
-  cout << "empty " << my.empty() << endl;
+//  cout << "empty " << my.empty() << endl;
 
   return 0;
 }
