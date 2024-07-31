@@ -340,18 +340,13 @@ TEST(Map, InsertOrAssignEmpty) {
   EXPECT_EQ(my.size(), 1);
 }
 
-TEST(MapTest, InsertManyTest_Test0) {
-//  s21::Map<int, std::string> map1;
-  map1.insert_many(1, "one", 2, "two", 3, "three");
-  auto it = map1.begin();
-  EXPECT_EQ(it.GetCurrent()->key_, 1);
-  EXPECT_EQ(it.GetCurrent()->value_, "one");
-  it++;
-  EXPECT_EQ(it.GetCurrent()->key_, 2);
-  EXPECT_EQ(it.GetCurrent()->value_, "two");
-  it++;
-  EXPECT_EQ(it.GetCurrent()->key_, 3);
-  EXPECT_EQ(it.GetCurrent()->value_, "three");
+TEST(Map, InsertMany) {
+  s21::Map<int, std::string> my;
+  my.insert_many(std::pair(1, "one"), std::pair(2, "two"), std::pair(3, "three"));
+  auto it = my.begin();
+  EXPECT_EQ(my.size(), 3);
+  EXPECT_EQ(my.begin()->data, "one");
+  EXPECT_EQ(my.begin()->key, 1);
 }
 
 TEST(Map, Erase) {

@@ -28,9 +28,9 @@ int main() {
 
   s21::Map<int, int> my;
 //  auto it = my.insert(40, 0);
-  my.insert(10, 1);
-  my.insert(20, 2);
-  my.insert(15, 3);
+//  my.insert(10, 1);
+//  my.insert(20, 2);
+//  my.insert(15, 3);
 //  my.insert(90, 4);
 //  my.insert(5, 5);
 //  my.insert(60, 6);
@@ -38,13 +38,15 @@ int main() {
 //  my.insert(50, 8);
 //  my.insert(45, 9);
 
+  my.insert_many(pair<int, int>(1, 1), pair<int, int>(2, 2), pair<int, int>(3, 3));
+
 
 //
 //  s21::Map<int, int> b;
 //  b = std::move(a);
 
 //  cout << "a = " << a.size() << endl << "b = " << b.size() << endl;
-//  cout << "empty " << a.empty() << endl;
+  cout << "empty " << my.empty() << endl;
 
   return 0;
 }

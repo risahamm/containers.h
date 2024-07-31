@@ -64,7 +64,7 @@ class Map {
   /* access or insert specified element */
   mapped_type &at(const key_type key) { return tree_.at(key); }
 
-  mapped_type &operator[](const key_type &key) { return at(key); }
+  mapped_type &operator[](const key_type &key) { return tree_[key]; }
   /*--------------------------------------------------------------------------*/
 
   /* MAP ITERATORS */
@@ -80,7 +80,7 @@ class Map {
   /* checks whether the container is empty */
   bool empty() noexcept { return tree_.empty(); }
 
-  /* checks whether the container is empty */
+  /* returns the number of elements */
   size_t size() noexcept { return tree_.size(); }
 
   /* returns the maximum possible number of elements */
@@ -111,8 +111,7 @@ class Map {
   }
 
   template <typename... Args>
-  std::vector<std::pair<iterator, bool>> insert_many(
-      Args &&...args) {
+  std::vector<std::pair<iterator, bool>> insert_many(Args &&...args) {
     return (tree_.insert_many(std::forward<Args>(args)...));
   }
 
