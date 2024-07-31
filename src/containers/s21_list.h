@@ -45,7 +45,7 @@ class List {
     }
     // ListIterator operator++(int) {} // x++     ((int y = x)++); 'y' didn't
     // change his value.
-    ListIterator &operator=(ListIterator &other) {
+    ListIterator &operator=(const ListIterator &other) {
       if (*this != other) {
         node_ = other.node_;
       }
@@ -123,7 +123,7 @@ class List {
       push_back(i);
     }
   }
-  List(const List &l) {
+  List(const List &l) : size_(0) {
     auto *prev_node = new Node<value_type>(value_type());
     head_ = prev_node;
     Node<value_type> *current = l.head_->pNext;
@@ -138,6 +138,7 @@ class List {
     prev_node->pNext = head_;
     head_->pPrev = prev_node;
   }
+
   List(List &&l) {
     head_ = l.head_;
     size_ = l.size_;
@@ -347,23 +348,6 @@ class List {
     }
     return result;
   }
-
-
-
-//reference operator[](const int index) {
-//    Node<value_type> *current = this->head_;
-//    int counter = 0;
-//    while (current != nullptr) {
-//        if (counter == index) {
-//            return current->data;
-//        }
-//        current = current->pNext;
-//        counter++;
-//    }
-//    return current->data;
-//}
-
-
 
 };  // List
 }  // namespace s21
