@@ -15,6 +15,7 @@ struct Node {
   Node *right = nullptr;
 
   Node() = default;
+
 };  // struct Node
 /*----------------------------------------------------------------------------*/
 
@@ -126,6 +127,18 @@ class TreeIterator {
   Node<key_type, mapped_type> *node_ = nullptr;
 
 };  // class TreeIterator
+/*----------------------------------------------------------------------------*/
+
+template <typename KeyType, typename ValueType>
+class ConstIterator : public TreeIterator<const KeyType, const ValueType> {
+ public:
+  using TreeIterator<const KeyType, const ValueType>::Iterator;
+
+  using typename TreeIterator<const KeyType, const ValueType>::key_type;
+  using typename TreeIterator<const KeyType, const ValueType>::ptr;
+  using typename TreeIterator<const KeyType, const ValueType>::ref;
+
+};  // class ConstIterator
 /*----------------------------------------------------------------------------*/
 
 template <typename KeyType, typename ValueType>
@@ -289,12 +302,21 @@ class Tree {
   }
 
   template <typename... Args>
-  std::vector<std::pair<TreeIterator<KeyType, ValueType>, bool>> insert_many(
-      Args &&...args) {
+  std::vector<std::pair<TreeIterator<KeyType, ValueType>, bool>>
+  insert_many_map(Args &&...args) {
     std::vector<std::pair<TreeIterator<KeyType, ValueType>, bool>> result;
     (result.push_back(insert(std::forward<Args>(args).first,
                              std::forward<Args>(args).second)),
      ...);
+
+    return result;
+  }
+
+  template <typename... Args>
+  std::vector<std::pair<TreeIterator<KeyType, ValueType>, bool>>
+  insert_many_set(Args &&...args) {
+    std::vector<std::pair<TreeIterator<KeyType, unsigned int>, bool>> result;
+    (result.push_back(insert(std::forward<Args>(args).first, 0)), ...);
 
     return result;
   }
@@ -363,8 +385,8 @@ class Tree {
 
   /* TREE LOOKUP */
 
-  /* finds element with specific key */
-  // TODO If no such element is found, end() iterator is returned.
+  /* finds element with specific key. if no such element is found, end()
+   * iterator is returned */
   TreeIterator<KeyType, ValueType> find(const key_type &key_to_find) {
     if (size_ == 0) {
       throw std::out_of_range("No elements in the container.");

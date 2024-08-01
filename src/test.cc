@@ -1,5 +1,5 @@
 #include <iostream>
-#include <map>
+#include <set>
 #include <vector>
 
 #include "s21_containers.h"
@@ -8,7 +8,13 @@
 using namespace std;
 
 int main() {
-//    map<int, int> a;
+    set<int> a;
+
+    a.insert(2);
+
+    auto it = a.begin();
+
+    cout << "it " << *it << endl;
 //    map<int, int> b;
 //  //
 //    a.insert({5, 1});
@@ -26,7 +32,7 @@ int main() {
   // a.at(2) = 8;
   // cout << a.at(2) << endl;
 
-  s21::Map<int, int> my;
+//  s21::Map<int, int> my;
 //  auto it = my.insert(40, 0);
 //  my.insert(10, 1);
 //  my.insert(20, 2);
@@ -38,12 +44,7 @@ int main() {
 //  my.insert(50, 8);
 //  my.insert(45, 9);
 
-  my.insert_many(pair<int, int>(1, 1), pair<int, int>(2, 2), pair<int, int>(3, 3));
 
-
-//
-//  s21::Map<int, int> b;
-//  b = std::move(a);
 
 //  cout << "a = " << a.size() << endl << "b = " << b.size() << endl;
 //  cout << "empty " << my.empty() << endl;

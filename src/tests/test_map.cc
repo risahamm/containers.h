@@ -22,9 +22,9 @@ TEST(Map, InitListConstructor1) {
 }
 
 TEST(Map, InitListConstructor2) {
-  s21::Map<float, int> my = {
+  s21::Map<double, int> my = {
       {6.83656, 0}, {3.256, 1}, {9.873, 2}, {1.756, 3}, {4.323, 4}};
-  std::map<float, int> orig = {
+  std::map<double, int> orig = {
       {6.83656, 0}, {3.256, 1}, {9.873, 2}, {1.756, 3}, {4.323, 4}};
   EXPECT_EQ(my.begin()->key, orig.begin()->first);
 }
@@ -67,8 +67,8 @@ TEST(Map, EqualOverload2) {
 
 TEST(Map, EqualOverload3) {
   s21::Map<int, int> a = {{6, 0}, {3, 1}, {9, 2}, {1, 3}, {4, 4}};
-  a = a;
   size_t a_size_before = a.size();
+  a = a;
   EXPECT_EQ(a.size(), a_size_before);
 }
 
@@ -148,8 +148,8 @@ TEST(Map, BeginEmpty) {
 }
 
 TEST(Map, EndEmpty) {
-    s21::Map<int, int> my;
-    EXPECT_ANY_THROW(my.end());
+  s21::Map<int, int> my;
+  EXPECT_ANY_THROW(my.end());
 }
 
 TEST(Map, IteratorEqual) {
@@ -203,10 +203,10 @@ TEST(Map, IteratorIncrementDecrement) {
 TEST(Map, IteratorDecrement) {
   s21::Map<int, int> my = {{6, 0}, {3, 1}, {9, 2}};
   s21::Map<int, int>::iterator it = my.begin();
-    ++it;
-    ++it;
-    --it;
-    it--;
+  ++it;
+  ++it;
+  --it;
+  it--;
   EXPECT_EQ(it->key, 3);
 }
 
@@ -342,7 +342,8 @@ TEST(Map, InsertOrAssignEmpty) {
 
 TEST(Map, InsertMany) {
   s21::Map<int, std::string> my;
-  my.insert_many(std::pair(1, "one"), std::pair(2, "two"), std::pair(3, "three"));
+  my.insert_many(std::pair(1, "one"), std::pair(2, "two"),
+                 std::pair(3, "three"));
   auto it = my.begin();
   EXPECT_EQ(my.size(), 3);
   EXPECT_EQ(my.begin()->data, "one");
@@ -454,11 +455,11 @@ TEST(Map, EraseNonExistent) {
 }
 
 TEST(Map, EraseEmpty) {
-    s21::Map<int, int> my;
-    my.insert(1, 1);
-    auto it = my.begin();
-    my.erase(it);
-    EXPECT_ANY_THROW(my.erase(it));
+  s21::Map<int, int> my;
+  my.insert(1, 1);
+  auto it = my.begin();
+  my.erase(it);
+  EXPECT_ANY_THROW(my.erase(it));
 }
 
 TEST(Map, Swap) {
@@ -494,7 +495,8 @@ TEST(Map, SwapEmptyAndNonEmpty) {
   s21::Map<int, int> my2;
   size_t my2_size_before = my2.size();
 
-  my.swap(my2);;
+  my.swap(my2);
+  ;
 
   size_t my_size_after = my.size();
   size_t my2_size_after = my2.size();
@@ -557,4 +559,3 @@ TEST(Map, ContainsEmpty) {
   bool res = my.contains(33);
   EXPECT_FALSE(res);
 }
-

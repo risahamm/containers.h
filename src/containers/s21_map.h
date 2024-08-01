@@ -16,7 +16,7 @@ class Map {
   using reference = value_type &;
   using const_reference = const value_type &;
   using iterator = TreeIterator<KeyType, ValueType>;
-  // using const_iterator = typename Tree<key_type, value_type>::TreeItrator;
+  using const_iterator = ConstIterator<key_type, value_type>;
   using size_type = std::size_t;
   /*--------------------------------------------------------------------------*/
 
@@ -112,7 +112,7 @@ class Map {
 
   template <typename... Args>
   std::vector<std::pair<iterator, bool>> insert_many(Args &&...args) {
-    return (tree_.insert_many(std::forward<Args>(args)...));
+    return (tree_.insert_many_map(std::forward<Args>(args)...));
   }
 
   /* if not found, returns exception */
@@ -134,6 +134,7 @@ class Map {
 
  private:
   Tree<KeyType, ValueType> tree_;
+
 };  // class Map
 
 }  // namespace s21
