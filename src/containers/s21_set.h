@@ -16,8 +16,12 @@ class Set {
   using iterator = TreeIterator<KeyType, unsigned int>;
   using const_iterator = ConstIterator<key_type, unsigned int>;
   using size_type = std::size_t;
+
+ private:
+  Tree<KeyType, unsigned int> tree_;
   /*--------------------------------------------------------------------------*/
 
+ public:
   /* SET MEMBER FUNCTIONS */
 
   /* default constructor */
@@ -90,7 +94,9 @@ class Set {
 
   template <typename... Args>
   std::vector<std::pair<iterator, bool>> insert_many(Args &&...args) {
-    return (tree_.insert_many_set(std::forward<Args>(args)...));
+    std::vector<std::pair<iterator, bool>> result;
+    (result.push_back(insert(std::forward<Args>(args))), ...);
+    return result;
   }
 
   /* if not found, returns exception */
@@ -113,9 +119,6 @@ class Set {
    */
   bool contains(const key_type &key) noexcept { return tree_.contains(key); }
   /*--------------------------------------------------------------------------*/
-
- private:
-  Tree<KeyType, unsigned int> tree_;
 
 };  // class Set
 

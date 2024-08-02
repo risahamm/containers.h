@@ -27,6 +27,10 @@ class TreeIterator {
   using ptr = KeyType *;
   using ref = KeyType &;
 
+ private:
+  Node<key_type, mapped_type> *node_ = nullptr;
+
+ public:
   TreeIterator() = default;
 
   explicit TreeIterator(Node<key_type, mapped_type> *data) : node_(data) {}
@@ -123,9 +127,6 @@ class TreeIterator {
 
   bool IsNull() { return (node_ == nullptr) ? true : false; }
 
- private:  // TODO protected потому что наследование
-  Node<key_type, mapped_type> *node_ = nullptr;
-
 };  // class TreeIterator
 /*----------------------------------------------------------------------------*/
 
@@ -154,6 +155,11 @@ class Tree {
   //  using const_iterator;
   using size_type = std::size_t;
 
+ private:
+  size_t size_; /* number of elements in the tree */
+  Node<KeyType, ValueType> *root_;
+
+ public:
   /* TREE MEMBER FUNCTIONS */
 
   /* default constructor */
@@ -301,26 +307,6 @@ class Tree {
     return result;
   }
 
-  template <typename... Args>
-  std::vector<std::pair<TreeIterator<KeyType, ValueType>, bool>>
-  insert_many_map(Args &&...args) {
-    std::vector<std::pair<TreeIterator<KeyType, ValueType>, bool>> result;
-    (result.push_back(insert(std::forward<Args>(args).first,
-                             std::forward<Args>(args).second)),
-     ...);
-
-    return result;
-  }
-
-  template <typename... Args>
-  std::vector<std::pair<TreeIterator<KeyType, ValueType>, bool>>
-  insert_many_set(Args &&...args) {
-    std::vector<std::pair<TreeIterator<KeyType, unsigned int>, bool>> result;
-    (result.push_back(insert(std::forward<Args>(args).first, 0)), ...);
-
-    return result;
-  }
-
   /* if not found, returns exception */
   void erase(TreeIterator<KeyType, ValueType> pos) {
     if (size_ == 0) {
@@ -412,10 +398,7 @@ class Tree {
   }
   /*--------------------------------------------------------------------------*/
 
- private:
-  size_t size_; /* number of elements in the tree */
-  Node<KeyType, ValueType> *root_;
-  /*--------------------------------------------------------------------------*/
+  /* PRIVATE METHODS */
 
   /* recursively searches for the right place to insert a new node and inserts
    */

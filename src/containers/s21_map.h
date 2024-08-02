@@ -18,8 +18,12 @@ class Map {
   using iterator = TreeIterator<KeyType, ValueType>;
   using const_iterator = ConstIterator<key_type, value_type>;
   using size_type = std::size_t;
+
+ private:
+  Tree<KeyType, ValueType> tree_;
   /*--------------------------------------------------------------------------*/
 
+ public:
   /* MAP MEMBER FUNCTIONS */
 
   /* default constructor */
@@ -112,7 +116,11 @@ class Map {
 
   template <typename... Args>
   std::vector<std::pair<iterator, bool>> insert_many(Args &&...args) {
-    return (tree_.insert_many_map(std::forward<Args>(args)...));
+    std::vector<std::pair<iterator, bool>> result;
+    (result.push_back(insert(std::forward<Args>(args).first,
+                             std::forward<Args>(args).second)),
+     ...);
+    return result;
   }
 
   /* if not found, returns exception */
@@ -131,9 +139,6 @@ class Map {
    */
   bool contains(const key_type &key) noexcept { return tree_.contains(key); }
   /*--------------------------------------------------------------------------*/
-
- private:
-  Tree<KeyType, ValueType> tree_;
 
 };  // class Map
 

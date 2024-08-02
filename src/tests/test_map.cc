@@ -154,21 +154,21 @@ TEST(Map, EndEmpty) {
 
 TEST(Map, IteratorEqual) {
   s21::Map<int, int> my = {{6, 0}, {3, 1}, {9, 2}, {1, 3}, {4, 4}};
-  s21::Map<int, int>::iterator it = my.begin();
+  auto it = my.begin();
   it = it;
-  s21::Map<int, int>::iterator it2 = it;
+  auto it2 = it;
   EXPECT_EQ(it->key, it2->key);
 }
 
 TEST(Map, IteratorDereference) {
   s21::Map<int, int> my = {{6, 0}, {3, 1}, {9, 2}, {1, 3}, {4, 4}};
-  s21::Map<int, int>::iterator it = my.end();
+  auto it = my.end();
   EXPECT_ANY_THROW(*it);
 }
 
 TEST(Map, IteratorDereference2) {
   s21::Map<int, int> my = {{6, 0}, {3, 1}, {9, 2}, {1, 3}, {4, 4}};
-  s21::Map<int, int>::iterator it = my.end();
+  auto it = my.end();
   EXPECT_ANY_THROW(it->key);
 }
 
@@ -194,7 +194,6 @@ TEST(Map, IteratorIncrementDecrement) {
   EXPECT_EQ(it->data, 4);
   for (size_t i = my.size(); i > 1; --i) {
     --it;
-    std::cout << "it " << it->key << std::endl;
   }
   EXPECT_EQ(it->key, 5);
   EXPECT_EQ(it->data, 5);
@@ -202,7 +201,7 @@ TEST(Map, IteratorIncrementDecrement) {
 
 TEST(Map, IteratorDecrement) {
   s21::Map<int, int> my = {{6, 0}, {3, 1}, {9, 2}};
-  s21::Map<int, int>::iterator it = my.begin();
+  auto it = my.begin();
   ++it;
   ++it;
   --it;
@@ -217,6 +216,7 @@ TEST(Map, Empty1) {
   s21::Map<int, int> my = {{6, 0}, {3, 1}, {9, 2}, {1, 3}, {4, 4}};
   EXPECT_FALSE(my.empty());
 }
+
 TEST(Map, Empty2) {
   s21::Map<int, int> my;
   EXPECT_TRUE(my.empty());
@@ -496,7 +496,6 @@ TEST(Map, SwapEmptyAndNonEmpty) {
   size_t my2_size_before = my2.size();
 
   my.swap(my2);
-  ;
 
   size_t my_size_after = my.size();
   size_t my2_size_after = my2.size();
@@ -542,6 +541,9 @@ TEST(Map, MergeEmpty) {
   EXPECT_TRUE((my_size_before == my_size_after));
 }
 
+/* MAP LOOKUP */
+/*----------------------------------------------------------------------------*/
+
 TEST(Map, ContainsExistent) {
   s21::Map<int, int> my = {{6, 0}, {3, 1}, {9, 2}, {5, 3}, {4, 4}};
   bool res = my.contains(3);
@@ -559,3 +561,5 @@ TEST(Map, ContainsEmpty) {
   bool res = my.contains(33);
   EXPECT_FALSE(res);
 }
+
+/*----------------------------------------------------------------------------*/
