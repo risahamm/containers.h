@@ -19,17 +19,28 @@ class Array {
  public:
   // Constructors
   Array() = default;
-  //        Array(std::initializer_list<value_type> const &items) {}
+  Array(std::initializer_list<value_type> const &items) {
+    size_type i = 0;
+    for (const auto &item : items) {
+      head_[i] = item;
+      ++i;
+    }
+  }
   Array(const Array &a) = default;
   Array(Array &&a) = default;
   ~Array() = default;
-  Array operator=(Array &&a) = default;
+  Array &operator=(Array &&a) = default;
 
   // Array Element access:
-  //        reference at(size_type pos) {}
-  //        reference operator[](size_type pos) {}
-  const_reference front() { return head_[0]; }
-  const_reference back() { return head_[N - 1]; }
+  reference at(size_type pos) {
+    if (pos >= size()) {
+      throw std::out_of_range("Index is out of range");
+    }
+    return head_[pos];
+  }
+  reference operator[](size_type pos) { return head_[pos]; }
+  const_reference front() const { return head_[0]; }
+  const_reference back() const { return head_[N - 1]; }
   iterator data() { return head_; }
 
   // Array Iterators:
