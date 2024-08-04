@@ -3,51 +3,49 @@
 #include <vector>
 
 #include "s21_containers.h"
-// #include "s21_tree.h"
 
 using namespace std;
 
 int main() {
-    set<int> a;
+  //  multiset<int> a;
+  //
+  //  a.insert(40);
+  //  a.insert(10);
+  //  a.insert(20);
+  //  a.insert(15);
+  //  a.insert(90);
+  //  a.insert(5);
+  //  a.insert(60);
+  //  a.insert(70);
+  //  a.insert(50);
+  //  a.insert(45);
+  //
+  //  auto p1 = a.equal_range(70);
+  //
+  //  cout << "p1 " << *p1.first << endl;
+  //  cout << "p1 " << *p1.second << endl;
 
-    a.insert(2);
+  s21::Multiset<int> b;
+  b.insert(60);
+  b.insert(40);
+  b.insert(70);
+  b.insert(30);
+  b.insert(65);
+  b.insert(50);
+  b.insert(80);
+  b.insert(50);
+  b.insert(50);
+  b.insert(50);
+  //  b.insert(70);
+  //  b.insert(50);
+  //  b.insert(45);
 
-    auto it = a.begin();
+  //  auto p2 = b.equal_range(80);
+  //
+  //  cout << "p2 " << *p2.first << endl;
+  //  cout << "p2 " << *p2.second << endl;
 
-    cout << "it " << *it << endl;
-//    map<int, int> b;
-//  //
-//    a.insert({5, 1});
-//    a.insert({3, 3});
-//    a.insert({2, 7});
-//
-//    b.insert({1, 1});
-//    b.insert({4, 3});
-//    b.insert({6, 7});
-//
-//    a.merge(b);
-
-  //      cout << "insert->first " << a.insert({8, 0}).first->first << endl;
-  //      cout << "insert->second " << a.insert({8, 0}).second << endl;
-  // a.at(2) = 8;
-  // cout << a.at(2) << endl;
-
-//  s21::Map<int, int> my;
-//  auto it = my.insert(40, 0);
-//  my.insert(10, 1);
-//  my.insert(20, 2);
-//  my.insert(15, 3);
-//  my.insert(90, 4);
-//  my.insert(5, 5);
-//  my.insert(60, 6);
-//  auto it2 = my.insert(70, 7);
-//  my.insert(50, 8);
-//  my.insert(45, 9);
-
-
-
-//  cout << "a = " << a.size() << endl << "b = " << b.size() << endl;
-//  cout << "empty " << my.empty() << endl;
+  cout << "empty " << b.empty() << endl;
 
   return 0;
 }

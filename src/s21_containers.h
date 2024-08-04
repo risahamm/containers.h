@@ -5,6 +5,8 @@
 
 #include "containers/s21_vector.h"
 #include "containers/s21_map.h"
+#include "containers/s21_set.h"
+#include "containers/s21_multiset.h"
 
 // list 3
 // map 5

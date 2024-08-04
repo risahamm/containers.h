@@ -47,6 +47,11 @@ class TreeIterator {
     return *this;
   }
 
+  TreeIterator &operator=(Node<key_type, mapped_type> *node) {
+    node_ = node;
+    return *this;
+  }
+
   /* access node key */
   ref operator*() {
     Node<key_type, mapped_type> *result = node_;
@@ -126,6 +131,8 @@ class TreeIterator {
   }
 
   bool IsNull() { return (node_ == nullptr) ? true : false; }
+
+  Node<key_type, mapped_type> *get_node() { return node_; }
 
 };  // class TreeIterator
 /*----------------------------------------------------------------------------*/
@@ -307,6 +314,59 @@ class Tree {
     return result;
   }
 
+  TreeIterator<KeyType, ValueType> InsertMultiset(const key_type &key) {
+    if (contains(key) == false) {
+      return insert(key, 0U).first;
+    }
+
+    /* find next element after the key */
+    auto insert_node = upper_bound(key);
+    TreeIterator<KeyType, ValueType> result;
+
+    /* if upper_bound != end() */
+    if (insert_node.IsNull() == false) {
+      /* move back to the last existing element with equivalent key */
+      --insert_node;
+      auto *new_node = new Node<KeyType, unsigned int>;
+      new_node->key = key;
+      new_node->data = 0U;
+      new_node->parent = insert_node.get_node();
+      new_node->left = insert_node->left;
+      new_node->right = insert_node->right;
+      if (insert_node->left != nullptr) {
+        insert_node->left->parent = new_node;
+        insert_node->left = nullptr;
+      }
+      if (insert_node->right != nullptr) {
+        insert_node->right->parent = new_node;
+      }
+      insert_node->right = new_node;
+      UpdateHeight(new_node);
+      Balance(new_node);
+      result = new_node;
+
+      /* if last existing element with equivalent key is max element in the
+       * container */
+    } else {
+      insert_node = FindMaxRight(root_);
+      auto *new_node = new Node<KeyType, unsigned int>;
+      new_node->key = key;
+      new_node->data = 0U;
+      new_node->parent = insert_node.get_node();
+      new_node->left = insert_node->left;
+      if (insert_node->left != nullptr) {
+        insert_node->left->parent = new_node;
+        insert_node->left = nullptr;
+      }
+      insert_node->right = new_node;
+      UpdateHeight(new_node);
+      Balance(new_node);
+      result = new_node;
+    }
+    ++size_;
+    return result;
+  }
+
   /* if not found, returns exception */
   void erase(TreeIterator<KeyType, ValueType> pos) {
     if (size_ == 0) {
@@ -395,6 +455,24 @@ class Tree {
       ret_val = true;
     }
     return ret_val;
+  }
+
+  /* returns an iterator to the first element greater than the given key. if no
+   * such element is found, end() iterator is returned */
+  TreeIterator<KeyType, ValueType> upper_bound(const key_type &key) {
+    auto it = find(key);
+    if (it.IsNull() == false) {
+      while (*it == key) {
+        ++it;
+      }
+    }
+    return it;
+  }
+
+  /* returns an iterator to the first element not less than the given key. if no
+   * such element is found, end() iterator is returned */
+  TreeIterator<KeyType, ValueType> lower_bound(const key_type &key) {
+    return find(key);
   }
   /*--------------------------------------------------------------------------*/
 
