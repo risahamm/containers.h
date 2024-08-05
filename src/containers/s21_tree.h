@@ -474,6 +474,16 @@ class Tree {
   TreeIterator<KeyType, ValueType> lower_bound(const key_type &key) {
     return find(key);
   }
+
+  /* returns the number of elements matching a specific key */
+  size_type count(const key_type &key) {
+    size_type res = 0;
+    auto begin = lower_bound(key);
+    while(begin != upper_bound(key)) {
+      ++res;
+    }
+    return res;
+  }
   /*--------------------------------------------------------------------------*/
 
   /* PRIVATE METHODS */

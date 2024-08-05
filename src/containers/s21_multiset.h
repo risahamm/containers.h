@@ -107,6 +107,9 @@ class Multiset {
 
   /* MULTISET LOOKUP */
 
+  /* returns the number of elements matching a specific key */
+  size_type count(const key_type &key) { return tree_.count(key); }
+
   /* finds element with specific key. if no such element is found, end()
    * iterator is returned */
   iterator find(const key_type &key) {

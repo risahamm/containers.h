@@ -45,6 +45,7 @@ int main() {
   //  cout << "p2 " << *p2.first << endl;
   //  cout << "p2 " << *p2.second << endl;
 
+  cout << "count " << b.count(50) << endl;
   cout << "empty " << b.empty() << endl;
 
   return 0;
