@@ -331,12 +331,12 @@ class Tree {
       new_node->key = key;
       new_node->data = 0U;
       new_node->parent = insert_node.get_node();
-      new_node->left = insert_node->left;
+      //      new_node->left = insert_node->left;
       new_node->right = insert_node->right;
-      if (insert_node->left != nullptr) {
-        insert_node->left->parent = new_node;
-        insert_node->left = nullptr;
-      }
+      //      if (insert_node->left != nullptr) {
+      //        insert_node->left->parent = new_node;
+      //        insert_node->left = nullptr;
+      //      }
       if (insert_node->right != nullptr) {
         insert_node->right->parent = new_node;
       }
@@ -460,10 +460,13 @@ class Tree {
   /* returns an iterator to the first element greater than the given key. if no
    * such element is found, end() iterator is returned */
   TreeIterator<KeyType, ValueType> upper_bound(const key_type &key) {
-    auto it = find(key);
+    auto it = lower_bound(key);
     if (it.IsNull() == false) {
       while (*it == key) {
         ++it;
+        if (it.IsNull() == true) {
+          break;
+        }
       }
     }
     return it;
@@ -472,15 +475,22 @@ class Tree {
   /* returns an iterator to the first element not less than the given key. if no
    * such element is found, end() iterator is returned */
   TreeIterator<KeyType, ValueType> lower_bound(const key_type &key) {
-    return find(key);
+    TreeIterator<KeyType, ValueType> it = begin();
+    for (; !it.IsNull(); ++it) {
+      if (*it == key) {
+        break;
+      }
+    }
+    return it;
   }
 
   /* returns the number of elements matching a specific key */
   size_type count(const key_type &key) {
     size_type res = 0;
-    auto begin = lower_bound(key);
-    while(begin != upper_bound(key)) {
+    auto it = lower_bound(key);
+    while (it != upper_bound(key)) {
       ++res;
+      ++it;
     }
     return res;
   }

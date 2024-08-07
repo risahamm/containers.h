@@ -40,7 +40,7 @@ class Multiset {
   }
 
   /* destructor */
-  ~Multiset() noexcept {}
+  ~Multiset() noexcept { clear(); }
 
   /* = overload, copy assignment */
   Multiset &operator=(const Multiset &other) noexcept {
@@ -91,7 +91,8 @@ class Multiset {
   template <typename... Args>
   std::vector<std::pair<iterator, bool>> insert_many(Args &&...args) {
     std::vector<std::pair<iterator, bool>> result;
-    (result.push_back(insert(std::forward<Args>(args))), ...);
+    (result.push_back(std::pair<iterator, bool>(
+        (insert(std::forward<Args>(args)), ...), true)));
     return result;
   }
 
@@ -112,9 +113,7 @@ class Multiset {
 
   /* finds element with specific key. if no such element is found, end()
    * iterator is returned */
-  iterator find(const key_type &key) {
-    return tree_.find(key);
-  }  // TODO find для мультисета
+  iterator find(const key_type &key) { return tree_.find(key); }
 
   /* checks if there is an element with key equivalent to key in the container
    */

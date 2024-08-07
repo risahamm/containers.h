@@ -40,7 +40,7 @@ class Set {
   }
 
   /* destructor */
-  ~Set() noexcept {}
+  ~Set() noexcept { clear(); }
 
   /* = overload, copy assignment */
   Set &operator=(const Set &other) noexcept {

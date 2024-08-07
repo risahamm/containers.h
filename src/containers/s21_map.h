@@ -42,7 +42,7 @@ class Map {
   }
 
   /* destructor */
-  ~Map() noexcept {}
+  ~Map() noexcept { clear(); }
 
   /* = overload, copy assignment */
   Map &operator=(const Map &other) noexcept {
