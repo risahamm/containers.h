@@ -17,11 +17,11 @@ clean:
 	@rm -rf test *.gcda *.gcno *.o *.info *.a test.dSYM a.out gcov_report
 
 check_style:
-	clang-format -style=Google -n *.cc *.h containers/*.h
+	clang-format -style=Google -n *.h containers/*.h
 	#clang-format -style=Google -n tests/*.cc
 
 beautify:
-	clang-format -style=Google -i *.cc *.h containers/*.h
+	clang-format -style=Google -i *.h containers/*.h
 	#clang-format -style=Google -i tests/*.cc
 
 valgrind:
