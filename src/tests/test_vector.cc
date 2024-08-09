@@ -442,6 +442,15 @@ TEST(Vector, SwapEmptyAndNonEmptyVectors) {
   EXPECT_TRUE(our_vector_swap.empty());
 }
 
+TEST(VectorTest, InsertManyBack) {
+  s21::Vector<int> our_vector = {1, 2, 3, 4};
+  our_vector.insert_many_back(5, 6, 7);
+  EXPECT_EQ(our_vector.size(), 7U);
+  for (std::size_t i = 0; i < our_vector.size(); ++i) {
+    EXPECT_EQ(our_vector[i], (int)i + 1);
+  }
+}
+
 int main() {
   ::testing::InitGoogleTest();
   return RUN_ALL_TESTS();

@@ -53,9 +53,6 @@ class Set {
 
   /* = overload, move assignment */
   Set &operator=(Set &&other) noexcept {
-    if (this == &other) {
-      return *this;
-    }
     tree_ = std::move(other.tree_);
     return *this;
   }

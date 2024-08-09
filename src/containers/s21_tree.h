@@ -331,12 +331,7 @@ class Tree {
       new_node->key = key;
       new_node->data = 0U;
       new_node->parent = insert_node.get_node();
-      //      new_node->left = insert_node->left;
       new_node->right = insert_node->right;
-      //      if (insert_node->left != nullptr) {
-      //        insert_node->left->parent = new_node;
-      //        insert_node->left = nullptr;
-      //      }
       if (insert_node->right != nullptr) {
         insert_node->right->parent = new_node;
       }
@@ -486,8 +481,14 @@ class Tree {
 
   /* returns the number of elements matching a specific key */
   size_type count(const key_type &key) {
+    if (size_ == 0) {
+      return 0;
+    }
     size_type res = 0;
     auto it = lower_bound(key);
+    if (it.IsNull() == true) {
+      return 0;
+    }
     while (it != upper_bound(key)) {
       ++res;
       ++it;

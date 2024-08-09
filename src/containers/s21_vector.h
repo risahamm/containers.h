@@ -27,7 +27,6 @@ class Vector {
   // Vector Element access
   reference at(size_type pos);          // access a specified element
   reference operator[](size_type pos);  // [] overload
-  // TODO [] для const
   const_reference front();              // access the first element
   const_reference back();               // access the last element
   T *data() noexcept;                   // direct access the underlying array
@@ -47,6 +46,10 @@ class Vector {
   // Vector Modifiers
   void clear() noexcept;
   iterator insert(iterator pos, const_reference value);
+
+  template <class... Args>
+  void insert_many_back(Args &&...args);
+
   void erase(iterator pos);
   void push_back(const_reference value);
   void pop_back();
@@ -120,7 +123,7 @@ Vector<value_type> Vector<value_type>::operator=(
   v.size_ = 0;
   v.capacity_ = 0;
   v.data_ = nullptr;
-  return *this; // TODO return &Vector
+  return *this;
 }
 
 /* destructor */
@@ -148,29 +151,23 @@ typename Vector<value_type>::reference Vector<value_type>::at(size_type pos) {
 template <typename value_type>
 typename Vector<value_type>::reference Vector<value_type>::operator[](
     size_type pos) {
-//  if (size_ != 0 && pos < size_) {
-    return data_[pos];
-//  }
+  return data_[pos];
 }
 
 /* returns a reference to the first element in the container. calling front on
  * an empty container causes undefined behavior */
 template <typename value_type>
 typename Vector<value_type>::const_reference Vector<value_type>::front() {
-//  if (size_ != 0) {
-    const_reference first_element = *data_;
-    return first_element;
-//  }
+  const_reference first_element = *data_;
+  return first_element;
 }
 
 /* returns a reference to the last element in the container. calling back on an
  * empty container causes undefined behavior */
 template <typename value_type>
 typename Vector<value_type>::const_reference Vector<value_type>::back() {
-//  if (size_ != 0) {
-    const_reference last_element = data_[size_ - 1];
-    return last_element;
-//  }
+  const_reference last_element = data_[size_ - 1];
+  return last_element;
 }
 
 /* direct access the underlying array */
@@ -311,6 +308,15 @@ typename Vector<value_type>::iterator Vector<value_type>::insert(
   capacity_ = result.capacity_;
   result.data_ = nullptr;
   return return_val;
+}
+
+template <class value_type>
+template <class... Args>
+void Vector<value_type>::insert_many_back(Args &&...args) {
+  Vector<value_type> tmp{args...};
+  for (size_type i = 0; i < tmp.size(); ++i) {
+    push_back(tmp[i]);
+  }
 }
 
 /* adds an element to the end */

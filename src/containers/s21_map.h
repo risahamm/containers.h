@@ -55,9 +55,6 @@ class Map {
 
   /* = overload, move assignment */
   Map &operator=(Map &&other) noexcept {
-    if (this == &other) {
-      return *this;
-    }
     tree_ = std::move(other.tree_);
     return *this;
   }

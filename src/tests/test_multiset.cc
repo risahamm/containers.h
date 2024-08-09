@@ -427,12 +427,12 @@ TEST(Multiset, SwapEmptyAndNonEmpty) {
 
 TEST(Multiset, Merge) {
   s21::Multiset<int> my = {6, 3, 9, 5, 4};
-  std::set<int> orig = {6, 3, 9, 5, 4};
+  std::multiset<int> orig = {6, 3, 9, 5, 4};
   int my_begin_before = *my.begin();
   size_t my_size_before = my.size();
 
-  s21::Multiset<int> my2 = {1, 1, 3};
-  std::set<int> orig2 = {1, 1, 3};
+  s21::Multiset<int> my2 = {1, 2, 8};
+  std::multiset<int> orig2 = {1, 2, 8};
 
   my.merge(my2);
   orig.merge(orig2);
@@ -447,11 +447,11 @@ TEST(Multiset, Merge) {
 
 TEST(Multiset, MergeEmpty) {
   s21::Multiset<int> my = {6, 3, 9, 5, 4};
-  std::set<int> orig = {6, 3, 9, 5, 4};
+  std::multiset<int> orig = {6, 3, 9, 5, 4};
   size_t my_size_before = my.size();
 
   s21::Multiset<int> my2;
-  std::set<int> orig2;
+  std::multiset<int> orig2;
 
   my.merge(my2);
   orig.merge(orig2);
@@ -465,3 +465,119 @@ TEST(Multiset, MergeEmpty) {
 /* MULTISET LOOKUP */
 /*----------------------------------------------------------------------------*/
 
+TEST(Multiset, CountNonEmpty) {
+  s21::Multiset<int> my = {60, 40, 70, 30, 65, 50, 80, 50, 50, 50};
+  std::multiset<int> orig = {60, 40, 70, 30, 65, 50, 80, 50, 50, 50};
+
+  EXPECT_EQ(my.count(50), orig.count(50));
+}
+
+TEST(Multiset, CountEmpty) {
+  s21::Multiset<int> my;
+  std::multiset<int> orig;
+  EXPECT_EQ(my.count(50), orig.count(50));
+}
+
+TEST(Multiset, CountNonExistent) {
+  s21::Multiset<int> my = {60, 40, 70, 30, 65, 50, 80, 50, 50, 50};
+  std::multiset<int> orig = {60, 40, 70, 30, 65, 50, 80, 50, 50, 50};
+  EXPECT_EQ(my.count(100), orig.count(100));
+}
+
+TEST(Multiset, FindExistent) {
+  s21::Multiset<int> my = {6, 3, 9, 5, 4};
+  std::multiset<int> orig = {6, 3, 9, 5, 4};
+  auto it_my = my.find(5);
+  auto it_orig = orig.find(5);
+  EXPECT_EQ(*it_my, *it_orig);
+}
+
+TEST(Multiset, FindNonExistent) {
+  s21::Multiset<int> my = {6, 3, 9, 5, 4};
+  auto it_my = my.find(33);
+  EXPECT_ANY_THROW(*it_my);
+}
+
+TEST(Multiset, FindEmpty) {
+  s21::Multiset<int> my;
+  EXPECT_ANY_THROW(my.find(33));
+}
+
+TEST(Multiset, ContainsExistent) {
+  s21::Multiset<int> my = {6, 3, 9, 5, 4};
+  bool res = my.contains(3);
+  EXPECT_TRUE(res);
+}
+
+TEST(Multiset, ContainsNonExistent) {
+  s21::Multiset<int> my = {6, 3, 9, 5, 4};
+  bool res = my.contains(33);
+  EXPECT_FALSE(res);
+}
+
+TEST(Multiset, ContainsEmpty) {
+  s21::Multiset<int> my;
+  bool res = my.contains(33);
+  EXPECT_FALSE(res);
+}
+
+TEST(Multiset, EqualRange) {
+  s21::Multiset<int> my = {60, 40, 70, 30, 65, 50, 80, 50, 50, 50};
+  std::multiset<int> orig = {60, 40, 70, 30, 65, 50, 80, 50, 50, 50};
+  std::pair<s21::Multiset<int>::iterator, s21::Multiset<int>::iterator> my_res = my.equal_range(50);
+  std::pair<std::multiset<int>::iterator, std::multiset<int>::iterator> orig_res = orig.equal_range(50);
+  EXPECT_EQ(*my_res.first, *orig_res.first);
+  EXPECT_EQ(*my_res.second, *orig_res.second);
+}
+
+TEST(Multiset, EqualRangeEmpty) {
+  s21::Multiset<int> my;
+  std::pair<s21::Multiset<int>::iterator, s21::Multiset<int>::iterator> my_res;
+  EXPECT_ANY_THROW(my_res = my.equal_range(100););
+}
+
+TEST(Multiset, EqualRangeNonExistent) {
+  s21::Multiset<int> my = {60, 40, 70, 30, 65, 50, 80, 50, 50, 50};
+  std::pair<s21::Multiset<int>::iterator, s21::Multiset<int>::iterator> my_res = my.equal_range(100);
+  EXPECT_ANY_THROW(*my_res.first);
+}
+
+TEST(Multiset, LowerBound) {
+  s21::Multiset<int> my = {60, 40, 70, 30, 65, 50, 80, 50, 50, 50};
+  std::multiset<int> orig = {60, 40, 70, 30, 65, 50, 80, 50, 50, 50};
+  auto my_it = my.lower_bound(50);
+  auto orig_it = orig.lower_bound(50);
+  EXPECT_EQ(*my_it, *orig_it);
+}
+
+TEST(Multiset, LowerBoundEmpty) {
+  s21::Multiset<int> my;
+  s21::Multiset<int>::iterator my_it;
+  EXPECT_ANY_THROW(my_it = my.lower_bound(50););
+}
+
+TEST(Multiset, LowerBoundNonExistent) {
+  s21::Multiset<int> my= {60, 40, 70, 30, 65, 50, 80, 50, 50, 50};
+  s21::Multiset<int>::iterator my_it = my.lower_bound(100);
+  EXPECT_ANY_THROW(*my_it);
+}
+
+TEST(Multiset, UpperBound) {
+  s21::Multiset<int> my = {60, 40, 70, 30, 65, 50, 80, 50, 50, 50};
+  std::multiset<int> orig = {60, 40, 70, 30, 65, 50, 80, 50, 50, 50};
+  auto my_it = my.lower_bound(50);
+  auto orig_it = orig.lower_bound(50);
+  EXPECT_EQ(*my_it, *orig_it);
+}
+
+TEST(Multiset, UpperBoundEmpty) {
+  s21::Multiset<int> my;
+  s21::Multiset<int>::iterator my_it;
+  EXPECT_ANY_THROW(my_it = my.lower_bound(50););
+}
+
+TEST(Multiset, UpperBoundExistent) {
+  s21::Multiset<int> my= {60, 40, 70, 30, 65, 50, 80, 50, 50, 50};
+  s21::Multiset<int>::iterator my_it = my.lower_bound(100);
+  EXPECT_ANY_THROW(*my_it);
+}

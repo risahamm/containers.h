@@ -53,9 +53,6 @@ class Multiset {
 
   /* = overload, move assignment */
   Multiset &operator=(Multiset &&other) noexcept {
-    if (this == &other) {
-      return *this;
-    }
     tree_ = std::move(other.tree_);
     return *this;
   }
