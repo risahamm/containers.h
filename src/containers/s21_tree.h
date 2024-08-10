@@ -52,7 +52,8 @@ class TreeIterator {
     return *this;
   }
 
-  /* access node key */
+  /**
+   * access node key */
   ref operator*() {
     Node<key_type, mapped_type> *result = node_;
     if (result != nullptr) {
@@ -63,7 +64,8 @@ class TreeIterator {
     return result->key;
   }
 
-  /* access node elements */
+  /**
+   * access node elements */
   Node<key_type, mapped_type> *operator->() {
     if (node_ != nullptr) {
       return node_;
@@ -159,7 +161,6 @@ class Tree {
   using value_type = std::pair<const KeyType, ValueType>;
   using reference = value_type &;
   using const_reference = const value_type &;
-  //  using const_iterator;
   using size_type = std::size_t;
 
  private:
@@ -169,18 +170,22 @@ class Tree {
  public:
   /* TREE MEMBER FUNCTIONS */
 
-  /* default constructor */
+  /**
+   * default constructor */
   Tree() noexcept : size_(0), root_(nullptr) {}
 
-  /* copy constructor */
+  /**
+   * copy constructor */
   Tree(const Tree &other) noexcept : size_(0) { *this = other; }
 
-  /* move constructor */
+  /**
+   * move constructor */
   Tree(Tree &&other) noexcept : size_(0) { *this = std::move(other); }
 
   ~Tree() noexcept { clear(); }
 
-  /* = overload, copy assignment */
+  /**
+   * = overload, copy assignment */
   Tree &operator=(const Tree &other) noexcept {
     if (this != &other) {
       if (size_ != 0) {
@@ -192,7 +197,8 @@ class Tree {
     return *this;
   }
 
-  /* = overload, move assignment */
+  /**
+   * = overload, move assignment */
   Tree &operator=(Tree &&other) noexcept {
     if (this != &other) {
       if (size_ != 0) {
@@ -226,7 +232,8 @@ class Tree {
 
   /* TREE ELEMENT ACCESS */
 
-  /* access or insert specified element */
+  /**
+   * access or insert specified element */
   mapped_type &operator[](const key_type &key) { return at(key); }
 
   mapped_type &at(const key_type key) {
@@ -240,13 +247,16 @@ class Tree {
 
   /* TREE CAPACITY */
 
-  /* returns the number of elements */
+  /**
+   * returns the number of elements */
   size_type size() noexcept { return size_; }
 
-  /* checks whether the container is empty */
+  /**
+   * checks whether the container is empty */
   bool empty() noexcept { return !size_; }
 
-  /* returns the maximum possible number of elements */
+  /**
+   * returns the maximum possible number of elements */
   size_type max_size() noexcept {
     return SIZE_MAX / sizeof(Node<KeyType, ValueType> *);
   }
@@ -262,17 +272,18 @@ class Tree {
     root_ = nullptr;
   }
 
-  /* inserts node and returns iterator to where the element is in the container
+  /**
+   * inserts node and returns iterator to where the element is in the container
    * and bool denoting whether the insertion took place */
   std::pair<TreeIterator<KeyType, ValueType>, bool> insert(
       const value_type &new_node) {
-    std::pair<TreeIterator<KeyType, ValueType>, bool> result;
     key_type new_key = new_node.first;
     mapped_type value = new_node.second;
     return insert(new_key, value);
   }
 
-  /* inserts value by key and returns iterator to where the element is in the
+  /**
+   * inserts value by key and returns iterator to where the element is in the
    * container and bool denoting whether the insertion took place */
   std::pair<TreeIterator<KeyType, ValueType>, bool> insert(
       const key_type &new_key, const mapped_type &value) {
@@ -297,7 +308,8 @@ class Tree {
     return result;
   }
 
-  /* if no equivalent key exists, inserts an element. if the key already exists,
+  /**
+   * if no equivalent key exists, inserts an element. if the key already exists,
    * assigns new value to the element with such key */
   std::pair<TreeIterator<KeyType, ValueType>, bool> insert_or_assign(
       const key_type &key, const mapped_type &value) {
@@ -306,7 +318,8 @@ class Tree {
       return insert(key, value);
     }
 
-    /* if the key already exists, overwrite the value */
+    /**
+     * if the key already exists, overwrite the value */
     at(key) = value;
     std::pair<TreeIterator<KeyType, ValueType>, bool> result;
     result.first = find(key);
@@ -314,55 +327,8 @@ class Tree {
     return result;
   }
 
-  TreeIterator<KeyType, ValueType> InsertMultiset(const key_type &key) {
-    if (contains(key) == false) {
-      return insert(key, 0U).first;
-    }
-
-    /* find next element after the key */
-    auto insert_node = upper_bound(key);
-    TreeIterator<KeyType, ValueType> result;
-
-    /* if upper_bound != end() */
-    if (insert_node.IsNull() == false) {
-      /* move back to the last existing element with equivalent key */
-      --insert_node;
-      auto *new_node = new Node<KeyType, unsigned int>;
-      new_node->key = key;
-      new_node->data = 0U;
-      new_node->parent = insert_node.get_node();
-      new_node->right = insert_node->right;
-      if (insert_node->right != nullptr) {
-        insert_node->right->parent = new_node;
-      }
-      insert_node->right = new_node;
-      UpdateHeight(new_node);
-      Balance(new_node);
-      result = new_node;
-
-      /* if last existing element with equivalent key is max element in the
-       * container */
-    } else {
-      insert_node = FindMaxRight(root_);
-      auto *new_node = new Node<KeyType, unsigned int>;
-      new_node->key = key;
-      new_node->data = 0U;
-      new_node->parent = insert_node.get_node();
-      new_node->left = insert_node->left;
-      if (insert_node->left != nullptr) {
-        insert_node->left->parent = new_node;
-        insert_node->left = nullptr;
-      }
-      insert_node->right = new_node;
-      UpdateHeight(new_node);
-      Balance(new_node);
-      result = new_node;
-    }
-    ++size_;
-    return result;
-  }
-
-  /* if not found, returns exception */
+  /**
+   * if not found, returns exception */
   void erase(TreeIterator<KeyType, ValueType> pos) {
     if (size_ == 0) {
       throw std::out_of_range("No elements in the container.");
@@ -397,13 +363,15 @@ class Tree {
     }
   }
 
-  /* swaps the contents */
+  /**
+   * swaps the contents */
   void swap(Tree<key_type, mapped_type> &other) {
     std::swap(root_, other.root_);
     std::swap(size_, other.size_);
   }
 
-  /* splices nodes from another container */
+  /**
+   * splices nodes from another container */
   void merge(Tree<key_type, mapped_type> &other) {
     if (this == &other || other.size_ == 0) {
       return;
@@ -416,7 +384,8 @@ class Tree {
       res = insert(key, value);
       ++iter;
 
-      /* if insertion took place, remove the node */
+      /**
+       * if insertion took place, remove the node */
       if (res.second == true) {
         other.erase(res.first);
       }
@@ -426,7 +395,8 @@ class Tree {
 
   /* TREE LOOKUP */
 
-  /* finds element with specific key. if no such element is found, end()
+  /**
+   * finds element with specific key. if no such element is found, end()
    * iterator is returned */
   TreeIterator<KeyType, ValueType> find(const key_type &key_to_find) {
     if (size_ == 0) {
@@ -438,7 +408,8 @@ class Tree {
     return result;
   }
 
-  /* checks if there is an element with key equivalent to key in the container
+  /**
+   * checks if there is an element with key equivalent to key in the container
    */
   bool contains(const key_type &key) noexcept {
     if (size_ == 0) {
@@ -451,55 +422,12 @@ class Tree {
     }
     return ret_val;
   }
-
-  /* returns an iterator to the first element greater than the given key. if no
-   * such element is found, end() iterator is returned */
-  TreeIterator<KeyType, ValueType> upper_bound(const key_type &key) {
-    auto it = lower_bound(key);
-    if (it.IsNull() == false) {
-      while (*it == key) {
-        ++it;
-        if (it.IsNull() == true) {
-          break;
-        }
-      }
-    }
-    return it;
-  }
-
-  /* returns an iterator to the first element not less than the given key. if no
-   * such element is found, end() iterator is returned */
-  TreeIterator<KeyType, ValueType> lower_bound(const key_type &key) {
-    TreeIterator<KeyType, ValueType> it = begin();
-    for (; !it.IsNull(); ++it) {
-      if (*it == key) {
-        break;
-      }
-    }
-    return it;
-  }
-
-  /* returns the number of elements matching a specific key */
-  size_type count(const key_type &key) {
-    if (size_ == 0) {
-      return 0;
-    }
-    size_type res = 0;
-    auto it = lower_bound(key);
-    if (it.IsNull() == true) {
-      return 0;
-    }
-    while (it != upper_bound(key)) {
-      ++res;
-      ++it;
-    }
-    return res;
-  }
   /*--------------------------------------------------------------------------*/
 
   /* PRIVATE METHODS */
 
-  /* recursively searches for the right place to insert a new node and inserts
+  /**
+   * recursively searches for the right place to insert a new node and inserts
    */
   bool FindInsert(Node<KeyType, ValueType> *root, const key_type new_key,
                   const mapped_type value) {
@@ -524,7 +452,8 @@ class Tree {
     return ret_val;
   }
 
-  /* compares the keys and returns a pointer to a left or right child. if the
+  /**
+   * compares the keys and returns a pointer to a left or right child. if the
    * key is equal to the current node key, returns a pointer to the current
    * node */
   Node<KeyType, ValueType> **Compare(Node<KeyType, ValueType> **root,
@@ -540,7 +469,8 @@ class Tree {
     return result;
   }
 
-  /* recursively updates the height of the branch bottom-up */
+  /**
+   * recursively updates the height of the branch bottom-up */
   void UpdateHeight(Node<KeyType, ValueType> *node) {
     if (node != nullptr) {
       size_t l_height = getHeight(node->left);
@@ -550,7 +480,8 @@ class Tree {
     }
   }
 
-  /* recursively searches for the key in the tree, returns a pointer, if not
+  /**
+   * recursively searches for the key in the tree, returns a pointer, if not
    * found, returns nullptr */
   Node<KeyType, ValueType> *Find(Node<KeyType, ValueType> *root,
                                  const key_type key_to_find) {
@@ -564,7 +495,8 @@ class Tree {
     return result;
   }
 
-  /* returns the difference between the heights of the left and right subtrees
+  /**
+   * returns the difference between the heights of the left and right subtrees
    */
   int BalanceFactor(Node<KeyType, ValueType> *node) {
     int ret_val = 0;
@@ -574,7 +506,8 @@ class Tree {
     return ret_val;
   }
 
-  /* returns the height of a node */
+  /**
+   * returns the height of a node */
   size_t getHeight(Node<KeyType, ValueType> *node) {
     size_t ret_val = 0;
     if (node != nullptr) {
@@ -583,7 +516,8 @@ class Tree {
     return ret_val;
   }
 
-  /* if disbalanced, recursively rebalances the tree relative to the parent node
+  /**
+   * if disbalanced, recursively rebalances the tree relative to the parent node
    * of a newly added node */
   void Balance(Node<KeyType, ValueType> *node) {
     if (node != nullptr) {
@@ -604,7 +538,8 @@ class Tree {
     }
   }
 
-  /* rotates relative to the disbalanced node */
+  /**
+   * rotates relative to the disbalanced node */
   void RotateRight(Node<KeyType, ValueType> *node) {
     Node<KeyType, ValueType> *new_root = node->left;
     node->left = new_root->right;
@@ -625,7 +560,8 @@ class Tree {
     }
   }
 
-  /* rotates relative to the disbalanced node */
+  /**
+   * rotates relative to the disbalanced node */
   void RotateLeft(Node<KeyType, ValueType> *node) {
     Node<KeyType, ValueType> *new_root = node->right;
     node->right = new_root->left;
@@ -646,7 +582,8 @@ class Tree {
     }
   }
 
-  /* returns a pointer to a node with min value of the right subtree */
+  /**
+   * returns a pointer to a node with min value of the right subtree */
   Node<KeyType, ValueType> *FindMinRight(Node<KeyType, ValueType> *node) {
     Node<KeyType, ValueType> *result = nullptr;
     if (node->left != nullptr) {
@@ -657,7 +594,8 @@ class Tree {
     return result;
   }
 
-  /* removes the node and reappoints min node in the right subtree to where
+  /**
+   * removes the node and reappoints min node in the right subtree to where
    * erase_node had been */
   void RedirectRight(Node<KeyType, ValueType> *erase_node) {
     Node<KeyType, ValueType> *min_node = FindMinRight(erase_node->right);
@@ -697,7 +635,8 @@ class Tree {
     --size_;
   }
 
-  /* if right subtree is empty, returns a pointer to left subtree of erase_node
+  /**
+   * if right subtree is empty, returns a pointer to left subtree of erase_node
    */
   void RedirectLeft(Node<KeyType, ValueType> *erase_node) {
     Node<KeyType, ValueType> *replace_node = erase_node->left;
@@ -729,7 +668,8 @@ class Tree {
     delete erase_node;
   }
 
-  /* returns iterator to min element in the left subtree */
+  /**
+   * returns iterator to min element in the left subtree */
   TreeIterator<KeyType, ValueType> FindMinLeft(Node<KeyType, ValueType> *node) {
     TreeIterator<KeyType, ValueType> result(node);
     if (node->left != nullptr) {
@@ -738,7 +678,8 @@ class Tree {
     return result;
   }
 
-  /* returns iterator to max element in the right subtree */
+  /**
+   * returns iterator to max element in the right subtree */
   TreeIterator<KeyType, ValueType> FindMaxRight(
       Node<KeyType, ValueType> *node) {
     TreeIterator<KeyType, ValueType> result(node);
@@ -748,7 +689,8 @@ class Tree {
     return result;
   }
 
-  /* recursively deletes nodes on the right and on the left */
+  /**
+   * recursively deletes nodes on the right and on the left */
   void Destroy(Node<KeyType, ValueType> *node) {
     if (node == nullptr) {
       return;
@@ -768,7 +710,8 @@ class Tree {
     }
   }
 
-  /* recursively inserts nodes from other tree */
+  /**
+   * recursively inserts nodes from other tree */
   void CopyTree(Node<KeyType, ValueType> *other_node) {
     if (other_node == nullptr) {
       return;

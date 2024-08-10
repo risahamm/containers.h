@@ -344,7 +344,6 @@ TEST(Map, InsertMany) {
   s21::Map<int, std::string> my;
   my.insert_many(std::pair(1, "one"), std::pair(2, "two"),
                  std::pair(3, "three"));
-  auto it = my.begin();
   EXPECT_EQ(my.size(), 3);
   EXPECT_EQ(my.begin()->data, "one");
   EXPECT_EQ(my.begin()->key, 1);
