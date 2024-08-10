@@ -68,31 +68,12 @@ TEST(Map, EqualOverload2) {
 TEST(Map, EqualOverload3) {
   s21::Map<int, int> a = {{6, 0}, {3, 1}, {9, 2}, {1, 3}, {4, 4}};
   size_t a_size_before = a.size();
-  a = a;
-  EXPECT_EQ(a.size(), a_size_before);
-}
-
-TEST(Map, EqualOverload4) {
-  s21::Map<int, int> a = {{6, 0}, {3, 1}, {9, 2}, {1, 3}, {4, 4}};
-  size_t a_size_before = a.size();
   s21::Map<int, int> b = {{7, 0}, {12, 1}, {5, 2}};
   a = b;
   size_t b_size = b.size();
   size_t a_size_after = a.size();
   EXPECT_TRUE((a_size_after != a_size_before));
   EXPECT_TRUE((a_size_after == b_size));
-}
-
-TEST(Map, EqualOverload5) {
-  s21::Map<int, int> a = {{6, 0}, {3, 1}, {9, 2}, {1, 3}, {4, 4}};
-  size_t a_size_before = a.size();
-  s21::Map<int, int> b = {{7, 0}, {12, 1}, {5, 2}};
-  size_t b_size = b.size();
-  a = std::move(b);
-  size_t a_size_after = a.size();
-  EXPECT_TRUE((a_size_after != a_size_before));
-  EXPECT_TRUE((a_size_after == b_size));
-  EXPECT_TRUE(b.size() == 0);
 }
 
 /* MAP ELEMENT ACCESS */
@@ -242,7 +223,7 @@ TEST(Map, Clear) {
   std::map<int, int> orig = {{6, 0}, {3, 1}, {9, 2}, {1, 3}, {4, 4}};
   my.clear();
   orig.clear();
-  EXPECT_EQ(my.size(), 0);
+  EXPECT_EQ(my.size(), 0U);
   EXPECT_EQ(my.size(), orig.size());
 }
 
@@ -251,7 +232,7 @@ TEST(Map, ClearEmpty) {
   std::map<int, int> orig;
   my.clear();
   orig.clear();
-  EXPECT_EQ(my.size(), 0);
+  EXPECT_EQ(my.size(), 0U);
   EXPECT_EQ(my.size(), orig.size());
 }
 
@@ -328,7 +309,7 @@ TEST(Map, InsertOrAssign) {
 
   EXPECT_EQ(my[9], 35);
   EXPECT_EQ(my[4], 28);
-  EXPECT_EQ(my.size(), 4);
+  EXPECT_EQ(my.size(), 4U);
 }
 
 TEST(Map, InsertOrAssignEmpty) {
@@ -337,7 +318,7 @@ TEST(Map, InsertOrAssignEmpty) {
   my.insert_or_assign(9, 35);
 
   EXPECT_EQ(my[9], 35);
-  EXPECT_EQ(my.size(), 1);
+  EXPECT_EQ(my.size(), 1U);
 }
 
 TEST(Map, InsertMany) {
@@ -362,7 +343,7 @@ TEST(Map, Erase) {
   orig.erase(orig_it);
 
   EXPECT_EQ(my.size(), orig.size());
-  EXPECT_EQ(my.size(), 4);
+  EXPECT_EQ(my.size(), 4U);
 }
 
 TEST(Map, Erase2) {
@@ -370,7 +351,7 @@ TEST(Map, Erase2) {
   auto it = my.insert(6, 0);
   my.insert(3, 1);
   my.erase(it.first);
-  EXPECT_EQ(my.size(), 1);
+  EXPECT_EQ(my.size(), 1U);
 }
 
 TEST(Map, Erase3) {

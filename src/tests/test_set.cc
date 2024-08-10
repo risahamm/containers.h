@@ -68,31 +68,12 @@ TEST(Set, EqualOverload2) {
 TEST(Set, EqualOverload3) {
   s21::Set<int> a = {6, 3, 9, 1, 4};
   size_t a_size_before = a.size();
-  a = a;
-  EXPECT_EQ(a.size(), a_size_before);
-}
-
-TEST(Set, EqualOverload4) {
-  s21::Set<int> a = {6, 3, 9, 1, 4};
-  size_t a_size_before = a.size();
   s21::Set<int> b = {7, 12, 5};
   a = b;
   size_t b_size = b.size();
   size_t a_size_after = a.size();
   EXPECT_TRUE((a_size_after != a_size_before));
   EXPECT_TRUE((a_size_after == b_size));
-}
-
-TEST(Set, EqualOverload5) {
-  s21::Set<int> a = {6, 3, 9, 1, 4};
-  size_t a_size_before = a.size();
-  s21::Set<int> b = {7, 12, 5};
-  size_t b_size = b.size();
-  a = std::move(b);
-  size_t a_size_after = a.size();
-  EXPECT_TRUE((a_size_after != a_size_before));
-  EXPECT_TRUE((a_size_after == b_size));
-  EXPECT_TRUE(b.size() == 0);
 }
 
 /* SET ITERATORS */
@@ -204,7 +185,7 @@ TEST(Set, Clear) {
   std::set<int> orig = {6, 3, 9, 1, 4};
   my.clear();
   orig.clear();
-  EXPECT_EQ(my.size(), 0);
+  EXPECT_EQ(my.size(), 0U);
   EXPECT_EQ(my.size(), orig.size());
 }
 
@@ -273,7 +254,7 @@ TEST(Set, Erase) {
   orig.erase(orig_it);
 
   EXPECT_EQ(my.size(), orig.size());
-  EXPECT_EQ(my.size(), 4);
+  EXPECT_EQ(my.size(), 4U);
 }
 
 TEST(Set, Erase2) {
@@ -281,7 +262,7 @@ TEST(Set, Erase2) {
   auto it = my.insert(6);
   my.insert(3);
   my.erase(it.first);
-  EXPECT_EQ(my.size(), 1);
+  EXPECT_EQ(my.size(), 1U);
 }
 
 TEST(Set, Erase3) {

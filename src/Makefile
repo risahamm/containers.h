@@ -9,8 +9,8 @@ test: clean
 
 gcov_report: test
 	@lcov -t "test_containers" -o s21_containers.info -c -d . --ignore-errors mismatch,inconsistent
-	@lcov -e s21_containers.info '*/src/*/*.h' -o s21_containers_filtered.info
-	@genhtml -o gcov_report s21_containers_filtered.info
+	@lcov -e s21_containers.info '*/src/*/*.h' -o s21_containers_filtered.info --ignore-errors mismatch,inconsistent
+	@genhtml -o gcov_report s21_containers_filtered.info --ignore-errors mismatch,inconsistent
 	@open ./gcov_report/index.html
 
 clean:
