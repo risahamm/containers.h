@@ -1,62 +1,18 @@
 # s21_containers
 
-Implementation of the s21_containers.h. library.
+Implementation of Vector, Map, Set containers of the s21_containers.h library.
 
 The russian version of the task can be found in the repository.
 
+- The program is developed in C++ language of C++17 standard using gcc compiler;
+- The program code is located in the src folder;
+- The code of the program is written in accordance with Google style;
+- Classes must are template;
+- Classes are implemented within the `s21` namespace;
+- Full coverage of container classes methods is provided with unit-tests using the GTest library;
+- Makefile with targets clean, check_style, test, gcov_report is provided.
 
-## Contents
-
-1. [Chapter I](#chapter-i) \
-   1.1. [Introduction](#introduction)
-2. [Chapter II](#chapter-ii) \
-   2.1. [Information](#information)
-3. [Chapter III](#chapter-iii) \
-   3.1. [Part 1](#part-1-implementation-of-the-s21_containersh-library)  
-   3.2. [Part 2](#part-2-bonus-implementation-of-the-s21_containersplush-library)  
-   3.3. [Part 3](#part-3-bonus-implementation-of-the-insert_many-method)
-
-
-## Chapter I
-
-![s21_containers](misc/images/s21_containers.png)
-
-Planet Earth, somewhere between the massive containers of the port, 29 October 1993.
-
-*"Do you really think Bjarne will agree to add this to the standard?"*
-
-*"Sure. Especially since he was already interested in templates a couple of years ago, but then they couldn't get enough reliability of the developing library",* said a middle-aged man wearing a white shirt and an HP Labs nametag that said 'A. Stepanov'.
-
-*"I saw your presentation on generalised programming. The idea is really impressive, but they wanted to release the new standard by the end of the year. It will need a lot of adjustments..."*
-
-*"I think that's exactly what they needed to complete the new standard. Especially, as you said, the idea is impressive. But it does need some adjustments. In order to be fully confident of the success of the presentation, we need to give some examples of how the approach and the templates can be used in general. You are familiar with the structure of single-linked lists, right?"*
-
-*"Yeah, I think I'm starting to get your idea. You want to implement generalized lists as an example? One template class for all types?"*
-
-*"Not only that. Imagine if any container could be described once and then used with different data types and classes. How much time, effort and resources it would save! Lists, maps, sets!"* The walk along the Embarcadero promenade was clearly getting more interesting.
-
-*"Queues and stacks... Damn, that's genius."*
-
-*"Exactly. Who, after such examples, would refuse to add a library to their language standard?"*
-
-*"I'm in. We could even put together a small team of guys who are interested. How much time do we have to implement these examples?"*
-
-*"About two weeks before the presentation meeting in San Jose, then..."*
-
-### Introduction
-
-As part of the project you need to write your own library that implements the basic standard C++ container classes: `list`, `map`, `queue`, `set`, `stack` and `vector`. Implementations should provide a full set of standard methods and attributes for element handling, container capacity checking and iteration. As a bonus, you can also implement several other container classes from the C++ container library that are not as commonly used, but differ in their implementation details.
-
-
-## Chapter II
-
-### Information
-
-For most people, the word "container" is self-explanatory and comes from the English word "contain". The same is true in programming: containers are used to contain sets of objects of the same type, i.e. elements. However, there are a huge number of container classes. This is because container classes differ in the organisation of the stored object sets and in the methods provided to interact with them. For example, lists (`list`) store any object, while sets (`set`) store only some unique objects.
-
-The need to separate containers, rather than using the same container for different tasks, is not only due to obvious functional differences. In some cases it is more efficient to use lists, e.g. if the task at hand requires frequent insertion of elements in the middle of the container, but if new elements are only added at the end, it is better to use a queue.
-
-Each type of containers should provide the user with the following methods:
+Each of the containers provides a user with the following methods:
 
 - standard constructors (default constructor, copy constructor, move constructor, constructor with initialization list, see materials);
 
@@ -68,7 +24,7 @@ Each type of containers should provide the user with the following methods:
 
 - methods for dealing with the container iterator.
 
-Iterators provide access to container elements. The specific type of iterator will be different for each container. This is due to the different way of organising object sets in container classes, as well as the actual implementation of the container. Iterators are implemented to work in a similar way to a pointer to an array element in C. So this approach to iterators allows you to interact with any container in the same way. Containers provide iterators via the `begin()` and `end()` methods, which point to the first and next after last elements of the container respectively.
+Iterators provide access to container elements. Containers provide iterators via the `begin()` and `end()` methods, which point to the first and next after last elements of the container respectively.
 
 Iterator `iter` has the following operations:
 
@@ -82,59 +38,279 @@ Iterator `iter` has the following operations:
 
 - `iter1 != iter2`: two iterators are not equal if they point to different elements.
 
-In addition to the special organisation of objects and the provision of the necessary methods, the implementation of container classes requires the templating of objects.
+### Map
 
-Template classes or class templates are used when you want to create a class that depends on additional external parameters, which can be other classes or data types. For example, if you need to create a list class, you don't want to have to rewrite the list implementation for all possible element types. It would be nice to write one class with one parameter and get several specific list classes at once (character, integer, floating-point, user-defined type lists, etc.).
-In C++, containers are part of the Standard Template Library (STL) for this very reason, along with iterators and some algorithms.
+<details>
+  <summary>General information</summary>
+<br />
 
-There are two main types of containers: sequence and associative containers. To find an element in sequence containers (`list`, `vector`, `array`, `stack`, `queue`), you have to look through the container one by one, while in associative containers (`map`, `set`, `multiset`) you just need to look through the key associated with the value.
+A map (dictionary) is an associative container that stores key-value pairs sorted in ascending order. It means that each element is associated with some unique key, and its position in the map is determined by its key. Maps come in handy when you want to associate elements with some other value (not an index).
+```
+In this project container Map is implemented based on AVL-tree algorithm.
+AVL-tree is a balanced binary search tree with the following property: for each of its vertices, the heights of its two subtrees differ by at most 1.
+```
+</details>
 
+<details>
+  <summary>Specification</summary>
+<br />
 
-## Chapter III
+*Map Member type*
 
-- The program must be developed in C++ language of C++17 standard using gcc compiler;
-- The program code must be located in the src folder;
-- When writing code it is necessary to follow the Google style;
-- Make sure to use iterators;
-- Classes must be template;
-- Classes must be implemented within the `s21` namespace;
-- Prepare full coverage of container classes methods with unit-tests using the GTest library;
-- Copying of the Standard Template Library (STL) implementation is not allowed;
-- The logic of the Standard Template Library (STL) must be followed (in terms of checks, memory handling and behaviour in abnormal situations).
+This table contains in-class type overrides (typical for the standard STL library) that are adopted to make class code easy to understand:
 
-### Part 1. Implementation of the s21_containers.h library
+| Member type            | Definition                                                                                                                                                   |
+|------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `key_type`               | `KeyType` the first template parameter (Key)                                                                                                                 |
+| `mapped_type`           | `ValueType` the second template parameter (T)                                                                                                                |
+| `value_type`             | `std::pair<const KeyType, ValueType>` Key-value pair                                                                                                         |
+| `reference`              | `value_type &` defines the type of the reference to an element                                                                                               |
+| `const_reference`        | `const value_type &` defines the type of the constant reference                                                                                              |
+| `iterator`               | internal class `TreeIterator<KeyType, ValueType>` as internal iterator of tree subclass; defines the type for iterating through the container                |
+| `const_iterator`         | internal class `TreeIterator<KeyType, ValueType>` as internal const iterator of tree subclass; defines the constant type for iterating through the container |
+| `size_type`              | `size_t` defines the type of the container size (standard type is size_t)                                                                                    |
 
-You need to implement the `s21_containers.h` library classes (specifications are given in the relevant material sections, see **"Main containers"**). \
-List of classes: `list`, `map`, `queue`, `set`, `stack`, `vector`.
-- Make it as a header file `s21_containers.h` which includes different header files with implementations of the specified containers (`s21_list.h`, `s21_map.h` and etc.); 
-- Provide a Makefile for testing the library (with targets clean, test);
-- The classical implementation of containers should be considered as a basis, but the final choice of implementations remains free. Except for the list - it should be implemented via the list structure rather than the array.
+*Map Member functions*
 
-*Tip*: You can move the same implementation of container methods to base classes. For example, for a queue and a stack, or for a list and a vector. There is a UML diagram of the STL library in materials as *one possible example* of hierarchical construction. However, your implementation does not have to be strictly tied to this UML diagram.
+This table contains the main public methods for interacting with the class:
 
-### Part 2. Bonus. Implementation of the s21_containersplus.h library.
+| Member functions                                      | Definition                                      |
+|-------------------------------------------------------|-------------------------------------------------|
+| `Map()`                                               | default constructor, creates empty map                                 |
+| `Map(std::initializer_list<value_type> const &items)` | initializer list constructor, creates the map initizialized using std::initializer_list<T>    |
+| `Map(const Map &other)`                                   | copy constructor  |
+| `Map(Map &&other)`                                        | move constructor  |
+| `~Map()`                                              | destructor  |
+| `operator=(Map &&other)`                              | assignment operator overload for moving object                                |
 
-You need to implement the `s21_containersplus.h` library functions (see **"Additional containers"** for specifications). \
-List of classes to be implemented additionally: `array`, `multiset`.
-- Make it as a header file `s21_containersplus.h` which includes different header files with implementations of the specified containers (`s21_array.h`, `s21_multiset.h`); 
-- Provide a Makefile for testing the library (with targets clean, test);
-- The classical implementation of containers should be considered as a basis, but the final choice of the algorithm remains free.
+*Map Element access*
 
-### Part 3. Bonus. Implementation of the `insert_many` method.
+This table contains the public methods for accessing the elements of the class:
 
-You need to complete the classes with the appropriate methods, according to the table:
+| Element access                              | Definition                                                                             |
+|---------------------------------------------|----------------------------------------------------------------------------------------|
+| `ValueType &at(const KeyType &key)`         | access specified element with bounds checking                                          |
+| `ValueType &operator[](const KeyType &key)` | access or insert specified element                                                     |
 
-| Modifiers      | Definition                                      | Containers |
-|----------------|-------------------------------------------------| -------------------------------------------|
-| `iterator insert_many(const_iterator pos, Args&&... args)`          | Inserts new elements into the container directly before `pos`.  | List, Vector. |
-| `void insert_many_back(Args&&... args)`          | Appends new elements to the end of the container.  | List, Vector, Queue. |
-| `void insert_many_front(Args&&... args)`          | Appends new elements to the top of the container.  | List, Stack. |
-| `vector<std::pair<iterator,bool>> insert_many(Args&&... args)`          | Inserts new elements into the container.  | Map, Set, Multiset. |
+*Map Iterators*
 
-Note: the arguments are the already created elements of the appropriate container that should be inserted into this container.
+This table contains the public methods for iterating over class elements (access to iterators):
 
-*Tip 1*: Notice that each of these methods uses an Args&&... args - Parameter pack construct. This construct allows a variable number of parameters to be passed to a function or method. So, when calling a method defined as `iterator insert_many(const_iterator pos, Args&&... args)`, you can write either `insert_many(pos, arg1, arg2)` or `insert_many(pos, arg1, arg2, arg3)`.
+| Iterators              | Definition                                                                             |
+|------------------------|----------------------------------------------------------------------------------------|
+| `iterator begin()`            | returns an iterator to the beginning                                                   |
+| `iterator end()`                | returns an iterator to the end                                                         |
 
-*Tip 2*: Remember to test methods for different cases, including boundary ones.
+*Map Capacity*
 
-💡 [Tap here](https://forms.yandex.ru/cloud/64181a7dc09c02252de7a4f3/) **to leave your feedback on the project**. Product Team really tries to make your educational experience better.
+This table contains the public methods for accessing the container capacity information:
+
+| Capacity               | Definition                                                                             |
+|------------------------|----------------------------------------------------------------------------------------|
+| `bool empty()`                  | checks whether the container is empty                                                  |
+| `size_type size()`                   | returns the number of elements                                                         |
+| `size_type max_size()`               | returns the maximum possible number of elements                                        |
+
+*Map Modifiers*
+
+This table contains the public methods for modifying a container:
+
+| Modifiers                                                                   | Definition                                                                                                                           |
+|-----------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| `void clear()`                                                              | clears the contents                                                                                                                  |
+| `std::pair<iterator, bool> insert(const ValueType &value)`                 | inserts node and returns iterator to where the element is in the container and bool denoting whether the insertion took place        |
+| `std::pair<iterator, bool> insert(const KeyType &key, const ValueType &obj)`            | inserts value by key and returns iterator to where the element is in the container and bool denoting whether the insertion took place |
+| `vector<std::pair<iterator,bool>> insert_many(Args&&... args)`          | inserts new elements into the container                                                                                              |
+| `std::pair<iterator, bool> insert_or_assign(const KeyType &key, const ValueType &obj);` | inserts an element or assigns to the current element if the key already exists                                                       |
+| `void erase(iterator pos)`                                                  | erases element at pos                                                                                                                |
+| `void swap(Map &other)`                                                     | swaps the contents                                                                                                                   |
+| `void merge(Map &other);`                                                   | splices nodes from another container                                                                                                 |
+
+*Map Lookup*
+
+This table contains the public methods for viewing the container:
+
+| Lookup                              | Definition                                                                             |
+|-------------------------------------|----------------------------------------------------------------------------------------|
+| `bool contains(const KeyType &key)` | checks if there is an element with key equivalent to key in the container                                   |
+
+</details>
+
+### Set
+
+<details>
+  <summary>General information</summary>
+<br />
+
+Set is an associative container of unique elements. This means that the same element can’t be added to a set twice. The set container is associative, because it is also represented as a tree like the map container, and therefore also stores elements in a sorted order.
+The difference between a map and a set is that in the set the value itself is unique and not the key as well as the value in the tree is not checked by the key, but by the value itself. There is an appropriate exception when you add an already existing element to a set.
+```
+In this project container Set is implemented based on AVL-tree algorithm.
+AVL-tree is a balanced binary search tree with the following property: for each of its vertices, the heights of its two subtrees differ by at most 1.
+```
+</details>
+
+<details>
+  <summary>Specification</summary>
+<br />
+
+*Set Member type*
+
+This table contains in-class type overrides (typical for the standard STL library) that are adopted to make class code easy to understand:
+
+| Member type            | Definition                                                                                                                                                                         |
+|------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `key_type`               | `KeyType` the first template parameter (Key)                                                                                                                                       |
+| `value_type`             | `KeyType` value type (the value itself is a key)                                                                                                                                   |
+| `reference`              | `value_type &` defines the type of the reference to an element                                                                                                                     |
+| `const_reference`        | `const value_type &` defines the type of the constant reference                                                                                                                    |
+| `iterator`               | internal class `TreeIterator<T>` as the internal iterator of tree subclass; defines the type for iterating through the container                          |
+| `const_iterator`         | internal class `TreeConstIterator<T>` as the internal const iterator of tree subclass; defines the constant type for iterating through the container |
+| `size_type`              | `size_t` defines the type of the container size (standard type is size_t)                                                                                                          |
+
+*Set Member functions*
+
+This table contains the main public methods for interacting with the class:
+
+| Member functions                                      | Definition                                      |
+|-------------------------------------------------------|-------------------------------------------------|
+| `Set()`                                               | default constructor, creates empty set                                 |
+| `Set(std::initializer_list<value_type> const &items)` | initializer list constructor, creates the set initizialized using std::initializer_list<T>    |
+| `Set(const Set &other)`                               | copy constructor  |
+| `Set(Set &&other)`                                    | move constructor  |
+| `~Set()`                                              | destructor  |
+| `operator=(Set &&other)`                              | assignment operator overload for moving object                                |
+
+*Set Iterators*
+
+This table contains the public methods for iterating over class elements (access to iterators):
+
+| Iterators              | Definition                                                                             |
+|------------------------|----------------------------------------------------------------------------------------|
+| `iterator begin()`            | returns an iterator to the beginning                                                   |
+| `iterator end()`                | returns an iterator to the end                                                         |
+
+*Set Capacity*
+
+This table contains the public methods for accessing the container capacity information:
+
+| Capacity       | Definition                                      |
+|----------------|-------------------------------------------------|
+| `bool empty()`          | checks whether the container is empty           |
+| `size_type size()`           | returns the number of elements                  |
+| `size_type max_size()`       | returns the maximum possible number of elements |
+
+*Set Modifiers*
+
+This table contains the public methods for modifying a container:
+
+| Modifiers                                                | Definition                                                                                                                   |
+|----------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
+| `void clear()`                                           | clears the contents                                                                                                          |
+| `std::pair<iterator, bool> insert(const KeyType &value)` | inserts node and returns iterator to where the element is in the container and bool denoting whether the insertion took place |
+| `vector<std::pair<iterator,bool>> insert_many(Args&&... args)`          | inserts new elements into the container                                                                                      |
+| `void erase(iterator pos)`                               | erases element at pos                                                                                                        |
+| `void swap(Set &other)`                                  | swaps the contents                                                                                                           |
+| `void merge(Set &other);`                                | splices nodes from another container                                                                                         |
+
+*Set Lookup*
+
+This table contains the public methods for viewing the container:
+
+| Lookup                              | Definition                                                                             |
+|-------------------------------------|----------------------------------------------------------------------------------------|
+| `iterator find(const KeyType &key)` | finds element with specific key                                                        |
+| `bool contains(const KeyType &key)` | checks if the container contains element with specific key                             |
+
+</details>
+
+### Vector
+
+<details>
+  <summary>General information</summary>
+<br />
+
+Vector is a sequence container that encapsulates a dynamic array for more user-friendly usage. This container does not require manual memory control like standard dynamic arrays, but instead allows any number of elements to be added via `push_back()` and `insert()` methods and, unlike a list, allows any container element to be accessed directly by an index. Elements in a vector are stored sequentially, allowing iterating over the vector not only through the provided iterator, but also by manually shifting the pointer to the vector element. So, a pointer to the first element of a vector can be passed as an argument to any function that expects an ordinary array as an argument. The dynamic resizing of the array does not occur every time an element is added or removed, only when the specified buffer size is exceeded. So, the vector stores two values for a size: the size of the stored array (`size()` method) and the size of the buffer (`capacity()` method).
+
+</details>
+
+<details>
+  <summary>Specification</summary>
+<br />
+
+*Vector Member type*
+
+This table contains in-class type overrides (typical for the standard STL library) that are adopted to make class code easy to understand:
+
+| Member type            | definition                                                                                                           |
+|------------------------|----------------------------------------------------------------------------------------------------------------------|
+| `value_type`             | `T` defines the type of an element (T is template parameter)                                                         |
+| `reference`              | `T &` defines the type of the reference to an element                                                                |
+| `const_reference`        | `const T &` defines the type of the constant reference                                                               |
+| `iterator`               | `T *` defines the type for iterating through the container                                                           |
+| `const_iterator`         | `const T *` defines the constant type for iterating through the container |
+| `size_type`              | `size_t` defines the type of the container size (standard type is size_t)                                            |
+
+*Vector Member functions*
+
+This table contains the main public methods for interacting with the class:
+
+| Functions                                                | Definition                                      |
+|----------------------------------------------------------|-------------------------------------------------|
+| `Vector()`                                               | default constructor, creates empty vector                                 |
+| `Vector(size_type n)`                                    | parameterized constructor, creates the vector of size n                                 |
+| `Vector(std::initializer_list<value_type> const &items)` | initializer list constructor, creates vector initizialized using std::initializer_list<T>    |
+| `Vector(const Vector &other)`                            | copy constructor  |
+| `Vector(Vector &&other)`                                 | move constructor  |
+| `~Vector()`                                              | destructor  |
+| `operator=(Vector &&other)`                              | assignment operator overload for moving object                                |
+
+*Vector Element access*
+
+This table contains the public methods for accessing the elements of the class:
+
+| Element access         | Definition                                                                             |
+|------------------------|----------------------------------------------------------------------------------------|
+| `reference at(size_type pos)`                     | access specified element with bounds checking                                          |
+| `reference operator[](size_type pos);`             | access specified element                                                               |
+| `const_reference front()`          | access the first element                        |
+| `const_reference back()`           | access the last element                         |
+| `T* data()`                   | direct access to the underlying array                                                  |
+
+*Vector Iterators*
+
+This table contains the public methods for iterating over class elements (access to iterators):
+
+| Iterators      | Definition                                      |
+|----------------|-------------------------------------------------|
+| `iterator begin()`    | returns an iterator to the beginning            |
+| `iterator end()`        | returns an iterator to the end                  |
+
+*Vector Capacity*
+
+This table contains the public methods for accessing the container capacity information:
+
+| Capacity               | Definition                                                                             |
+|------------------------|----------------------------------------------------------------------------------------|
+| `bool empty()`          | checks whether the container is empty           |
+| `size_type size()`           | returns the number of elements                  |
+| `size_type max_size()`       | returns the maximum possible number of elements |
+| `void reserve(size_type size)`                | allocate storage of size elements and copies current array elements to a newely allocated array                                     |
+| `size_type capacity()`               | returns the number of elements that can be held in currently allocated storage         |
+| `void shrink_to_fit()`          | reduces memory usage by freeing unused memory                                          |
+
+*Vector Modifiers*
+
+This table contains the public methods for modifying a container:
+
+| Modifiers                                              | Definition                                                                                |
+|--------------------------------------------------------|-------------------------------------------------------------------------------------------|
+| `void clear()`                                         | clears the contents                                                                       |
+| `iterator insert(iterator pos, const_reference value)` | inserts elements into concrete pos and returns the iterator that points to the new element |
+| `void insert_many_back(Args&&... args)`          | appends new elements to the end of the container                                          |
+| `void erase(iterator pos)`                             | erases element at pos                                                                     |
+| `void push_back(const_reference value)`                | adds an element to the end                                                                |
+| `void pop_back()`                                      | removes the last element                                                                  |
+| `void swap(Vector &other)`                             | swaps the contents                                                                        |
+
+</details>
