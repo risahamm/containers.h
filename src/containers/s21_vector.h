@@ -6,7 +6,7 @@ namespace s21 {
 template <typename T>
 class Vector {
  public:
-  // Vector Member type
+  /* Vector Member type */
   using value_type = T;
   using reference = T &;
   using const_reference = const T &;
@@ -14,7 +14,7 @@ class Vector {
   using const_iterator = const T *;
   using size_type = std::size_t;
 
-  // Vector Member functions
+  /* Vector Member functions */
   Vector() noexcept;             // default constructor
   Vector(size_type n) noexcept;  // parametrized constructor
   Vector(std::initializer_list<value_type> const
@@ -24,18 +24,18 @@ class Vector {
   ~Vector() noexcept;                     // destructor
   Vector operator=(Vector &&v) noexcept;  // assignment operator overload
 
-  // Vector Element access
+  /* Vector Element access */
   reference at(size_type pos);          // access a specified element
   reference operator[](size_type pos);  // [] overload
   const_reference front();              // access the first element
   const_reference back();               // access the last element
   T *data() noexcept;                   // direct access the underlying array
 
-  // Vector Iterators
+  /* Vector Iterators */
   iterator begin() noexcept;  // returns an iterator to the beginning
   iterator end() noexcept;    // returns an iterator to the end
 
-  // Vector Capacity
+  /* Vector Capacity */
   bool empty() noexcept;
   size_type size() noexcept;
   size_type max_size() noexcept;
@@ -43,7 +43,7 @@ class Vector {
   size_type capacity() noexcept;
   void shrink_to_fit();
 
-  // Vector Modifiers
+  /* Vector Modifiers */
   void clear() noexcept;
   iterator insert(iterator pos, const_reference value);
 
@@ -61,6 +61,7 @@ class Vector {
   size_type capacity_;  // size of memory allocated for a container
 
 };  // class s21::Vector
+/*--------------------------------------------------------------------------*/
 
 /* CONSTRUCTORS */
 
@@ -140,6 +141,7 @@ Vector<value_type>::~Vector() noexcept {
   size_ = 0;
   capacity_ = 0;
 }
+/*--------------------------------------------------------------------------*/
 
 /* VECTOR ELEMENT ACCESS */
 
@@ -187,6 +189,7 @@ template <typename value_type>
 value_type *Vector<value_type>::data() noexcept {
   return data_;
 }
+/*--------------------------------------------------------------------------*/
 
 /* VECTOR ITERATORS */
 
@@ -211,6 +214,7 @@ typename Vector<value_type>::iterator Vector<value_type>::end() noexcept {
   iterator result = data_ + size_;
   return result;
 }
+/*--------------------------------------------------------------------------*/
 
 /* VECTOR CAPACITY */
 
@@ -278,6 +282,7 @@ void Vector<value_type>::shrink_to_fit() {
     new_vector.data_ = nullptr;
   }
 }
+/*--------------------------------------------------------------------------*/
 
 /* VECTOR MODIFIERS */
 
@@ -386,6 +391,7 @@ void Vector<value_type>::swap(Vector<value_type> &other) {
   std::swap(size_, other.size_);
   std::swap(capacity_, other.capacity_);
 }
+/*--------------------------------------------------------------------------*/
 
 }  // namespace s21
 
