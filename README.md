@@ -1,13 +1,13 @@
 # s21_containers
 
-Implementation of Vector, Map, Set containers of the s21_containers.h library.
+Implementation of Vector, Map, Set containers of the s21_containers.h library. Study project.
 
 The russian version of the task can be found in the repository.
 
 - The program is developed in C++ language of C++17 standard using gcc compiler;
 - The program code is located in the src folder;
 - The code of the program is written in accordance with Google style;
-- Classes must are template;
+- Classes are template;
 - Classes are implemented within the `s21` namespace;
 - Full coverage of container classes methods is provided with unit-tests using the GTest library;
 - Makefile with targets clean, check_style, test, gcov_report is provided.
