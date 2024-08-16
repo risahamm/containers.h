@@ -66,13 +66,15 @@ class Vector {
 /* CONSTRUCTORS */
 
 /**
- * default constructor, creates an empty vector */
+ * default constructor, creates an empty vector
+ */
 template <typename value_type>
 Vector<value_type>::Vector() noexcept
     : data_(nullptr), size_(0U), capacity_(0U) {}
 
 /**
- * parametrized constructor, creates the vector of size n */
+ * parametrized constructor, creates the vector of size n
+ */
 template <typename value_type>
 Vector<value_type>::Vector(size_type n) noexcept {
   size_ = n;
@@ -82,7 +84,8 @@ Vector<value_type>::Vector(size_type n) noexcept {
 
 /**
  * initializer list constructor, creates a vector initialized using
- * std::initializer_list */
+ * std::initializer_list
+ */
 template <typename value_type>
 Vector<value_type>::Vector(
     std::initializer_list<value_type> const &items) noexcept {
@@ -96,7 +99,8 @@ Vector<value_type>::Vector(
 }
 
 /**
- * copy constructor */
+ * copy constructor
+ */
 template <typename value_type>
 Vector<value_type>::Vector(const Vector &v) noexcept {
   size_ = v.size_;
@@ -108,7 +112,8 @@ Vector<value_type>::Vector(const Vector &v) noexcept {
 }
 
 /**
- * move constructor */
+ * move constructor
+ */
 template <typename value_type>
 Vector<value_type>::Vector(Vector &&v) noexcept {
   size_ = v.size_;
@@ -120,7 +125,8 @@ Vector<value_type>::Vector(Vector &&v) noexcept {
 }
 
 /**
- * assignment operator overload for moving an object */
+ * assignment operator overload for moving an object
+ */
 template <typename value_type>
 Vector<value_type> Vector<value_type>::operator=(
     Vector<value_type> &&v) noexcept {
@@ -134,7 +140,8 @@ Vector<value_type> Vector<value_type>::operator=(
 }
 
 /**
- * destructor */
+ * destructor
+ */
 template <typename value_type>
 Vector<value_type>::~Vector() noexcept {
   delete[] data_;
@@ -146,7 +153,8 @@ Vector<value_type>::~Vector() noexcept {
 /* VECTOR ELEMENT ACCESS */
 
 /**
- * access a specified element with bounds checking */
+ * access a specified element with bounds checking
+ */
 template <typename value_type>
 typename Vector<value_type>::reference Vector<value_type>::at(size_type pos) {
   if (pos >= size_) {
@@ -158,7 +166,8 @@ typename Vector<value_type>::reference Vector<value_type>::at(size_type pos) {
 /**
  * access a specified element, no bounds checking. never inserts a new
  * element into the container. accessing a nonexistent element through this
- * operator is undefined behavior */
+ * operator is undefined behavior
+ */
 template <typename value_type>
 typename Vector<value_type>::reference Vector<value_type>::operator[](
     size_type pos) {
@@ -167,7 +176,8 @@ typename Vector<value_type>::reference Vector<value_type>::operator[](
 
 /**
  * returns a reference to the first element in the container. calling front on
- * an empty container causes undefined behavior */
+ * an empty container causes undefined behavior
+ */
 template <typename value_type>
 typename Vector<value_type>::const_reference Vector<value_type>::front() {
   const_reference first_element = *data_;
@@ -176,7 +186,8 @@ typename Vector<value_type>::const_reference Vector<value_type>::front() {
 
 /**
  * returns a reference to the last element in the container. calling back on an
- * empty container causes undefined behavior */
+ * empty container causes undefined behavior
+ */
 template <typename value_type>
 typename Vector<value_type>::const_reference Vector<value_type>::back() {
   const_reference last_element = data_[size_ - 1];
@@ -184,7 +195,8 @@ typename Vector<value_type>::const_reference Vector<value_type>::back() {
 }
 
 /**
- * direct access the underlying array */
+ * direct access the underlying array
+ */
 template <typename value_type>
 value_type *Vector<value_type>::data() noexcept {
   return data_;
@@ -195,7 +207,8 @@ value_type *Vector<value_type>::data() noexcept {
 
 /**
  * returns an iterator to the first element of the vector. if the vector is
- * empty, the returned iterator will be equal to end() */
+ * empty, the returned iterator will be equal to end()
+ */
 template <typename value_type>
 typename Vector<value_type>::iterator Vector<value_type>::begin() noexcept {
   if (size_ != 0) {
@@ -208,7 +221,8 @@ typename Vector<value_type>::iterator Vector<value_type>::begin() noexcept {
 /**
  * returns an iterator to the element following the last element of the vector.
  * this element acts as a placeholder; attempting to access it results in
- * undefined behavior */
+ * undefined behavior
+ */
 template <typename value_type>
 typename Vector<value_type>::iterator Vector<value_type>::end() noexcept {
   iterator result = data_ + size_;
@@ -219,21 +233,24 @@ typename Vector<value_type>::iterator Vector<value_type>::end() noexcept {
 /* VECTOR CAPACITY */
 
 /**
- * checks whether the container is empty */
+ * checks whether the container is empty
+ */
 template <typename value_type>
 bool Vector<value_type>::empty() noexcept {
   return !size_;
 }
 
 /**
- * returns the number of elements */
+ * returns the number of elements
+ */
 template <typename value_type>
 typename Vector<value_type>::size_type Vector<value_type>::size() noexcept {
   return size_;
 }
 
 /**
- * returns the maximum possible number of elements */
+ * returns the maximum possible number of elements
+ */
 template <typename value_type>
 typename Vector<value_type>::size_type Vector<value_type>::max_size() noexcept {
   return SIZE_MAX / sizeof(value_type);
@@ -241,7 +258,8 @@ typename Vector<value_type>::size_type Vector<value_type>::max_size() noexcept {
 
 /**
  * allocate storage of size elements and copies current array elements to a
- * newely allocated array */
+ * newely allocated array
+ */
 template <typename value_type>
 void Vector<value_type>::reserve(size_type new_cap) {
   if (new_cap > capacity_) {
@@ -260,14 +278,16 @@ void Vector<value_type>::reserve(size_type new_cap) {
 
 /**
  * returns the number of elements that can be held in currently allocated
- * storage */
+ * storage
+ */
 template <typename value_type>
 typename Vector<value_type>::size_type Vector<value_type>::capacity() noexcept {
   return capacity_;
 }
 
 /**
- * reduces memory usage by freeing unused memory */
+ * reduces memory usage by freeing unused memory
+ */
 template <typename value_type>
 void Vector<value_type>::shrink_to_fit() {
   if (capacity_ > size_) {
@@ -287,14 +307,16 @@ void Vector<value_type>::shrink_to_fit() {
 /* VECTOR MODIFIERS */
 
 /**
- * clears the contents */
+ * clears the contents
+ */
 template <typename value_type>
 void Vector<value_type>::clear() noexcept {
   size_ = 0;
 }
 
 /**
- * erases an element at pos */
+ * erases an element at pos
+ */
 template <typename value_type>
 void Vector<value_type>::erase(iterator pos) {
   Vector<value_type> result(size_ - 1);
@@ -313,7 +335,8 @@ void Vector<value_type>::erase(iterator pos) {
 
 /**
  * inserts elements into particular pos and returns the iterator that points to
- * the new element */
+ * the new element
+ */
 template <typename value_type>
 typename Vector<value_type>::iterator Vector<value_type>::insert(
     iterator pos, const_reference value) {
@@ -348,7 +371,8 @@ void Vector<value_type>::insert_many_back(Args &&...args) {
 }
 
 /**
- * adds an element to the end */
+ * adds an element to the end
+ */
 template <typename value_type>
 void Vector<value_type>::push_back(const_reference value) {
   size_type result_size = 0;
@@ -374,7 +398,8 @@ void Vector<value_type>::push_back(const_reference value) {
 
 /**
  * removes the last element, capacity remains unchanged. calling pop_back on an
- * empty container results in undefined behavior */
+ * empty container results in undefined behavior
+ */
 template <typename value_type>
 void Vector<value_type>::pop_back() {
   if (size_ != 0) {
@@ -384,7 +409,8 @@ void Vector<value_type>::pop_back() {
 }
 
 /**
- * swaps the contents */
+ * swaps the contents
+ */
 template <typename value_type>
 void Vector<value_type>::swap(Vector<value_type> &other) {
   std::swap(data_, other.data_);

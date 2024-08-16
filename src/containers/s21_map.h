@@ -27,15 +27,18 @@ class Map {
   /* MAP MEMBER FUNCTIONS */
 
   /**
-   * default constructor */
+   * default constructor
+   */
   Map() noexcept : tree_() {}
 
   /**
-   * copy constructor */
+   * copy constructor
+   */
   Map(const Map &other) noexcept : tree_(other.tree_) {}
 
   /**
-   * move constructor */
+   * move constructor
+   */
   Map(Map &&other) noexcept : tree_(std::move(other.tree_)) {}
 
   Map(std::initializer_list<value_type> const &items) {
@@ -45,18 +48,21 @@ class Map {
   }
 
   /**
-   * destructor */
+   * destructor
+   */
   ~Map() noexcept { clear(); }
 
   /**
-   * = overload, copy assignment */
+   * = overload, copy assignment
+   */
   Map &operator=(const Map &other) noexcept {
     tree_ = other.tree_;
     return *this;
   }
 
   /**
-   * = overload, move assignment */
+   * = overload, move assignment
+   */
   Map &operator=(Map &&other) noexcept {
     tree_ = std::move(other.tree_);
     return *this;
@@ -66,7 +72,8 @@ class Map {
   /* MAP ELEMENT ACCESS */
 
   /**
-   * access or insert specified element */
+   * access or insert specified element
+   */
   mapped_type &at(const key_type key) { return tree_.at(key); }
 
   mapped_type &operator[](const key_type &key) { return tree_[key]; }
@@ -77,34 +84,40 @@ class Map {
   iterator begin() { return tree_.begin(); }
 
   /**
-   * returns an iterator to the element following the last element of the map */
+   * returns an iterator to the element following the last element of the map
+   */
   iterator end() { return tree_.end(); }
   /*--------------------------------------------------------------------------*/
 
   /* MAP CAPACITY */
 
   /**
-   * checks whether the container is empty */
+   * checks whether the container is empty
+   */
   bool empty() noexcept { return tree_.empty(); }
 
   /**
-   * returns the number of elements */
+   * returns the number of elements
+   */
   size_t size() noexcept { return tree_.size(); }
 
   /**
-   * returns the maximum possible number of elements */
+   * returns the maximum possible number of elements
+   */
   size_type max_size() noexcept { return tree_.max_size(); }
   /*--------------------------------------------------------------------------*/
 
   /* MAP MODIFIERS */
 
   /**
-   * clears the contents */
+   * clears the contents
+   */
   void clear() { tree_.clear(); }
 
   /**
    * inserts node and returns iterator to where the element is in the container
-   * and bool denoting whether the insertion took place */
+   * and bool denoting whether the insertion took place
+   */
   std::pair<iterator, bool> insert(const value_type &new_node) {
     return tree_.insert(new_node);
   }
@@ -116,7 +129,8 @@ class Map {
 
   /**
    * if no equivalent key exists, inserts an element. if the key already exists,
-   * assigns new value to the element with such key */
+   * assigns new value to the element with such key
+   */
   std::pair<iterator, bool> insert_or_assign(const key_type &key,
                                              const mapped_type &value) {
     return tree_.insert_or_assign(key, value);
@@ -132,15 +146,18 @@ class Map {
   }
 
   /**
-   * if not found, returns exception */
+   * if not found, returns exception
+   */
   void erase(iterator pos) { tree_.erase(pos); }
 
   /**
-   * swaps the contents */
+   * swaps the contents
+   */
   void swap(Map &other) { tree_.swap(other.tree_); }
 
   /**
-   * splices nodes from another container */
+   * splices nodes from another container
+   */
   void merge(Map &other) { tree_.merge(other.tree_); }
   /*--------------------------------------------------------------------------*/
 
