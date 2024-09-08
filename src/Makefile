@@ -18,11 +18,11 @@ clean:
 
 check_style:
 	clang-format -style=Google -n *.h containers/*.h
-	#clang-format -style=Google -n tests/*.cc
+	clang-format -style=Google -n tests/*.cc
 
 beautify:
 	clang-format -style=Google -i *.h containers/*.h
-	#clang-format -style=Google -i tests/*.cc
+	clang-format -style=Google -i tests/*.cc
 
 valgrind:
 	CK_FORK=no valgrind --leak-check=full --tool=memcheck --leak-check=yes make test
