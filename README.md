@@ -1,6 +1,6 @@
 # s21_containers
 
-Implementation of Vector, Map, Set containers of the s21_containers.h library. Study project.
+#### Implementation of Vector, Map, Set containers of the s21_containers.h library. Study project.
 
 The russian version of the task can be found in the repository.
 
@@ -10,7 +10,7 @@ The russian version of the task can be found in the repository.
 - Classes are template;
 - Classes are implemented within the `s21` namespace;
 - Full coverage of container classes methods is provided with unit-tests using the GTest library;
-- Makefile with targets clean, check_style, test, gcov_report is provided.
+- Makefile with targets *clean, check_style, test, gcov_report* is provided.
 
 Each of the containers provides a user with the following methods:
 
