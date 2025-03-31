@@ -1,8 +1,6 @@
 # s21_containers
 
-#### Implementation of Vector, Map, Set containers of the s21_containers.h library. Study project.
-
-The russian version of the task can be found in the repository.
+#### Implementation of Vector, Map, Set of the STL containers. Study project.
 
 - The program is developed in C++ language of C++17 standard using gcc compiler;
 - The program code is located in the src folder;
