@@ -1,6 +1,7 @@
 #ifndef S21_CONTAINERS_CONTAINERS_S21_TREE_H_
 #define S21_CONTAINERS_CONTAINERS_S21_TREE_H_
 
+#include <stdexcept>
 #include <utility>
 
 namespace s21 {

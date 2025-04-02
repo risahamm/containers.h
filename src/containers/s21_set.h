@@ -6,55 +6,53 @@
 namespace s21 {
 
 template <typename KeyType>
-class Set {
+class Set : public Tree<KeyType, KeyType> {
  public:
   /* SET MEMBER TYPE */
-
   using key_type = KeyType;
   using reference = key_type &;
   using const_reference = const key_type &;
-  using iterator = TreeIterator<KeyType, unsigned int>;
-  using const_iterator = ConstIterator<key_type, unsigned int>;
+  using iterator = TreeIterator<key_type, key_type>;
+  using const_iterator = ConstIterator<key_type, key_type>;
   using size_type = std::size_t;
 
- private:
-  Tree<KeyType, unsigned int> tree_;
   /*--------------------------------------------------------------------------*/
 
- public:
   /* SET MEMBER FUNCTIONS */
 
   /**
    * default constructor
    */
-  Set() noexcept : tree_() {}
+  Set() noexcept : Tree<KeyType, KeyType>() {}
 
   /**
    * copy constructor
    */
-  Set(const Set &other) noexcept : tree_(other.tree_) {}
+  Set(const Set &other) noexcept : Tree<KeyType, KeyType>(other) {}
 
   /**
    * move constructor
    */
-  Set(Set &&other) noexcept : tree_(std::move(other.tree_)) {}
+  Set(Set &&other) noexcept : Tree<KeyType, KeyType>(std::move(other)) {}
 
   Set(std::initializer_list<key_type> const &items) {
     for (auto &item : items) {
-      insert(item);
+      Tree<KeyType, KeyType>::insert(item, item);
     }
   }
 
   /**
    * destructor
    */
-  ~Set() noexcept { clear(); }
+  ~Set() = default;
 
   /**
    * = overload, copy assignment
    */
   Set &operator=(const Set &other) noexcept {
-    tree_ = other.tree_;
+    if (this != &other) {
+      Tree<KeyType, KeyType>::operator=(other);
+    }
     return *this;
   }
 
@@ -62,52 +60,15 @@ class Set {
    * = overload, move assignment
    */
   Set &operator=(Set &&other) noexcept {
-    tree_ = std::move(other.tree_);
+    if (this != &other) {
+      Tree<KeyType, KeyType>::operator=(other);
+    }
     return *this;
   }
   /*--------------------------------------------------------------------------*/
 
-  /* SET ITERATORS */
-
-  iterator begin() { return tree_.begin(); }
-
-  /**
-   * returns an iterator to the element following the last element of the set
-   */
-  iterator end() { return tree_.end(); }
-  /*--------------------------------------------------------------------------*/
-
-  /* SET CAPACITY */
-
-  /**
-   * checks whether the container is empty
-   */
-  bool empty() noexcept { return tree_.empty(); }
-
-  /**
-   * returns the number of elements
-   */
-  size_t size() noexcept { return tree_.size(); }
-
-  /**
-   * returns the maximum possible number of elements
-   */
-  size_type max_size() noexcept { return tree_.max_size(); }
-  /*--------------------------------------------------------------------------*/
-
-  /* SET MODIFIERS */
-
-  /**
-   * clears the contents
-   */
-  void clear() { tree_.clear(); }
-
-  /**
-   * inserts node and returns iterator to where the element is in the container
-   * and bool denoting whether the insertion took place
-   */
   std::pair<iterator, bool> insert(const key_type &key) {
-    return tree_.insert(key, 0);
+    return Tree<KeyType, KeyType>::insert(key, key);
   }
 
   template <typename... Args>
@@ -116,36 +77,6 @@ class Set {
     (result.push_back(insert(std::forward<Args>(args))), ...);
     return result;
   }
-
-  /**
-   * if not found, returns exception
-   */
-  void erase(iterator pos) { tree_.erase(pos); }
-
-  /**
-   * swaps the contents
-   */
-  void swap(Set &other) { tree_.swap(other.tree_); }
-
-  /**
-   * splices nodes from another container
-   */
-  void merge(Set &other) { tree_.merge(other.tree_); }
-  /*--------------------------------------------------------------------------*/
-
-  /* SET LOOKUP */
-
-  /**
-   * finds element with specific key. if no such element is found, end()
-   * iterator is returned
-   */
-  iterator find(const key_type &key) { return tree_.find(key); }
-
-  /**
-   * checks if there is an element with key equivalent to key in the container
-   */
-  bool contains(const key_type &key) noexcept { return tree_.contains(key); }
-  /*--------------------------------------------------------------------------*/
 
 };  // class Set
 
