@@ -61,7 +61,7 @@ class Set : public Tree<KeyType, KeyType> {
    */
   Set &operator=(Set &&other) noexcept {
     if (this != &other) {
-      Tree<KeyType, KeyType>::operator=(other);
+      Tree<KeyType, KeyType>::operator=(std::move(other));
     }
     return *this;
   }

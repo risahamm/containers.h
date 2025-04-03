@@ -6,7 +6,7 @@
 namespace s21 {
 
 template <typename KeyType, typename ValueType>
-class Map {
+class Map : public Tree<KeyType, ValueType> {
  public:
   /* MAP MEMBER TYPE */
 
@@ -19,8 +19,6 @@ class Map {
   using const_iterator = ConstIterator<key_type, value_type>;
   using size_type = std::size_t;
 
- private:
-  Tree<KeyType, ValueType> tree_;
   /*--------------------------------------------------------------------------*/
 
  public:
@@ -29,34 +27,36 @@ class Map {
   /**
    * default constructor
    */
-  Map() noexcept : tree_() {}
+  Map() noexcept : Tree<KeyType, ValueType>() {}
 
   /**
    * copy constructor
    */
-  Map(const Map &other) noexcept : tree_(other.tree_) {}
+  Map(const Map &other) noexcept : Tree<KeyType, ValueType>(other) {}
 
   /**
    * move constructor
    */
-  Map(Map &&other) noexcept : tree_(std::move(other.tree_)) {}
+  Map(Map &&other) noexcept : Tree<KeyType, ValueType>(std::move(other)) {}
 
   Map(std::initializer_list<value_type> const &items) {
     for (auto &item : items) {
-      tree_.insert(item);
+      Tree<KeyType, ValueType>::insert(item);
     }
   }
 
   /**
    * destructor
    */
-  ~Map() noexcept { clear(); }
+  ~Map() = default;
 
   /**
    * = overload, copy assignment
    */
   Map &operator=(const Map &other) noexcept {
-    tree_ = other.tree_;
+    if (this != &other) {
+      Tree<KeyType, ValueType>::operator=(other);
+    }
     return *this;
   }
 
@@ -64,110 +64,24 @@ class Map {
    * = overload, move assignment
    */
   Map &operator=(Map &&other) noexcept {
-    tree_ = std::move(other.tree_);
+    if (this != &other) {
+      Tree<KeyType, ValueType>::operator=(std::move(other));
+    }
     return *this;
   }
+
+  mapped_type &operator[](const key_type &key) { return Tree<KeyType, ValueType>::operator[](key); }
+
   /*--------------------------------------------------------------------------*/
-
-  /* MAP ELEMENT ACCESS */
-
-  /**
-   * access or insert specified element
-   */
-  mapped_type &at(const key_type key) { return tree_.at(key); }
-
-  mapped_type &operator[](const key_type &key) { return tree_[key]; }
-  /*--------------------------------------------------------------------------*/
-
-  /* MAP ITERATORS */
-
-  iterator begin() { return tree_.begin(); }
-
-  /**
-   * returns an iterator to the element following the last element of the map
-   */
-  iterator end() { return tree_.end(); }
-  /*--------------------------------------------------------------------------*/
-
-  /* MAP CAPACITY */
-
-  /**
-   * checks whether the container is empty
-   */
-  bool empty() noexcept { return tree_.empty(); }
-
-  /**
-   * returns the number of elements
-   */
-  size_t size() noexcept { return tree_.size(); }
-
-  /**
-   * returns the maximum possible number of elements
-   */
-  size_type max_size() noexcept { return tree_.max_size(); }
-  /*--------------------------------------------------------------------------*/
-
-  /* MAP MODIFIERS */
-
-  /**
-   * clears the contents
-   */
-  void clear() { tree_.clear(); }
-
-  /**
-   * inserts node and returns iterator to where the element is in the container
-   * and bool denoting whether the insertion took place
-   */
-  std::pair<iterator, bool> insert(const value_type &new_node) {
-    return tree_.insert(new_node);
-  }
-
-  std::pair<iterator, bool> insert(const key_type &new_key,
-                                   const mapped_type &value) {
-    return tree_.insert(new_key, value);
-  }
-
-  /**
-   * if no equivalent key exists, inserts an element. if the key already exists,
-   * assigns new value to the element with such key
-   */
-  std::pair<iterator, bool> insert_or_assign(const key_type &key,
-                                             const mapped_type &value) {
-    return tree_.insert_or_assign(key, value);
-  }
 
   template <typename... Args>
   std::vector<std::pair<iterator, bool>> insert_many(Args &&...args) {
     std::vector<std::pair<iterator, bool>> result;
-    (result.push_back(insert(std::forward<Args>(args).first,
+    (result.push_back(Tree<KeyType, ValueType>::insert(std::forward<Args>(args).first,
                              std::forward<Args>(args).second)),
      ...);
     return result;
   }
-
-  /**
-   * if not found, returns exception
-   */
-  void erase(iterator pos) { tree_.erase(pos); }
-
-  /**
-   * swaps the contents
-   */
-  void swap(Map &other) { tree_.swap(other.tree_); }
-
-  /**
-   * splices nodes from another container
-   */
-  void merge(Map &other) { tree_.merge(other.tree_); }
-  /*--------------------------------------------------------------------------*/
-
-  /* MAP LOOKUP */
-
-  /**
-   * checks if there is an element with key equivalent to key in the container
-   */
-  bool contains(const key_type &key) noexcept { return tree_.contains(key); }
-  /*--------------------------------------------------------------------------*/
 
 };  // class Map
 

@@ -4,7 +4,7 @@ CFLAGS = -Wall -Werror -Wextra -std=c++17
 all: clean check_style test gcov_report
 
 test: clean
-	$(CC) $(CFLAGS) --coverage tests/test_set.cc -lgtest -lgtest_main -pthread -o test
+	$(CC) $(CFLAGS) --coverage tests/test_map.cc -lgtest -lgtest_main -pthread -o test
 	./test
 
 gcov_report: test
